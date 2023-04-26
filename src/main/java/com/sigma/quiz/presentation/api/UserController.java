@@ -6,11 +6,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("api/v1/category")
-public class CategoryController {
+@RequestMapping("/api/v1/user")
+public class UserController {
 
-    @GetMapping
-    public String  hello(){
-        return "hi";
+    @GetMapping("/hello")
+    public ResponseEntity<String> sayHello() {
+        return ResponseEntity.ok("Hello from secured endpoint");
     }
 }
