@@ -10,4 +10,8 @@ public interface ILevelUseCase {
     ReturnReponse<LevelResponse> getLevels();
 
     ReturnReponse<LevelResponse> saveLevels(LevelRequest levelRequest);
+
+    ReturnReponse<LevelResponse> updateLevel(LevelRequest levelRequest);
+
+    ReturnReponse<LevelResponse> deleteLevel(int id);
 }

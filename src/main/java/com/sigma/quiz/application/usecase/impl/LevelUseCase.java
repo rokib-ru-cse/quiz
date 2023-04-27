@@ -3,6 +3,7 @@ package com.sigma.quiz.application.usecase.impl;
 import com.sigma.quiz.application.repository.ILevelRepository;
 import com.sigma.quiz.application.usecase.ILevelUseCase;
 import com.sigma.quiz.domain.ReturnReponse;
+import com.sigma.quiz.domain.Util;
 import com.sigma.quiz.domain.dto.level.LevelRequest;
 import com.sigma.quiz.domain.dto.level.LevelResponse;
 import com.sigma.quiz.domain.entities.Level;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class LevelUseCase implements ILevelUseCase {
@@ -59,5 +61,30 @@ public class LevelUseCase implements ILevelUseCase {
                 .updatedAt(new Date())
                 .build();
         return ReturnReponse.<LevelResponse>builder().message("level saved successfully").succeeded(true).value(responseLevel).build();
+    }
+
+    @Override
+    public ReturnReponse<LevelResponse> updateLevel(LevelRequest levelRequest) {
+        Level dbLevel = levelRepository.findById(levelRequest.getId()).get();
+        if(!Util.isNullOrWhiteSpace(levelRequest.getName())){
+            dbLevel.setName(levelRequest.getName());
+        }
+
+        Level savedLevel = levelRepository.save(dbLevel);
+        LevelResponse responseLevel = LevelResponse.builder()
+                .id(savedLevel.getId())
+                .name(levelRequest.getName())
+                .image(levelRequest.getImage())
+                .icon(levelRequest.getIcon())
+                .isActive(levelRequest.isActive())
+                .createdAt(new Date())
+                .updatedAt(new Date())
+                .build();
+        return ReturnReponse.<LevelResponse>builder().message("level saved successfully").succeeded(true).value(responseLevel).build();
+    }
+
+    @Override
+    public ReturnReponse<LevelResponse> deleteLevel(int id) {
+        return null;
     }
 }
