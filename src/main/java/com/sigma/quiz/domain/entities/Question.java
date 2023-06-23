@@ -10,27 +10,46 @@ import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
+
 @Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Table(name = "subjects")
-public class Subject {
+@Table(name = "questions")
+public class Question {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
     @NotNull(message = "name is required")
     @Min(3)
-    private String name;
+    private String title;
     private String image;
     private String icon;
     private boolean isActive;
     private Date createdAt;
     private Date updatedAt;
+
+    private String description;
+
+    private boolean isRadio;
+
     @ManyToOne
     private Level level;
 
     @Transient
     private int levelId;
+
+    @ManyToOne
+    private Subject subject;
+
+    @Transient
+    private int subjectId;
+
+    @ManyToOne
+    private Chapter chapter;
+
+    @Transient
+    private int chapterId;
+
 }

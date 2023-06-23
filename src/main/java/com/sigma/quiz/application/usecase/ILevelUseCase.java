@@ -1,17 +1,15 @@
 package com.sigma.quiz.application.usecase;
 
 import com.sigma.quiz.domain.ReturnReponse;
-import com.sigma.quiz.domain.dto.level.LevelRequest;
-import com.sigma.quiz.domain.dto.level.LevelResponse;
+import com.sigma.quiz.domain.entities.Level;
 import org.springframework.stereotype.Component;
 
-@Component
 public interface ILevelUseCase {
-    ReturnReponse<LevelResponse> getLevels();
+    ReturnReponse<Level> getLevels();
 
-    ReturnReponse<LevelResponse> saveLevels(LevelRequest levelRequest);
+    ReturnReponse<Level> saveLevels(Level levelRequest);
 
-    ReturnReponse<LevelResponse> updateLevel(LevelRequest levelRequest);
+    ReturnReponse<Level> updateLevel(Level levelRequest);
 
-    ReturnReponse<LevelResponse> deleteLevel(int id);
+    ReturnReponse<Level> deleteLevel(int id);
 }

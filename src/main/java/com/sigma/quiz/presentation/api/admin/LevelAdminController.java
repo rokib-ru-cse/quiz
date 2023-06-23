@@ -1,33 +1,32 @@
-package com.sigma.quiz.presentation.api;
+package com.sigma.quiz.presentation.api.admin;
 
 import com.sigma.quiz.application.usecase.ILevelUseCase;
 import com.sigma.quiz.domain.ReturnReponse;
-import com.sigma.quiz.domain.dto.level.LevelRequest;
-import com.sigma.quiz.domain.dto.level.LevelResponse;
+import com.sigma.quiz.domain.entities.Level;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/v1/level")
-public class LevelController {
+@RequestMapping("/api/v1/admin/level")
+public class LevelAdminController {
 
     @Autowired
     private ILevelUseCase levelUseCase;
 
     @GetMapping
-    public ReturnReponse<LevelResponse> getLevels() {
+    public ReturnReponse<Level> getLevels() {
         return levelUseCase.getLevels();
     }
     @PostMapping
-    public ReturnReponse<LevelResponse> saveLevel(LevelRequest levelRequest) {
+    public ReturnReponse<Level> saveLevel(Level levelRequest) {
         return levelUseCase.saveLevels(levelRequest);
     }
     @PutMapping
-    public ReturnReponse<LevelResponse> updateLevel(LevelRequest levelRequest) {
+    public ReturnReponse<Level> updateLevel(Level levelRequest) {
         return levelUseCase.updateLevel(levelRequest);
     }
     @DeleteMapping
-    public ReturnReponse<LevelResponse> deleteLevel(@RequestParam int id) {
+    public ReturnReponse<Level> deleteLevel(@RequestParam int id) {
         return levelUseCase.deleteLevel(id);
     }
 }
