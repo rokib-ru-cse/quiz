@@ -4,29 +4,35 @@ import com.sigma.quiz.application.usecase.ILevelUseCase;
 import com.sigma.quiz.domain.ReturnReponse;
 import com.sigma.quiz.domain.entities.Level;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-@RestController
-@RequestMapping("/api/v1/admin/level")
+@Controller
+//@RequestMapping("/api/v1/admin/level")
 public class LevelAdminController {
 
     @Autowired
     private ILevelUseCase levelUseCase;
 
-    @GetMapping
-    public ReturnReponse<Level> getLevels() {
-        return levelUseCase.getLevels();
+    @GetMapping("/level/index")
+    public String index(Model model) {
+        model.addAttribute("levels", levelUseCase.getLevels());
+        return "/level/index";
     }
-    @PostMapping
-    public ReturnReponse<Level> saveLevel(Level levelRequest) {
-        return levelUseCase.saveLevels(levelRequest);
+
+    @GetMapping("/level/create")
+    public String create(Model model) {
+        model.addAttribute("level", new Level());
+        return "/level/create";
     }
-    @PutMapping
-    public ReturnReponse<Level> updateLevel(Level levelRequest) {
-        return levelUseCase.updateLevel(levelRequest);
+
+    @PostMapping("/level/create")
+    public String save(@ModelAttribute("level") Level level) {
+        levelUseCase.saveLevels(level);
+        return "redirect:/level/index";
     }
-    @DeleteMapping
-    public ReturnReponse<Level> deleteLevel(@RequestParam int id) {
-        return levelUseCase.deleteLevel(id);
-    }
+
+
+
 }

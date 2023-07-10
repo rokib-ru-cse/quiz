@@ -4,12 +4,14 @@ import com.sigma.quiz.domain.ReturnReponse;
 import com.sigma.quiz.domain.entities.Level;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 public interface ILevelUseCase {
-    ReturnReponse<Level> getLevels();
+    List<Level> getLevels();
 
-    ReturnReponse<Level> saveLevels(Level levelRequest);
+    Level saveLevels(Level levelRequest);
 
-    ReturnReponse<Level> updateLevel(Level levelRequest);
+    Level updateLevel(Level levelRequest);
 
-    ReturnReponse<Level> deleteLevel(int id);
+    Level deleteLevel(int id);
 }

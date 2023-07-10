@@ -25,14 +25,14 @@ public class SecurityConfig {
         http
                 .csrf()
                 .disable()
-                .authorizeHttpRequests()
-                .requestMatchers("/api/v1/auth/signup","/api/v1/auth/login","swagger-ui/**","/swagger-ui.html",
-                "/webjars/**","/**", "/swagger-ui*/*swagger-initializer.js","/swagger-ui*/**")
-
-                .permitAll()
-                .anyRequest()
-                .authenticated()
-                .and()
+//                .authorizeHttpRequests()
+//                .requestMatchers("/api/v1/auth/signup","/api/v1/auth/login","swagger-ui/**","/swagger-ui.html",
+//                "/webjars/**","/**", "/swagger-ui*/*swagger-initializer.js","/swagger-ui*/**")
+//                .anyRequest()
+//                .permitAll()
+//                .anyRequest()
+//                .authenticated()
+//                .and()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()

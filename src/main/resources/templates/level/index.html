@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <div th:replace="/common/header :: quizHeader"></div>
+</head>
+<body>
+<div th:replace="/common/navbar :: quizNavbar"></div>
+
+ <div class="container">
+     <a class="btn btn-primary" href="/level/create">Create</a>
+     <table class="table table-bordered table-hover">
+         <thead class="thead-dark">
+         <tr>
+             <th>Item ID</th>
+             <th>Borrower ID</th>
+             <th>Loan Duration</th>
+             <th>Issue Date</th>
+             <th>Due Date</th>
+             <th>Return Date</th>
+             <th>Fine Amount</th>
+             <th style="text-align: center">Options</th>
+         </tr>
+         </thead>
+         <tbody th:if="${#lists.isEmpty(levels)}">
+         <tr>
+             <td colspan="3" style="color: red;">No Data found</td>
+         </tr>
+         </tbody>
+         <tbody id="myTable">
+         <tr th:each="level : ${levels}">
+             <td th:text="${level.id}"></td>
+             <td th:text="${level.name}"></td>
+             <td th:text="${level.active}"></td>
+             <td th:text="${level.createdAt}"></td>
+             <td><a
+                     th:href="@{/edit}" class="btn btn-danger"> Edit</a></td>
+         </tr>
+         </tbody>
+     </table>
+ </div>
+</body>
+</html>
