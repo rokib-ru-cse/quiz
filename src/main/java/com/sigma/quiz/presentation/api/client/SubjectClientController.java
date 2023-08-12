@@ -14,9 +14,11 @@ public class SubjectClientController {
 
     @Autowired
     private ISubjectUseCase subjectUseCase;
+
     @GetMapping
-    public ReturnReponse<Subject> getSubjects(){
-        return subjectUseCase.getSubjects();
+    public ReturnReponse<Subject> getSubjects() {
+//        return subjectUseCase.getSubjects();
+        return null;
     }
 
 }

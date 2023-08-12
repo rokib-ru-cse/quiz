@@ -22,42 +22,52 @@ public class SubjectUseCase implements ISubjectUseCase {
     private ISubjectRepository subjectRepository;
 
     @Override
-    public ReturnReponse<Subject> getSubjects() {
-        List<Subject> subjectList =  subjectRepository.findAll();
-        return ReturnReponse.<Subject>builder().message("Data Got Successfully").succeeded(true).values(subjectList).build();
+    public List<Subject> getSubjects() {
+        List<Subject> subjectList = subjectRepository.findAll();
+        return subjectList;
+//        return ReturnReponse.<Subject>builder().message("Data Got Successfully").succeeded(true).values(subjectList).build();
     }
 
     @Override
-    public ReturnReponse<Subject> saveSubject(Subject subjectRequest) {
-        Level level = levelRepository.findById(subjectRequest.getLevelId()).get();
+    public Subject getSubject(int subjectId) {
+        return subjectRepository.findById(subjectId).get();
+    }
+
+    @Override
+    public Subject saveSubject(Subject subjectRequest) {
+//        Level level = levelRepository.findById(subjectRequest.getLevelId()).get();
         subjectRequest.setUpdatedAt(new Date());
         subjectRequest.setCreatedAt(new Date());
-        subjectRequest.setLevel(level);
+//        subjectRequest.setLevel(level);
         Subject savedSubject = subjectRepository.save(subjectRequest);
-        return  ReturnReponse.<Subject>builder().message("Subject Saved Successfully").succeeded(true).value(savedSubject).build();
+        return savedSubject;
+//        return  ReturnReponse.<Subject>builder().message("Subject Saved Successfully").succeeded(true).value(savedSubject).build();
     }
 
     @Override
-    public ReturnReponse<Subject> updateSubject(Subject subjectRequest) {
+    public Subject updateSubject(Subject subjectRequest) {
         Subject dbSubject = subjectRepository.findById(subjectRequest.getId()).get();
-        Level level = levelRepository.findById(subjectRequest.getLevelId()).get();
-        if (!Util.isNullOrWhiteSpace(subjectRequest.getName())){
+//        Level level = levelRepository.findById(subjectRequest.getLevelId()).get();
+        if (!Util.isNullOrWhiteSpace(subjectRequest.getName())) {
             dbSubject.setName(subjectRequest.getName());
         }
         dbSubject.setIcon(subjectRequest.getIcon());
         dbSubject.setImage(subjectRequest.getImage());
         dbSubject.setActive(subjectRequest.isActive());
+        dbSubject.setLevel(subjectRequest.getLevel());
         dbSubject.setUpdatedAt(new Date());
-        dbSubject.setLevel(level);
+//        dbSubject.setLevel(level);
         Subject updatedSubject = subjectRepository.save(dbSubject);
-       return ReturnReponse.<Subject>builder().message("Subject Updated successfully").succeeded(true).value(updatedSubject).build();
+        return updatedSubject;
+//       return ReturnReponse.<Subject>builder().message("Subject Updated successfully").succeeded(true).value(updatedSubject).build();
     }
 
     @Override
-    public ReturnReponse<Subject> deleteSubject(int id) {
+    public Subject deleteSubject(int id) {
 
         Subject dbSubject = subjectRepository.findById(id).get();
         subjectRepository.delete(dbSubject);
-        return ReturnReponse.<Subject>builder().message("Subject deleted successfully").succeeded(true).value(dbSubject).build();
+        return dbSubject;
+//        return ReturnReponse.<Subject>builder().message("Subject deleted successfully").succeeded(true).value(dbSubject).build();
     }
 }

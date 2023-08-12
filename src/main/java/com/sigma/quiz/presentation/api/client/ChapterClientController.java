@@ -16,6 +16,7 @@ public class ChapterClientController {
 
     @GetMapping
     public ReturnReponse<Chapter> getChapters() {
-        return chapterUseCase.getChapters();
+//        return chapterUseCase.getChapters();
+        return null;
     }
 }

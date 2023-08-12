@@ -6,7 +6,7 @@
 <body>
 <div class="container" layout:fragment="content">
     <form class="needs-validation" th:action="${actionUrl}"
-          th:object="${level}" method="post">
+          th:object="${chapter}" method="post">
         <div class="form-group">
             <label class="col-md-4 control-label">Name</label>
             <input placeholder="Enter Name" th:field="*{name}" class="form-control" required/>
@@ -14,6 +14,13 @@
         <div class="form-group">
             <label class="col-md-4 control-label">IsActive</label>
             <input placeholder="Enter Name" th:field="*{active}" class="form-control" required/>
+        </div>
+        <div class="form-group">
+            <label class="col-md-4 control-label">Level</label>
+            <select th:field="*{subject}" class="form-control" required>
+                <option value="">Select Subject</option>
+                <option th:each="subjectOption : ${subjectOptions}" th:value="${subjectOption.id}" th:text="${subjectOption.name}"></option>
+            </select>
         </div>
         <div class="form-group">
             <label class="col-md-4 control-label"></label>

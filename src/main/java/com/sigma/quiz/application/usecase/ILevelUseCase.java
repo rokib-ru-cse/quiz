@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 public interface ILevelUseCase {
+    Level getLevel(int id);
     List<Level> getLevels();
 
     Level saveLevels(Level levelRequest);

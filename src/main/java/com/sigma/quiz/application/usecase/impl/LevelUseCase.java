@@ -17,6 +17,11 @@ public class LevelUseCase implements ILevelUseCase {
     private ILevelRepository levelRepository;
 
     @Override
+    public Level getLevel(int id) {
+        return levelRepository.findById(id).get();
+    }
+
+    @Override
     public List<Level> getLevels() {
         List<Level> allLevels = levelRepository.findAll();
         return allLevels;

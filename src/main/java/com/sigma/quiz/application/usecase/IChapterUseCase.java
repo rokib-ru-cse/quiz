@@ -1,15 +1,17 @@
 package com.sigma.quiz.application.usecase;
 
-import com.sigma.quiz.domain.ReturnReponse;
 import com.sigma.quiz.domain.entities.Chapter;
 import com.sigma.quiz.domain.entities.Level;
 
+import java.util.List;
+
 public interface IChapterUseCase {
-    ReturnReponse<Chapter> getChapters();
+    List<Chapter> getChapters();
+    Chapter getChapter(int chapterId);
 
-    ReturnReponse<Chapter> saveChapter(Chapter chapter);
+    Chapter saveChapter(Chapter chapter);
 
-    ReturnReponse<Chapter> updateChapter(Chapter chapter);
+    Chapter updateChapter(Chapter chapter);
 
-    ReturnReponse<Chapter> deleteChapter(int id);
+    Chapter deleteChapter(int id);
 }

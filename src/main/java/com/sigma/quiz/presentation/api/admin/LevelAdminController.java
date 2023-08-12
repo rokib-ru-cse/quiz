@@ -24,15 +24,33 @@ public class LevelAdminController {
     @GetMapping("/level/create")
     public String create(Model model) {
         model.addAttribute("level", new Level());
+        model.addAttribute("actionUrl", "/level/create");
         return "/level/create";
     }
 
     @PostMapping("/level/create")
     public String save(@ModelAttribute("level") Level level) {
-        levelUseCase.saveLevels(level);
+        System.out.println(level.toString());
+//        levelUseCase.saveLevels(level);
         return "redirect:/level/index";
     }
 
+    @GetMapping("/level/edit/{levelId}")
+//    public String edit(@RequestParam("levelId") int levelId) {
+    public String edit(@PathVariable("levelId") int levelId, Model model) {
+        System.out.println(levelId);
+        Level level = levelUseCase.getLevel(levelId);
+        model.addAttribute("level", level);
+        model.addAttribute("actionUrl", "/level/edit/" + levelId);
+        return "/level/create";
+    }
 
+    @PostMapping("/level/edit/{levelId}")
+    public String edit(@PathVariable("levelId") int levelId,@ModelAttribute("level") Level level) {
+//        System.out.println(level.toString());
+        level.setId(levelId);
+        levelUseCase.saveLevels(level);
+        return "redirect:/level/index";
+    }
 
 }

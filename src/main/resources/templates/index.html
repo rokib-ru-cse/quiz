@@ -1,10 +1,13 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-</head>
+<html
+  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  lang="en"
+  layout:decorate="~{layout/main}">
 <body>
-<div th:replace="/common/navbar :: quizNavbar"></div>
-
-  <h1>hiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii</h1>
+<div layout:fragment="content">
+  <div class="jumbotron">
+    <h1>Start</h1>
+  </div>
+</div>
 </body>
 </html>

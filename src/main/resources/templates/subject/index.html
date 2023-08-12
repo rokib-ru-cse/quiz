@@ -5,30 +5,32 @@
         layout:decorate="~{layout/main}">
 <body>
 <div class="container" layout:fragment="content">
-    <a class="btn btn-primary" href="/level/create">Create</a>
+    <a class="btn btn-primary" href="/subject/create">Create</a>
     <table class="table table-bordered table-hover">
         <thead class="thead-dark">
         <tr>
             <th>ID</th>
-            <th>Name</th>
+            <th>Subject Name</th>
             <th>IsActive</th>
+            <th>Level</th>
             <th>Created At</th>
             <th style="text-align: center">Options</th>
         </tr>
         </thead>
-        <tbody th:if="${#lists.isEmpty(levels)}">
+        <tbody th:if="${#lists.isEmpty(subjects)}">
         <tr>
             <td colspan="3" style="color: red;">No Data found</td>
         </tr>
         </tbody>
         <tbody id="myTable">
-        <tr th:each="level : ${levels}">
-            <td th:text="${level.id}"></td>
-            <td th:text="${level.name}"></td>
-            <td th:text="${level.active}"></td>
-            <td th:text="${level.createdAt}"></td>
+        <tr th:each="subject : ${subjects}">
+            <td th:text="${subject.id}"></td>
+            <td th:text="${subject.name}"></td>
+            <td th:text="${subject.active}"></td>
+            <td th:text="${subject.level.name}"></td>
+            <td th:text="${subject.createdAt}"></td>
             <td><a
-                    th:href="@{/level/edit/{levelId}(levelId=${level.id})}" class="btn btn-danger"> Edit</a></td>
+                    th:href="@{/subject/edit/{subjectId}(subjectId=${subject.id})}" class="btn btn-danger"> Edit</a></td>
         </tr>
         </tbody>
     </table>
