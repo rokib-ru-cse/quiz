@@ -49,7 +49,7 @@ public class LevelAdminController {
     public String edit(@PathVariable("levelId") int levelId,@ModelAttribute("level") Level level) {
 //        System.out.println(level.toString());
         level.setId(levelId);
-        levelUseCase.saveLevels(level);
+        levelUseCase.updateLevel(level);
         return "redirect:/level/index";
     }
 

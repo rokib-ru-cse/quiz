@@ -32,57 +32,65 @@ public class QuestionUseCase implements IQuestionUseCase {
     private ILevelRepository levelRepository;
 
     @Override
-    public ReturnReponse<Question> getQuestions() {
+    public List<Question> getQuestions() {
         List<Question> questionList = questionRepository.findAll();
-        return ReturnReponse.<Question>builder().message("data found successfully").succeeded(true)
-                .values(questionList).build();
+        return questionList;
+//        return ReturnReponse.<Question>builder().message("data found successfully").succeeded(true)
+//                .values(questionList).build();
     }
 
     @Override
-    public ReturnReponse<Question> saveQuestion(Question questionRequest) {
-        Subject subject = subjectRepository.findById(questionRequest.getSubjectId()).get();
-        Chapter chapter = chapterRepository.findById(questionRequest.getChapterId()).get();
-        Level level = levelRepository.findById(questionRequest.getLevelId()).get();
+    public Question getQuestion(int questionId) {
+        return questionRepository.findById(questionId).get();
+    }
+
+    @Override
+    public Question saveQuestion(Question questionRequest) {
+//        Subject subject = subjectRepository.findById(questionRequest.getSubjectId()).get();
+//        Chapter chapter = chapterRepository.findById(questionRequest.getChapterId()).get();
+//        Level level = levelRepository.findById(questionRequest.getLevelId()).get();
         questionRequest.setUpdatedAt(new Date());
         questionRequest.setCreatedAt(new Date());
-        questionRequest.setLevel(level);
-        questionRequest.setSubject(subject);
-        questionRequest.setChapter(chapter);
+//        questionRequest.setLevel(level);
+//        questionRequest.setSubject(subject);
+//        questionRequest.setChapter(chapter);
 
         Question savedQuestion = questionRepository.save(questionRequest);
-        return ReturnReponse.<Question>builder().message("Question Saved Successfully").succeeded(true).value(savedQuestion).build();
+        return savedQuestion;
+//        return ReturnReponse.<Question>builder().message("Question Saved Successfully").succeeded(true).value(savedQuestion).build();
     }
 
     @Override
-    public ReturnReponse<Question> updateQuestion(Question questionRequest) {
+    public Question updateQuestion(Question questionRequest) {
         Question dbQuestion = questionRepository.findById(questionRequest.getId()).get();
 
+//        Subject subject = subjectRepository.findById(questionRequest.getSubjectId()).get();
+//        Chapter chapter = chapterRepository.findById(questionRequest.getChapterId()).get();
+//        Level level = levelRepository.findById(questionRequest.getLevelId()).get();
 
-        Subject subject = subjectRepository.findById(questionRequest.getSubjectId()).get();
-        Chapter chapter = chapterRepository.findById(questionRequest.getChapterId()).get();
-        Level level = levelRepository.findById(questionRequest.getLevelId()).get();
-
-        if (!Util.isNullOrWhiteSpace(questionRequest.getTitle())){
+        if (!Util.isNullOrWhiteSpace(questionRequest.getTitle())) {
             dbQuestion.setTitle(questionRequest.getTitle());
         }
-        if(!Util.isNullOrWhiteSpace(questionRequest.getDescription())){
+        if (!Util.isNullOrWhiteSpace(questionRequest.getDescription())) {
             dbQuestion.setDescription(questionRequest.getDescription());
         }
 
 
         dbQuestion.setUpdatedAt(new Date());
-        dbQuestion.setLevel(level);
-        dbQuestion.setSubject(subject);
-        dbQuestion.setChapter(chapter);
+        dbQuestion.setLevel(questionRequest.getLevel());
+        dbQuestion.setSubject(questionRequest.getSubject());
+        dbQuestion.setChapter(questionRequest.getChapter());
 
         Question updatedQuestion = questionRepository.save(dbQuestion);
-        return ReturnReponse.<Question>builder().message("Question Updated Successfully").succeeded(true).value(updatedQuestion).build();
+        return updatedQuestion;
+//        return ReturnReponse.<Question>builder().message("Question Updated Successfully").succeeded(true).value(updatedQuestion).build();
     }
 
     @Override
-    public ReturnReponse<Question> deleteQuestion(int id) {
+    public Question deleteQuestion(int id) {
         Question dbQuestion = questionRepository.findById(id).get();
         questionRepository.delete(dbQuestion);
-        return ReturnReponse.<Question>builder().message("question deleted successfully").succeeded(true).value(dbQuestion).build();
+        return dbQuestion;
+//        return ReturnReponse.<Question>builder().message("question deleted successfully").succeeded(true).value(dbQuestion).build();
     }
 }

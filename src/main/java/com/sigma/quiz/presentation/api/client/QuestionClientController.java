@@ -18,7 +18,8 @@ public class QuestionClientController {
 
     @GetMapping
     public ReturnReponse<Question> getQuestions(){
-        return questionUseCase.getQuestions();
+//        return questionUseCase.getQuestions();
+        return null;
     }
 
 }

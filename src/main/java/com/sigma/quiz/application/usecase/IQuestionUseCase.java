@@ -1,15 +1,18 @@
 package com.sigma.quiz.application.usecase;
 
-import com.sigma.quiz.domain.ReturnReponse;
 import com.sigma.quiz.domain.entities.Question;
 
+import java.util.List;
+
 public interface IQuestionUseCase {
-    ReturnReponse<Question> getQuestions();
+    List<Question> getQuestions();
 
-    ReturnReponse<Question> saveQuestion(Question question);
+    Question getQuestion(int questionId);
 
-    ReturnReponse<Question> updateQuestion(Question question);
+    Question saveQuestion(Question question);
 
-    ReturnReponse<Question> deleteQuestion(int id);
+    Question updateQuestion(Question question);
+
+    Question deleteQuestion(int id);
 
 }
