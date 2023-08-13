@@ -33,6 +33,7 @@ public class ChapterAdminController {
         List<Subject> subjectList = subjectUseCase.getSubjects();
         model.addAttribute("chapter", new Chapter());
         model.addAttribute("subjectOptions", subjectList);
+        model.addAttribute("actionUrl", "/chapter/create");
 
         return "/chapter/create";
     }

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        lang="en"
+        layout:decorate="~{layout/main}">
+<body>
+<div class="container" layout:fragment="content">
+    <form class="needs-validation"
+          th:object="${quiz}" method="post">
+        <h2>Quiz Details</h2>
+        <p>Quiz Title: <span th:text="${quiz.title}"></span></p>
+
+        <h2>Available Questions</h2>
+        <table class="table table-bordered table-hover">
+            <thead class="thead-dark">
+            <tr>
+                <th>ID</th>
+                <th>Title</th>
+                <th>Description</th>
+                <th>IsRadio</th>
+                <th>IsActive</th>
+                <th>Level</th>
+                <th>Subject</th>
+                <th>Chapter</th>
+                <th>Created At</th>
+                <th style="text-align: center">Options</th>
+            </tr>
+            </thead>
+            <tbody id="myTable">
+            <tr th:each="question : ${quiz.questions}">
+                <td th:text="${question.id}"></td>
+                <td th:text="${question.title}"></td>
+                <td th:text="${question.description}"></td>
+                <td th:text="${question.radio}"></td>
+                <td th:text="${question.active}"></td>
+                <td th:text="${question.level.name}"></td>
+                <td th:text="${question.subject.name}"></td>
+                <td th:text="${question.chapter.name}"></td>
+                <td th:text="${question.createdAt}"></td>
+                <td>
+                    <a th:href="@{/question/edit/{questionId}(questionId=${question.id})}" class="btn btn-danger"> Edit</a>
+                </td>
+
+            </tr>
+            </tbody>
+        </table>
+    </form>
+</div>
+</body>
+</html>

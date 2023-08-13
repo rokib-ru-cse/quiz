@@ -1,5 +1,6 @@
 package com.sigma.quiz.domain.entities;
 
+import com.sigma.quiz.domain.dto.question.OptionDTO;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
@@ -9,6 +10,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 
 @Entity
@@ -21,7 +25,7 @@ public class Question {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
-    @NotNull(message = "name is required")
+    @NotNull(message = "title is required")
     @Min(3)
     private String title;
     private String image;
@@ -52,4 +56,15 @@ public class Question {
     @Transient
     private int chapterId;
 
+    private String options; // 2 3 4 5 6 7
+    private String answers; // 1 2
+    @Transient
+
+    private List<OptionDTO> optionList;
+    @ManyToMany(mappedBy = "questions")
+    private Set<Quiz> quizzes;
+
+//    public Set<Quiz> getQuizzes() {
+//        return quizzes;
+//    }
 }

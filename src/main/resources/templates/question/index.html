@@ -37,8 +37,10 @@
             <td th:text="${question.subject.name}"></td>
             <td th:text="${question.chapter.name}"></td>
             <td th:text="${question.createdAt}"></td>
-            <td><a
-                    th:href="@{/question/edit/{questionId}(questionId=${question.id})}" class="btn btn-danger"> Edit</a></td>
+            <td>
+                <a th:href="@{/question/edit/{questionId}(questionId=${question.id})}" class="btn btn-danger"> Edit</a>
+            </td>
+
         </tr>
         </tbody>
     </table>

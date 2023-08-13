@@ -7,6 +7,7 @@ import com.sigma.quiz.application.repository.ISubjectRepository;
 import com.sigma.quiz.application.usecase.IQuestionUseCase;
 import com.sigma.quiz.domain.ReturnReponse;
 import com.sigma.quiz.domain.Util;
+import com.sigma.quiz.domain.dto.question.OptionDTO;
 import com.sigma.quiz.domain.entities.Chapter;
 import com.sigma.quiz.domain.entities.Level;
 import com.sigma.quiz.domain.entities.Question;
@@ -14,6 +15,7 @@ import com.sigma.quiz.domain.entities.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -41,19 +43,45 @@ public class QuestionUseCase implements IQuestionUseCase {
 
     @Override
     public Question getQuestion(int questionId) {
-        return questionRepository.findById(questionId).get();
+
+        Question question = questionRepository.findById(questionId).get();
+        String[] options = question.getOptions().split("\\|");
+//        String[] answers = question.getAnswers().split("|");
+        List<OptionDTO> optionList = new ArrayList<>();
+        for (String option : options) {
+            OptionDTO opt = new OptionDTO();
+            opt.setName(option);
+            if (question.getAnswers().contains(option)) {
+                opt.setAnswer(true);
+            }
+            optionList.add(opt);
+        }
+        question.setOptionList(optionList);
+        return question;
     }
 
     @Override
     public Question saveQuestion(Question questionRequest) {
-//        Subject subject = subjectRepository.findById(questionRequest.getSubjectId()).get();
-//        Chapter chapter = chapterRepository.findById(questionRequest.getChapterId()).get();
-//        Level level = levelRepository.findById(questionRequest.getLevelId()).get();
+
+        StringBuilder options = new StringBuilder();
+        StringBuilder answers = new StringBuilder();
+
+        for (OptionDTO option : questionRequest.getOptionList()) {
+            if (!Util.isNullOrWhiteSpace(option.getName())) {
+                options.append(option.getName()).append("|");
+                if (option.isAnswer()) {
+                    answers.append(option.getName()).append("|");
+                }
+            }
+        }
+        if (options.length() > 1) {
+            questionRequest.setOptions(options.substring(0, options.length() - 1));
+        }
+        if (answers.length() > 1) {
+            questionRequest.setAnswers(answers.substring(0, answers.length() - 1));
+        }
         questionRequest.setUpdatedAt(new Date());
         questionRequest.setCreatedAt(new Date());
-//        questionRequest.setLevel(level);
-//        questionRequest.setSubject(subject);
-//        questionRequest.setChapter(chapter);
 
         Question savedQuestion = questionRepository.save(questionRequest);
         return savedQuestion;
@@ -64,9 +92,25 @@ public class QuestionUseCase implements IQuestionUseCase {
     public Question updateQuestion(Question questionRequest) {
         Question dbQuestion = questionRepository.findById(questionRequest.getId()).get();
 
-//        Subject subject = subjectRepository.findById(questionRequest.getSubjectId()).get();
-//        Chapter chapter = chapterRepository.findById(questionRequest.getChapterId()).get();
-//        Level level = levelRepository.findById(questionRequest.getLevelId()).get();
+
+        StringBuilder options = new StringBuilder();
+        StringBuilder answers = new StringBuilder();
+
+        for (OptionDTO option : questionRequest.getOptionList()) {
+            if (!Util.isNullOrWhiteSpace(option.getName())) {
+                options.append(option.getName()).append("|");
+                if (option.isAnswer()) {
+                    answers.append(option.getName()).append("|");
+                }
+            }
+        }
+        if (options.length() > 1) {
+            dbQuestion.setOptions(options.substring(0, options.length() - 1));
+        }
+        if (answers.length() > 1) {
+            dbQuestion.setAnswers(answers.substring(0, answers.length() - 1));
+        }
+
 
         if (!Util.isNullOrWhiteSpace(questionRequest.getTitle())) {
             dbQuestion.setTitle(questionRequest.getTitle());
@@ -81,8 +125,7 @@ public class QuestionUseCase implements IQuestionUseCase {
         dbQuestion.setSubject(questionRequest.getSubject());
         dbQuestion.setChapter(questionRequest.getChapter());
 
-        Question updatedQuestion = questionRepository.save(dbQuestion);
-        return updatedQuestion;
+        return questionRepository.save(dbQuestion);
 //        return ReturnReponse.<Question>builder().message("Question Updated Successfully").succeeded(true).value(updatedQuestion).build();
     }
 
