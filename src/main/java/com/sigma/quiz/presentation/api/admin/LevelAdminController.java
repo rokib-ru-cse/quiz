@@ -31,7 +31,7 @@ public class LevelAdminController {
     @PostMapping("/level/create")
     public String save(@ModelAttribute("level") Level level) {
         System.out.println(level.toString());
-//        levelUseCase.saveLevels(level);
+        levelUseCase.saveLevels(level);
         return "redirect:/level/index";
     }
 
