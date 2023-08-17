@@ -18,6 +18,6 @@ public class Util {
 
     public static boolean isAdminRequest() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        return authentication != null && authentication.getAuthorities().stream().anyMatch(authority -> authority.getAuthority().equals(Constant.Role.ROLE_ADMIN));
+        return authentication != null && authentication.getAuthorities().stream().anyMatch(authority -> authority.getAuthority().equals(Constant.ROLE_ADMIN));
     }
 }

@@ -33,7 +33,7 @@ public class AuthenticationUseCase implements IAuthenticationUseCase {
                 .lastname(request.getLastname())
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
-                .role(Constant.Role.ROLE_USER)
+                .role(Constant.ROLE_USER)
                 .build();
         repository.save(user);
         Authentication authentication = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
@@ -46,7 +46,7 @@ public class AuthenticationUseCase implements IAuthenticationUseCase {
                 .lastname(request.getLastname())
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
-                .role(Constant.Role.ROLE_ADMIN)
+                .role(Constant.ROLE_ADMIN)
                 .build();
         repository.save(user);
         var jwtToken = jwtUtils.generateToken(user);

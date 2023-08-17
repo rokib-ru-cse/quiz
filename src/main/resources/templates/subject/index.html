@@ -29,8 +29,7 @@
             <td th:text="${subject.active}"></td>
             <td th:text="${subject.level.name}"></td>
             <td th:text="${subject.createdAt}"></td>
-            <td><a
-                    th:href="@{/subject/edit/{subjectId}(subjectId=${subject.id})}" class="btn btn-danger"> Edit</a></td>
+            <td><a th:href="@{/subject/edit/{subjectId}(subjectId=${subject.id})}" class="btn btn-danger"> Edit</a></td>
         </tr>
         </tbody>
     </table>
