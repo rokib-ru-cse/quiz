@@ -1,19 +1,24 @@
 package com.bitspondon.quiz.presentation.api.admin;
 
-import com.bitspondon.quiz.domain.entities.Subject;
 import com.bitspondon.quiz.application.usecase.IChapterUseCase;
 import com.bitspondon.quiz.application.usecase.ISubjectUseCase;
+import com.bitspondon.quiz.domain.constant.AdminUrl;
+import com.bitspondon.quiz.domain.constant.Constant;
 import com.bitspondon.quiz.domain.entities.Chapter;
+import com.bitspondon.quiz.domain.entities.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 
 @Controller
-@PreAuthorize("hasRole('ADMIN')")
+@PreAuthorize("hasRole('" + Constant.Role.ROLE_ADMIN + "')")
 //@RequestMapping("/api/v1/admin/chapter")
 public class ChapterAdminController {
 
@@ -23,49 +28,45 @@ public class ChapterAdminController {
     @Autowired
     private ISubjectUseCase subjectUseCase;
 
-    @GetMapping("/chapter/index")
-    public String getChapters(Model model) {
-//        return chapterUseCase.getChapters();
-        model.addAttribute("chapters", chapterUseCase.getChapters());
-        return "/chapter/index";
+    @GetMapping(AdminUrl.Chapter.INDEX)
+    public ModelAndView getChapters() {
+        ModelAndView model = new ModelAndView(AdminUrl.Chapter.INDEX);
+        model.addObject(Constant.Subject.SUBJECT_LIST, chapterUseCase.getChapters());
+        return model;
     }
 
-    @GetMapping("/chapter/create")
-    public String create(Model model) {
+    @GetMapping(AdminUrl.Chapter.CREATE)
+    public ModelAndView create() {
+        ModelAndView model = new ModelAndView(AdminUrl.Chapter.CREATE);
         List<Subject> subjectList = subjectUseCase.getSubjects();
-        model.addAttribute("chapter", new Chapter());
-        model.addAttribute("subjectOptions", subjectList);
-        model.addAttribute("actionUrl", "/chapter/create");
-
-        return "/chapter/create";
+        model.addObject(Constant.Chapter.CHAPTER, new Chapter());
+        model.addObject(Constant.Subject.SUBJECT_LIST, subjectList);
+        model.addObject(Constant.ACTION_URL, AdminUrl.Chapter.CREATE);
+        return model;
     }
 
-    @PostMapping("/chapter/create")
-    public String saveChapter(@ModelAttribute("chapter") Chapter chapter) {
+    @PostMapping(AdminUrl.Chapter.CREATE)
+    public String saveChapter(@ModelAttribute(Constant.Chapter.CHAPTER) Chapter chapter) {
         chapterUseCase.saveChapter(chapter);
-        return "redirect:/chapter/index";
+        return AdminUrl.Chapter.REDIRECT_TO_INDEX;
     }
 
-    @GetMapping("/chapter/edit/{chapterId}")
-    public String edit(@PathVariable("chapterId") Long chapterId, Model model) {
-//        System.out.println(chapterId);
+    @GetMapping(AdminUrl.Chapter.EDIT + "/{" + Constant.Chapter.CHAPTER_ID + "}")
+    public ModelAndView edit(@PathVariable(Constant.Chapter.CHAPTER_ID) Long chapterId) {
+        ModelAndView model = new ModelAndView(AdminUrl.Chapter.CREATE);
         List<Subject> subjectList = subjectUseCase.getSubjects();
         Chapter chapter = chapterUseCase.getChapter(chapterId);
-        model.addAttribute("chapter", chapter);
-        model.addAttribute("actionUrl", "/chapter/edit/" + chapterId);
-        model.addAttribute("subjectOptions", subjectList);
-        return "/chapter/create";
+        model.addObject(Constant.Chapter.CHAPTER, chapter);
+        model.addObject(Constant.Subject.SUBJECT_LIST, subjectList);
+        model.addObject(Constant.ACTION_URL, AdminUrl.Chapter.CREATE + "/" + chapterId);
+        return model;
     }
 
-    @PostMapping("/chapter/edit/{chapterId}")
-    public String edit(@PathVariable("chapterId") Long chapterId, @ModelAttribute("chapter") Chapter chapter) {
+    @PostMapping(AdminUrl.Chapter.EDIT + "/{" + Constant.Chapter.CHAPTER_ID + "}")
+    public String edit(@PathVariable(Constant.Chapter.CHAPTER_ID) Long chapterId, @ModelAttribute(Constant.Chapter.CHAPTER) Chapter chapter) {
         chapter.setId(chapterId);
         chapterUseCase.updateChapter(chapter);
-        return "redirect:/chapter/index";
+        return AdminUrl.Chapter.REDIRECT_TO_INDEX;
     }
 
-//    @DeleteMapping
-//    public Chapter deleteChapter(@RequestParam int id) {
-//        return chapterUseCase.deleteChapter(id);
-//    }
 }
