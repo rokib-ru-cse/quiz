@@ -19,9 +19,6 @@ import java.util.List;
 
 @Controller
 @PreAuthorize("hasRole('" + Constant.Role.ROLE_ADMIN + "')")
-//@PreAuthorize("hasAuthority('ROLE_ADMIN')")
-//@RequestMapping("/api/v1/admin/subject")
-//@PreAuthorize("hasRole('ADMIN')") == @PreAuthorize("hasAuthority('ROLE_ADMIN')")
 public class SubjectAdminController {
 
     @Autowired
@@ -72,11 +69,5 @@ public class SubjectAdminController {
         subjectUseCase.updateSubject(subject);
         return AdminUrl.Subject.REDIRECT_TO_INDEX;
     }
-
-//    @DeleteMapping
-//    public Subject deleteSubject(@RequestParam int id) {
-//        return subjectUseCase.deleteSubject(id);
-//    }
-
 
 }

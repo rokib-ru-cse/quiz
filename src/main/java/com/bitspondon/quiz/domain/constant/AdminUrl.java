@@ -43,6 +43,8 @@ public final class AdminUrl {
         public static final String INDEX = "/oldquiz/index";
         public static final String CREATE = "/oldquiz/create";
         public static final String EDIT = "/oldquiz/edit";
+        public static final String ASSIGN_QUESTION = "/oldquiz/assignquestion";
+        public static final String DETAILS = "/oldquiz/details";
         public static final String REDIRECT_TO_INDEX = "redirect:" + INDEX;
     }
     public static class User {

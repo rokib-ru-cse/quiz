@@ -3,6 +3,7 @@ package com.bitspondon.quiz.application.usecase.impl;
 import com.bitspondon.quiz.application.repository.IUserRepository;
 import com.bitspondon.quiz.application.usecase.IAuthenticationUseCase;
 import com.bitspondon.quiz.domain.AllEnums;
+import com.bitspondon.quiz.domain.constant.Constant;
 import com.bitspondon.quiz.domain.dto.auth.AuthenticationRequest;
 import com.bitspondon.quiz.domain.dto.auth.AuthenticationResponse;
 import com.bitspondon.quiz.domain.dto.auth.RegisterRequest;
@@ -32,11 +33,11 @@ public class AuthenticationUseCase implements IAuthenticationUseCase {
                 .lastname(request.getLastname())
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
-                .role(String.valueOf(AllEnums.Role.ROLE_USER))
+                .role(Constant.Role.ROLE_USER)
                 .build();
         repository.save(user);
         Authentication authentication = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
-            SecurityContextHolder.getContext().setAuthentication(authentication);
+        SecurityContextHolder.getContext().setAuthentication(authentication);
     }
 
     public AuthenticationResponse register(RegisterRequest request) {
@@ -45,7 +46,7 @@ public class AuthenticationUseCase implements IAuthenticationUseCase {
                 .lastname(request.getLastname())
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
-                .role(String.valueOf(AllEnums.Role.ROLE_ADMIN))
+                .role(Constant.Role.ROLE_ADMIN)
                 .build();
         repository.save(user);
         var jwtToken = jwtUtils.generateToken(user);
@@ -66,15 +67,15 @@ public class AuthenticationUseCase implements IAuthenticationUseCase {
         var jwtToken = jwtUtils.generateToken(user);
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 //        if (authentication == null) {
-            UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
-                    user,
-                    null,
-                    user.getAuthorities()
-            );
-            authToken.setDetails(
-                    new WebAuthenticationDetailsSource().buildDetails(http)
-            );
-            SecurityContextHolder.getContext().setAuthentication(authToken);
+        UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
+                user,
+                null,
+                user.getAuthorities()
+        );
+        authToken.setDetails(
+                new WebAuthenticationDetailsSource().buildDetails(http)
+        );
+        SecurityContextHolder.getContext().setAuthentication(authToken);
 //        }
         return AuthenticationResponse.builder()
                 .token(jwtToken)

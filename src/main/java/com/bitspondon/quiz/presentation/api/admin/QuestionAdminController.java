@@ -22,7 +22,6 @@ import java.util.ArrayList;
 
 @Controller
 @PreAuthorize("hasRole('" + Constant.Role.ROLE_ADMIN + "')")
-//@RequestMapping("/api/v1/admin/question")
 public class QuestionAdminController {
 
     @Autowired

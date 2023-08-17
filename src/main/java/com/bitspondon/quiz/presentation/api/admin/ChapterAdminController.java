@@ -19,7 +19,6 @@ import java.util.List;
 
 @Controller
 @PreAuthorize("hasRole('" + Constant.Role.ROLE_ADMIN + "')")
-//@RequestMapping("/api/v1/admin/chapter")
 public class ChapterAdminController {
 
     @Autowired

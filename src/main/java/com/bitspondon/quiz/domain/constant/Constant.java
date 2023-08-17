@@ -33,4 +33,16 @@ public final class Constant {
         public static final String QUESTION_OPTIONS = "questionOptions";
         public static final String QUESTION_LIST = "questionList";
     }
+    public static class OldQuiz {
+        public static final String OLD_QUIZ_ID = "oldQuizId";
+        public static final String OLD_QUIZ = "oldQuiz";
+        public static final String OLD_QUIZ_LIST = "oldQuizList";
+    }
+    public static class LiveQuiz {
+        public static final String LIVE_QUIZ_ID = "liveQuizId";
+        public static final String LIVE_QUIZ = "liveQuiz";
+        public static final String LIVE_QUIZ_LIST = "liveQuizList";
+    }
+
+
 }

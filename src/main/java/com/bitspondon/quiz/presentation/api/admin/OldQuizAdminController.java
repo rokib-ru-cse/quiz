@@ -1,21 +1,20 @@
 package com.bitspondon.quiz.presentation.api.admin;
 
 import com.bitspondon.quiz.application.usecase.*;
+import com.bitspondon.quiz.domain.constant.AdminUrl;
+import com.bitspondon.quiz.domain.constant.Constant;
 import com.bitspondon.quiz.domain.entities.OldQuiz;
-import com.bitspondon.quiz.domain.entities.Question;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-
-import java.util.List;
+import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-//@PreAuthorize("hasRole('ADMIN')")
-//@RequestMapping("/api/v1/admin/question")
+@PreAuthorize("hasRole('" + Constant.Role.ROLE_ADMIN + "')")
 public class OldQuizAdminController {
 
     @Autowired
@@ -31,89 +30,72 @@ public class OldQuizAdminController {
     @Autowired
     private ILevelUseCase levelUseCase;
 
-    @GetMapping("/quiz/index")
-    public String getQuizs(Model model) {
-//        return oldQuizUseCase.getQuizs();
-        model.addAttribute("quizzes", oldQuizUseCase.getQuizs());
-        return "/quiz/index";
+    @GetMapping(AdminUrl.OldQuiz.INDEX)
+    public ModelAndView getQuizs() {
+        ModelAndView model = new ModelAndView();
+        model.addObject(Constant.OldQuiz.OLD_QUIZ_LIST, oldQuizUseCase.getQuizs());
+        return model;
     }
 
-    @GetMapping("/quiz/create")
-    public String create(Model model) {
-//        return oldQuizUseCase.saveQuiz(subjectRequest);
-
-        model.addAttribute("quiz", new OldQuiz());
-        model.addAttribute("levelOptions", levelUseCase.getLevels());
-        model.addAttribute("subjectOptions", subjectUseCase.getSubjects());
-        model.addAttribute("chapterOptions", chapterUseCase.getChapters());
-        model.addAttribute("actionUrl", "/quiz/create");
-
-        return "/quiz/create";
+    @GetMapping(AdminUrl.OldQuiz.CREATE)
+    public ModelAndView create() {
+        ModelAndView model = new ModelAndView(AdminUrl.OldQuiz.CREATE);
+        model.addObject(Constant.OldQuiz.OLD_QUIZ, new OldQuiz());
+        model.addObject(Constant.Level.LEVEL_LIST, levelUseCase.getLevels());
+        model.addObject(Constant.Subject.SUBJECT_LIST, subjectUseCase.getSubjects());
+        model.addObject(Constant.Chapter.CHAPTER_LIST, chapterUseCase.getChapters());
+        model.addObject(Constant.ACTION_URL, AdminUrl.OldQuiz.CREATE);
+        return model;
     }
 
-    /**
-     * <!-- Convert a string to a date object -->
-     * <p th:text="${#dates.parse('2023-07-01', 'yyyy-MM-dd')}">Date</p>
-     * <p>
-     * <!-- Format the date object using the 'dd-MM-yyyy' pattern -->
-     * <p th:text="${#dates.format(#dates.parse('2023-07-01', 'yyyy-MM-dd'), 'dd-MM-yyyy')}">Formatted Date</p>
-     */
-
-    @PostMapping("/quiz/create")
-    public String saveQuiz(@ModelAttribute("quiz") OldQuiz quiz) {
-//        System.out.println(quiz.toString());
-
+    @PostMapping(AdminUrl.OldQuiz.CREATE)
+    public String saveQuiz(@ModelAttribute(Constant.OldQuiz.OLD_QUIZ) OldQuiz quiz) {
         oldQuizUseCase.saveOldQuiz(quiz);
-        return "redirect:/quiz/index";
+        return AdminUrl.OldQuiz.REDIRECT_TO_INDEX;
     }
 
-    @GetMapping("/quiz/edit/{quizId}")
-    public String edit(@PathVariable("quizId") Long quizId, Model model) {
-//        return oldQuizUseCase.saveQuiz(subjectRequest);
+    @GetMapping(AdminUrl.OldQuiz.EDIT + "/{" + Constant.OldQuiz.OLD_QUIZ_ID + "}")
+    public ModelAndView edit(@PathVariable(Constant.OldQuiz.OLD_QUIZ_ID) Long quizId) {
+        ModelAndView model = new ModelAndView(AdminUrl.OldQuiz.CREATE);
         OldQuiz quiz = oldQuizUseCase.getQuiz(quizId);
-        model.addAttribute("quiz", quiz);
-        model.addAttribute("levelOptions", levelUseCase.getLevels());
-        model.addAttribute("subjectOptions", subjectUseCase.getSubjects());
-        model.addAttribute("chapterOptions", chapterUseCase.getChapters());
-        model.addAttribute("actionUrl", "/quiz/edit/" + quizId);
+        model.addObject(Constant.OldQuiz.OLD_QUIZ, quiz);
+        model.addObject(Constant.Level.LEVEL_LIST, levelUseCase.getLevels());
+        model.addObject(Constant.Subject.SUBJECT_LIST, subjectUseCase.getSubjects());
+        model.addObject(Constant.Chapter.CHAPTER_LIST, chapterUseCase.getChapters());
+        model.addObject(Constant.ACTION_URL, AdminUrl.OldQuiz.EDIT + "/" + quizId);
 
-        return "/quiz/create";
+        return model;
     }
 
 
-    @PostMapping("/quiz/edit/{quizId}")
-    public String editQuiz(@PathVariable("quizId") Long quizId, @ModelAttribute("quiz") OldQuiz quiz) {
-//        return oldQuizUseCase.saveQuiz(subjectRequest);
+    @PostMapping(AdminUrl.OldQuiz.EDIT + "/{" + Constant.OldQuiz.OLD_QUIZ_ID + "}")
+    public String editQuiz(@PathVariable(Constant.OldQuiz.OLD_QUIZ_ID) Long quizId, @ModelAttribute(Constant.OldQuiz.OLD_QUIZ) OldQuiz quiz) {
         quiz.setId(quizId);
         oldQuizUseCase.updateQuiz(quiz);
-        return "redirect:/quiz/index";
+        return AdminUrl.OldQuiz.REDIRECT_TO_INDEX;
     }
 
-    @GetMapping("/quiz/assignquestion/{quizId}")
-    public String assignQuestion(@PathVariable("quizId") Long quizId, Model model) {
-        OldQuiz quiz = oldQuizUseCase.getQuiz(quizId);
-        model.addAttribute("quiz", quiz);
-        List<Question> availableQuestions = questionUseCase.getQuestions(); // Fetch available questions
-        model.addAttribute("questions", availableQuestions);
-        model.addAttribute("actionUrl", "/quiz/assignquestion/" + quizId);
-
-        return "/quiz/assignquestion";
+    @GetMapping(AdminUrl.OldQuiz.ASSIGN_QUESTION + "/{" + Constant.OldQuiz.OLD_QUIZ_ID + "}")
+    public ModelAndView assignQuestion(@PathVariable(Constant.OldQuiz.OLD_QUIZ_ID) Long quizId) {
+        ModelAndView model = new ModelAndView(AdminUrl.OldQuiz.ASSIGN_QUESTION);
+        model.addObject(Constant.OldQuiz.OLD_QUIZ, oldQuizUseCase.getQuiz(quizId));
+        model.addObject(Constant.Question.QUESTION_LIST, questionUseCase.getQuestions());
+        model.addObject(Constant.ACTION_URL, AdminUrl.OldQuiz.ASSIGN_QUESTION + "/" + quizId);
+        return model;
     }
 
-    @PostMapping("/quiz/assignquestion/{quizId}")
-    public String saveAssignedQuestions(@PathVariable("quizId") Long quizId, @ModelAttribute("quiz") OldQuiz quiz) {
-        // The 'questions' property of the Quiz object should now contain the selected questions
-        // Update the quiz with assigned questions
+    @PostMapping(AdminUrl.OldQuiz.ASSIGN_QUESTION + "/{" + Constant.OldQuiz.OLD_QUIZ_ID + "}")
+    public String saveAssignedQuestions(@PathVariable(Constant.OldQuiz.OLD_QUIZ_ID) Long quizId, @ModelAttribute(Constant.OldQuiz.OLD_QUIZ) OldQuiz quiz) {
         quiz.setId(quizId);
         oldQuizUseCase.saveAssignedQuestions(quiz);
-//        return "redirect:/quiz/details/" + quizId;
-        return "redirect:/quiz/index";
+        return AdminUrl.OldQuiz.REDIRECT_TO_INDEX;
     }
 
-    @GetMapping("/quiz/details/{quizId}")
-    public String details(@PathVariable("quizId") Long quizId, Model model) {
+    @GetMapping(AdminUrl.OldQuiz.DETAILS + "/{" + Constant.OldQuiz.OLD_QUIZ_ID + "}")
+    public ModelAndView details(@PathVariable(Constant.OldQuiz.OLD_QUIZ_ID) Long quizId) {
+        ModelAndView model = new ModelAndView(AdminUrl.OldQuiz.DETAILS);
         OldQuiz quiz = oldQuizUseCase.getQuiz(quizId);
-        model.addAttribute("quiz", quiz);
-        return "/quiz/details";
+        model.addObject(Constant.OldQuiz.OLD_QUIZ, quiz);
+        return model;
     }
 }

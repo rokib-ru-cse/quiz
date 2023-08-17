@@ -1,6 +1,7 @@
 package com.bitspondon.quiz.presentation.api.admin;
 
 import com.bitspondon.quiz.application.usecase.*;
+import com.bitspondon.quiz.domain.constant.Constant;
 import com.bitspondon.quiz.domain.entities.LiveQuiz;
 import com.bitspondon.quiz.domain.entities.Question;
 import com.bitspondon.quiz.domain.exception.CustomException;
@@ -18,8 +19,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import java.util.List;
 
 @Controller
-@PreAuthorize("hasRole('ADMIN')")
-//@RequestMapping("/api/v1/admin/question")
+@PreAuthorize("hasRole('" + Constant.Role.ROLE_ADMIN + "')")
 public class LiveQuizAdminController {
 
     Logger logger = LoggerFactory.getLogger(LiveQuizAdminController.class);
@@ -148,15 +148,4 @@ public class LiveQuizAdminController {
 
         return "redirect:/livequiz/index";
     }
-
-
-    /**
-     * <!-- Convert a string to a date object -->
-     * <p th:text="${#dates.parse('2023-07-01', 'yyyy-MM-dd')}">Date</p>
-     * <p>
-     * <!-- Format the date object using the 'dd-MM-yyyy' pattern -->
-     * <p th:text="${#dates.format(#dates.parse('2023-07-01', 'yyyy-MM-dd'), 'dd-MM-yyyy')}">Formatted Date</p>
-     */
-
-
 }
