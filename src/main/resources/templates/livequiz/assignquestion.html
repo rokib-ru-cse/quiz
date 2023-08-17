@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        lang="en"
+        layout:decorate="~{layout/main}">
+<body>
+<div class="container" layout:fragment="content">
+    <h1>Assign Questions to Quiz</h1>
+    <form th:action="${actionUrl}" th:object="${quiz}" method="post">
+        <h2>Quiz Details</h2>
+        <p>Quiz Title: <span th:text="${quiz.title}"></span></p>
+
+        <h2>Available Questions</h2>
+        <ul>
+            <li th:each="question : ${questions}">
+                <label>
+                    <input type="checkbox" th:field="*{questions}" th:value="${question.id}" />
+                    <span th:text="${question.description}"></span>
+                </label>
+            </li>
+        </ul>
+        <button type="submit">Save</button>
+    </form>
+</div>
+</body>
+</html>

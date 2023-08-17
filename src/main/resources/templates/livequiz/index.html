@@ -21,8 +21,8 @@
             <th>Chapter</th>
             <th>Quiz Date</th>
             <th>StartTime</th>
-            <th>EndTime</th>
-            <th>Created At</th>
+<!--            <th>EndTime</th>-->
+<!--            <th>Created At</th>-->
             <th style="text-align: center">Options</th>
         </tr>
         </thead>
@@ -45,13 +45,14 @@
             <td th:text="${quiz.chapter.name}"></td>
             <td th:text="${quiz.quizDate}"></td>
             <td th:text="${quiz.startTime}"></td>
-            <td th:text="${quiz.endTime}"></td>
-            <td th:text="${quiz.createdAt}"></td>
+<!--            <td th:text="${quiz.endTime}"></td>-->
+<!--            <td th:text="${quiz.createdAt}"></td>-->
             <td class="d-flex">
-                <a th:href="@{/quiz/edit/{quizId}(quizId=${quiz.id})}" class="btn btn-danger btn-sm"> Edit</a>
-                <a th:href="@{/quiz/assignquestion/{quizId}(quizId=${quiz.id})}" class="btn btn-primary btn-sm"> Assign Question</a>
-                <a th:href="@{/quiz/details/{quizId}(quizId=${quiz.id})}" class="btn btn-success btn-sm"> Details</a>
-                <a th:href="@{/quiz/enroll/{quizId}(quizId=${quiz.id})}" class="btn btn-success btn-sm"> Enroll</a>
+                <a th:href="@{/livequiz/edit/{quizId}(quizId=${quiz.id})}" class="btn btn-danger btn-sm"> Edit</a>
+                <a th:href="@{/livequiz/assignquestion/{quizId}(quizId=${quiz.id})}" class="btn btn-primary btn-sm"> Assign Question</a>
+                <a th:href="@{/livequiz/details/{quizId}(quizId=${quiz.id})}" class="btn btn-success btn-sm"> Details</a>
+                <a th:href="@{/livequiz/enroll/{quizId}(quizId=${quiz.id})}" class="btn btn-success btn-sm"> Enroll</a>
+                <a th:href="@{/livequiz/startlivequiz/{quizId}(quizId=${quiz.id})}" class="btn btn-success btn-sm">Start LiveQuiz</a>
             </td>
         </tr>
         </tbody>

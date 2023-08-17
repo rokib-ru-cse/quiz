@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        lang="en"
+        layout:decorate="~{layout/main}">
+<body>
+<div class="container" layout:fragment="content">
+    <div th:if="${param.error}">
+        <div class="alert alert-danger">${errormessage}</div>
+    </div>
+    <div th:if="${param.logout}">
+        <div class="alert alert-success"> You have been logged out.</div>
+    </div>
+
+    <form class="needs-validation" th:action="${actionUrl}"
+          th:object="${user}" method="post">
+        <div class="form-group">
+            <label class="col-md-4 control-label">First Name</label>
+            <input th:field="*{firstname}" placeholder="Enter First Name" name="firstname" class="form-control" required/>
+        </div>
+        <div class="form-group">
+            <label class="col-md-4 control-label">Last Name</label>
+            <input th:field="*{lastname}" placeholder="Enter Last Name" name="lastname" class="form-control" required/>
+        </div>
+        <div class="form-group">
+            <label class="col-md-4 control-label">Email</label>
+            <input th:field="*{email}" type="email" placeholder="Enter Email" name="email" class="form-control" required/>
+        </div>
+        <div class="form-group">
+            <label class="col-md-4 control-label">Password</label>
+            <input th:field="*{password}" type="password" placeholder="Enter Password" name="password" class="form-control" required/>
+        </div>
+        <div class="form-group">
+            <label class="col-md-4 control-label">Confirm Password</label>
+            <input th:field="*{confirmPassword}" type="password" placeholder="Confirm Password" name="password" class="form-control" required/>
+        </div>
+        <div class="form-group">
+            <label class="col-md-4 control-label"></label>
+            <div class="col-md-4">
+                <button type="submit" class="btn btn-success float-right">Register</button>
+            </div>
+        </div>
+    </form>
+<!--    <script>-->
+<!--        function register(event) {-->
+<!--            const registrationForm = document.getElementById("registrationForm");-->
+
+<!--            event.preventDefault();-->
+
+<!--            const formData = {-->
+<!--                firstname: $("input[name='firstname']").val(),-->
+<!--                lastname: $("input[name='lastname']").val(),-->
+<!--                email: $("input[name='email']").val(),-->
+<!--                password: $("input[name='password']").val()-->
+<!--            };-->
+<!--            console.log("form data ", formData);-->
+
+<!--            fetch("/api/v1/auth/signup", {-->
+<!--                method: "POST",-->
+<!--                headers: {-->
+<!--                    "Content-Type": "application/json"-->
+<!--                },-->
+<!--                body: JSON.stringify(formData)-->
+<!--            })-->
+<!--                .then(response => response.json())-->
+<!--                .then(data => {-->
+<!--                    const token = data.token;-->
+<!--                    console.log("token", token);-->
+
+<!--                    // Store the token in local storage-->
+<!--                    localStorage.setItem("jwtToken", token);-->
+
+<!--                    // Redirect to another page or perform other actions-->
+<!--                    // window.location.href = "/";-->
+<!--                })-->
+<!--                .catch(error => {-->
+<!--                    console.error("Registration error:", error);-->
+<!--                });-->
+<!--        }-->
+<!--    </script>-->
+</div>
+</body>
+</html>

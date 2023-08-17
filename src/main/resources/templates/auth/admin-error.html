@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Error Page</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin: 50px;
+    }
+    .error-code {
+      font-size: 48px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+    .error-message {
+      font-size: 24px;
+      margin-bottom: 20px;
+    }
+    .back-link {
+      text-decoration: none;
+      color: #007bff;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+<div class="error-code" th:text="${statusCode}">500</div>
+<div class="error-message" th:text="${errorMessage}">An error occurred.</div>
+<a class="back-link" th:href="@{/}">Back to Home</a>
+</body>
+</html>

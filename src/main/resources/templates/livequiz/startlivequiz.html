@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        lang="en"
+        layout:decorate="~{layout/main}">
+<body>
+<div class="container" layout:fragment="content">
+    <h2 class="mb-4">Quiz: <span th:text="${quiz.title}"></span></h2>
+    <form th:action="${actionUrl}" method="post">
+        <div th:each="question, questionStat : ${questions}">
+            <fieldset class="mb-4">
+                <legend>Question <span th:text="${questionStat.count}"></span>:</legend>
+                <p th:text="${question.title}"></p>
+                <ul class="list-unstyled">
+                    <li class="form-check" th:each="option : ${question.optionList}">
+                        <label class="form-check-label">
+                            <input class="form-check-input" type="checkbox" th:name="'question_' + ${questionStat.index}" th:value="${option.name}" />
+                            <span th:text="${option.name}"></span>
+                        </label>
+                    </li>
+                </ul>
+            </fieldset>
+        </div>
+        <div class="form-group">
+            <label class="col-md-4 control-label"></label>
+            <div class="col-md-4">
+                <button type="submit" class="btn btn-success float-right">Save</button>
+            </div>
+        </div>
+    </form>
+
+
+    <script>
+        $(document).ready(function () {
+            // alert("hi from question");
+        });
+        let optionCount = 1;
+
+        function addOption() {
+            console.log("from add option");
+            let newRow = `<tr id="row_${optionCount}">
+                    <td><input name="optionList[${optionCount}].name" type="text" placeholder="Enter Option" class="form-control" /></td>
+                    <td>
+                        <div class="form-check">
+                          <input type="checkbox" name="optionList[${optionCount}].answer" class="form-check-input" th:value="true" />
+                        </div>
+                    </td>
+                    <td><button type="button" onclick="deleteOption(${optionCount})" class="btn btn-danger">Delete</button></td>
+                </tr>`;
+            $("#optionTable").append(newRow);
+            optionCount++;
+        }
+
+        function deleteOption(id) {
+            console.log("from delete option " + id);
+            $(`#row_${id}`).addClass('d-none');
+        }
+
+    </script>
+</div>
+
+</body>
+</html>
