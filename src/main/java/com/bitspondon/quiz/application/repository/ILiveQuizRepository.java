@@ -9,4 +9,7 @@ public interface ILiveQuizRepository extends JpaRepository<LiveQuiz, Long> {
     @Query("SELECT q FROM LiveQuiz q LEFT JOIN FETCH q.questions WHERE q.id = :quizId")
     LiveQuiz findQuizWithAssignedQuestions(@Param("quizId") Long quizId);
 
+    @Query("SELECT q FROM LiveQuiz q LEFT JOIN FETCH q.users WHERE q.id = :quizId")
+    LiveQuiz findQuizWithAssignedUser(@Param("quizId") Long quizId);
+
 }

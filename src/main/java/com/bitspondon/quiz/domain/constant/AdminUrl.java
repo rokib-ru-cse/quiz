@@ -29,6 +29,7 @@ public final class AdminUrl {
     public static final String LIVE_QUIZ_ASSIGN_QUESTION = "/livequiz/assignquestion";
     public static final String LIVE_QUIZ_DETAILS = "/livequiz/details";
     public static final String LIVE_QUIZ_ENROLL = "/livequiz/enroll";
+    public static final String LIVE_QUIZ_START = "/livequiz/start";
     public static final String LIVE_QUIZ_REDIRECT_TO_INDEX = "redirect:" + LIVE_QUIZ_INDEX;
     public static final String LIVE_QUIZ_REDIRECT_TO_DETAILS = "redirect:" + LIVE_QUIZ_DETAILS;
 

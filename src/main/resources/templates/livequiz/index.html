@@ -5,7 +5,7 @@
         layout:decorate="~{layout/main}">
 <body>
 <div class="container-fluid" layout:fragment="content">
-    <a class="btn btn-primary" href="/livequiz/create">Create</a>
+    <a class="btn btn-primary" th:href="${constants.ADMIN_URL.LIVE_QUIZ_CREATE}">Create</a>
     <table class="table table-bordered table-hover">
         <thead class="thead-dark">
         <tr>
@@ -21,18 +21,18 @@
             <th>Chapter</th>
             <th>Quiz Date</th>
             <th>StartTime</th>
-<!--            <th>EndTime</th>-->
-<!--            <th>Created At</th>-->
+            <th>EndTime</th>
+            <th>Created At</th>
             <th style="text-align: center">Options</th>
         </tr>
         </thead>
-        <tbody th:if="${#lists.isEmpty(quizzes)}">
+        <tbody th:if="${#lists.isEmpty(constants.liveQuizList)}">
         <tr>
             <td colspan="3" style="color: red;">No Data found</td>
         </tr>
         </tbody>
         <tbody id="myTable">
-        <tr th:each="quiz : ${quizzes}">
+        <tr th:each="quiz : ${constants.liveQuizList}">
             <td th:text="${quiz.id}"></td>
             <td th:text="${quiz.title}"></td>
             <td th:text="${quiz.description}"></td>
@@ -45,14 +45,19 @@
             <td th:text="${quiz.chapter.name}"></td>
             <td th:text="${quiz.quizDate}"></td>
             <td th:text="${quiz.startTime}"></td>
-<!--            <td th:text="${quiz.endTime}"></td>-->
-<!--            <td th:text="${quiz.createdAt}"></td>-->
+            <td th:text="${quiz.endTime}"></td>
+            <td th:text="${quiz.createdAt}"></td>
             <td class="d-flex">
-                <a th:href="@{/livequiz/edit/{quizId}(quizId=${quiz.id})}" class="btn btn-danger btn-sm"> Edit</a>
-                <a th:href="@{/livequiz/assignquestion/{quizId}(quizId=${quiz.id})}" class="btn btn-primary btn-sm"> Assign Question</a>
-                <a th:href="@{/livequiz/details/{quizId}(quizId=${quiz.id})}" class="btn btn-success btn-sm"> Details</a>
-                <a th:href="@{/livequiz/enroll/{quizId}(quizId=${quiz.id})}" class="btn btn-success btn-sm"> Enroll</a>
-                <a th:href="@{/livequiz/startlivequiz/{quizId}(quizId=${quiz.id})}" class="btn btn-success btn-sm">Start LiveQuiz</a>
+                <a th:href="@{|${constants.ADMIN_URL.LIVE_QUIZ_EDIT}/${quiz.id}|}" class="btn btn-danger btn-sm">
+                    Edit</a>
+                <a th:href="@{|${constants.ADMIN_URL.LIVE_QUIZ_ASSIGN_QUESTION}/${quiz.id}|}"
+                   class="btn btn-primary btn-sm"> Assign Question</a>
+                <a th:href="@{|${constants.ADMIN_URL.LIVE_QUIZ_DETAILS}/${quiz.id}|}" class="btn btn-primary btn-sm">
+                    Details</a>
+                <a th:href="@{|${constants.ADMIN_URL.LIVE_QUIZ_ENROLL}/${quiz.id}|}" class="btn btn-primary btn-sm">
+                    Enroll</a>
+                <a th:href="@{|${constants.ADMIN_URL.LIVE_QUIZ_START}/${quiz.id}|}" class="btn btn-primary btn-sm">
+                    Start Quiz</a>
             </td>
         </tr>
         </tbody>

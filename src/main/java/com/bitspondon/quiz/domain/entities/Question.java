@@ -54,18 +54,28 @@ public class Question {
     @Transient
     private int chapterId;
 
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = true)
+    private DifficultyLevelEnum difficultyLevel; // This field stores the difficulty level as an enum
+
     private String options; // 2 3 4 5 6 7
     private String answers; // 1 2
     @Transient
 
     private List<OptionDTO> optionList;
-    @ManyToMany(mappedBy = "questions",fetch = FetchType.LAZY)
+    @ManyToMany(mappedBy = "questions", fetch = FetchType.LAZY)
     private Set<OldQuiz> oldQuizs = new HashSet<>();
 
-    @ManyToMany(mappedBy = "questions",fetch = FetchType.LAZY)
+    @ManyToMany(mappedBy = "questions", fetch = FetchType.LAZY)
     private Set<LiveQuiz> liveQuizs = new HashSet<>();
 
 //    public Set<Quiz> getQuizzes() {
 //        return quizzes;
 //    }
+}
+
+enum DifficultyLevelEnum {
+    EASY,
+    MEDIUM,
+    HARD
 }

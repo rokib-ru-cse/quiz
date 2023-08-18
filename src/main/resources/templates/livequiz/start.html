@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        lang="en"
+        layout:decorate="~{layout/main}">
+<body>
+<div class="container" layout:fragment="content">
+    <h2 class="mb-4">Quiz: <span th:text="${liveQuiz.title}"></span></h2>
+    <form th:action="${constants.actionUrl}" method="post">
+        <div th:each="question, questionStat : ${constants.questionList}">
+            <fieldset class="mb-4">
+                <legend>Question <span th:text="${questionStat.count}"></span>:</legend>
+                <p th:text="${question.title}"></p>
+                <ul class="list-unstyled">
+                    <li class="form-check" th:each="option : ${question.optionList}">
+                        <label class="form-check-label">
+                            <input class="form-check-input" type="checkbox" th:name="'question_' + ${questionStat.index}" th:value="${option.name}" />
+                            <span th:text="${option.name}"></span>
+                        </label>
+                    </li>
+                </ul>
+            </fieldset>
+        </div>
+        <div class="form-group">
+            <label class="col-md-4 control-label"></label>
+            <div class="col-md-4">
+                <button type="submit" class="btn btn-success float-right">Save</button>
+            </div>
+        </div>
+    </form>
+
+
+    <script>
+    </script>
+</div>
+
+</body>
+</html>

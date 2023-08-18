@@ -1,6 +1,7 @@
 package com.bitspondon.quiz.application.usecase.impl;
 
 import com.bitspondon.quiz.application.repository.*;
+import com.bitspondon.quiz.domain.constant.ValidationMessage;
 import com.bitspondon.quiz.domain.entities.LiveQuiz;
 import com.bitspondon.quiz.domain.entities.User;
 import com.bitspondon.quiz.application.usecase.ILiveQuizUseCase;
@@ -12,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -40,15 +43,15 @@ public class LiveQuizUseCase implements ILiveQuizUseCase {
     //---------------------
     @Override
     public LiveQuiz enroll(Long quizId) throws Exception {
+//        LiveQuiz dbQuiz = liveQuizRepository.findQuizWithAssignedUser(quizId);
         LiveQuiz dbQuiz = liveQuizRepository.findById(quizId).get();
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
         User user = userRepository.findByEmail(email).get();
 
-        if (dbQuiz.getTotalParticipant() + 1 > dbQuiz.getTotalParticipant()) {
-            throw new CustomException("Sorry, Enrollment Closed: This quiz is already fully enrolled and no more registrations are being accepted at the moment. " +
-                    "Please keep an eye out for future opportunities to participate in our quizzes and events. Thank you for your Longerest!");
+        if (dbQuiz.getUsers().size() + 1 > dbQuiz.getTotalParticipant()) {
+            throw new CustomException(ValidationMessage.LIVE_QUIZ_ENROLLMENT_CLOSED);
         } else if (dbQuiz.getUsers().stream().anyMatch(u -> u.getId().equals(user.getId()))) {
-            throw new CustomException("User Already Assigned To Quiz " + dbQuiz.getTitle());
+            throw new CustomException(ValidationMessage.USER_ALREADY_ASSIGNED_TO_LIVE_QUIZ + dbQuiz.getTitle());
         }
 
         dbQuiz.getUsers().add(user);
@@ -146,9 +149,8 @@ public class LiveQuizUseCase implements ILiveQuizUseCase {
 
     private LiveQuiz getLiveQuizWithQuestionAndOptions(Long quizId) {
         LiveQuiz dbquiz = liveQuizRepository.findQuizWithAssignedQuestions(quizId);
-        for (Question question:dbquiz.getQuestions()) {
+        for (Question question : dbquiz.getQuestions()) {
             String[] options = question.getOptions().split("\\|");
-//        String[] answers = question.getAnswers().split("|");
             List<OptionDTO> optionList = new ArrayList<>();
             for (String option : options) {
                 OptionDTO opt = new OptionDTO();

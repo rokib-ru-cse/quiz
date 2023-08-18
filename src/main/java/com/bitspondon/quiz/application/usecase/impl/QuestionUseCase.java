@@ -64,9 +64,9 @@ public class QuestionUseCase implements IQuestionUseCase {
 
         for (OptionDTO option : questionRequest.getOptionList()) {
             if (!Util.isNullOrWhiteSpace(option.getName())) {
-                options.append(option.getName()).append("|");
+                options.append(option.getName().trim()).append("|");
                 if (option.isAnswer()) {
-                    answers.append(option.getName()).append("|");
+                    answers.append(option.getName().trim()).append("|");
                 }
             }
         }
@@ -94,9 +94,9 @@ public class QuestionUseCase implements IQuestionUseCase {
 
         for (OptionDTO option : questionRequest.getOptionList()) {
             if (!Util.isNullOrWhiteSpace(option.getName())) {
-                options.append(option.getName()).append("|");
+                options.append(option.getName().trim()).append("|");
                 if (option.isAnswer()) {
-                    answers.append(option.getName()).append("|");
+                    answers.append(option.getName().trim()).append("|");
                 }
             }
         }

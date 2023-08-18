@@ -6,9 +6,9 @@
 <body>
 <div class="container" layout:fragment="content">
     <form class="needs-validation"
-          th:object="${quiz}" method="post">
+          th:object="${liveQuiz}" method="post">
         <h2>Quiz Details</h2>
-        <p>Quiz Title: <span th:text="${quiz.title}"></span></p>
+        <p>Quiz Title: <span th:text="${liveQuiz.title}"></span></p>
 
         <h2>Available Questions</h2>
         <table class="table table-bordered table-hover">
@@ -27,7 +27,7 @@
             </tr>
             </thead>
             <tbody id="myTable">
-            <tr th:each="question : ${quiz.questions}">
+            <tr th:each="question : ${liveQuiz.questions}">
                 <td th:text="${question.id}"></td>
                 <td th:text="${question.title}"></td>
                 <td th:text="${question.description}"></td>
@@ -37,10 +37,7 @@
                 <td th:text="${question.subject.name}"></td>
                 <td th:text="${question.chapter.name}"></td>
                 <td th:text="${question.createdAt}"></td>
-                <td>
-                    <a th:href="@{/question/edit/{questionId}(questionId=${question.id})}" class="btn btn-danger"> Edit</a>
-                </td>
-
+                <td><a th:href="@{|${constants.ADMIN_URL.QUESTION_EDIT}/${question.id}|}" class="btn btn-danger"> Edit</a></td>
             </tr>
             </tbody>
         </table>

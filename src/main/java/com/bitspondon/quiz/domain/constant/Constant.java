@@ -41,4 +41,5 @@ public class Constant {
     private List<Question> questionList = null;
     private List<OptionDTO> questionOptions = null;
     private List<OldQuiz> oldQuizList = null;
+    private List<LiveQuiz> liveQuizList= null;
 }
