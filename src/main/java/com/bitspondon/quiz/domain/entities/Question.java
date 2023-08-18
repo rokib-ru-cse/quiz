@@ -1,6 +1,9 @@
 package com.bitspondon.quiz.domain.entities;
 
 import com.bitspondon.quiz.domain.dto.question.OptionDTO;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
@@ -58,10 +61,16 @@ public class Question {
     @Column(nullable = true)
     private DifficultyLevelEnum difficultyLevel; // This field stores the difficulty level as an enum
 
-    private String options; // 2 3 4 5 6 7
-    private String answers; // 1 2
-    @Transient
+    @Column(columnDefinition = "TEXT")
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private String options; // Store as JSON array ["Option A", "Option B", "Option C", "Option D"]
 
+
+    @Column(columnDefinition = "TEXT")
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private String answers; // Store as JSON array ["Option A", "Option B"]
+
+    @Transient
     private List<OptionDTO> optionList;
     @ManyToMany(mappedBy = "questions", fetch = FetchType.LAZY)
     private Set<OldQuiz> oldQuizs = new HashSet<>();
@@ -69,13 +78,52 @@ public class Question {
     @ManyToMany(mappedBy = "questions", fetch = FetchType.LAZY)
     private Set<LiveQuiz> liveQuizs = new HashSet<>();
 
-//    public Set<Quiz> getQuizzes() {
-//        return quizzes;
-//    }
+    public List<String> getOptions() {
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            return objectMapper.readValue(options, List.class);
+        } catch (JsonProcessingException e) {
+            // Handle the exception
+            return null;
+        }
+    }
+
+    public void setOptions(List<String> options) {
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            this.options = objectMapper.writeValueAsString(options);
+        } catch (JsonProcessingException e) {
+            // Handle the exception
+            this.options = null;
+        }
+    }
+
+    public List<String> getAnswers() {
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            return objectMapper.readValue(answers, List.class);
+        } catch (JsonProcessingException e) {
+            // Handle the exception
+            return null;
+        }
+    }
+
+    public void setAnswers(List<String> answers) {
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            this.answers = objectMapper.writeValueAsString(answers);
+        } catch (JsonProcessingException e) {
+            // Handle the exception
+            this.answers = null;
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "Question{" + "id=" + id + ", title='" + title + '\'' + '}';
+    }
 }
 
 enum DifficultyLevelEnum {
-    EASY,
-    MEDIUM,
-    HARD
+    EASY, MEDIUM, HARD
 }

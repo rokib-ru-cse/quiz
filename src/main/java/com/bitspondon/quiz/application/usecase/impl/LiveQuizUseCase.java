@@ -1,20 +1,18 @@
 package com.bitspondon.quiz.application.usecase.impl;
 
 import com.bitspondon.quiz.application.repository.*;
-import com.bitspondon.quiz.domain.constant.ValidationMessage;
-import com.bitspondon.quiz.domain.entities.LiveQuiz;
-import com.bitspondon.quiz.domain.entities.User;
 import com.bitspondon.quiz.application.usecase.ILiveQuizUseCase;
 import com.bitspondon.quiz.domain.Util;
+import com.bitspondon.quiz.domain.constant.ValidationMessage;
 import com.bitspondon.quiz.domain.dto.question.OptionDTO;
+import com.bitspondon.quiz.domain.entities.LiveQuiz;
 import com.bitspondon.quiz.domain.entities.Question;
+import com.bitspondon.quiz.domain.entities.User;
 import com.bitspondon.quiz.domain.exception.CustomException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -96,16 +94,25 @@ public class LiveQuizUseCase implements ILiveQuizUseCase {
 
     @Override
     public LiveQuiz startLiveQuiz(Long quizId) throws Exception {
-        LiveQuiz liveQuiz = getLiveQuizWithQuestionAndOptions(quizId);
+
+        LiveQuiz liveQuiz = liveQuizRepository.findQuizWithAssignedQuestions(quizId);
+        //        if (liveQuiz.getQuizDate().compareTo(LocalDate.now()) > 0 && liveQuiz.getStartTime().compareTo(LocalTime.now()) > 0) {
+        //            throw new CustomException("Quiz Will Be Started At " + liveQuiz.getQuizDate() + " - " + liveQuiz.getStartTime());
+        //        } else if (liveQuiz.getQuizDate().isEqual(LocalDate.now()) && liveQuiz.getStartTime().compareTo(LocalTime.now()) < 0 && liveQuiz.getStartTime().plusMinutes(liveQuiz.getDuration()).compareTo(LocalTime.now()) > 0) {
+        //            return liveQuiz;
+        //        } else {
+        //            throw new CustomException("Quiz Have Ended At " + liveQuiz.getQuizDate() + " - " + liveQuiz.getStartTime());
+        //        }
+
+        for (Question question : liveQuiz.getQuestions()) {
+            synchronized (question) {
+                Util.getQuestionWithOptionsAndAnswer(question);
+            }
+        }
         return liveQuiz;
-//        if (liveQuiz.getQuizDate().compareTo(LocalDate.now()) > 0 && liveQuiz.getStartTime().compareTo(LocalTime.now()) > 0) {
-//            throw new CustomException("Quiz Will Be Started At " + liveQuiz.getQuizDate() + " - " + liveQuiz.getStartTime());
-//        } else if (liveQuiz.getQuizDate().isEqual(LocalDate.now()) && liveQuiz.getStartTime().compareTo(LocalTime.now()) < 0 && liveQuiz.getStartTime().plusMinutes(liveQuiz.getDuration()).compareTo(LocalTime.now()) > 0) {
-//            return liveQuiz;
-//        } else {
-//            throw new CustomException("Quiz Have Ended At " + liveQuiz.getQuizDate() + " - " + liveQuiz.getStartTime());
-//        }
+
     }
+
 
 
     @Override
@@ -146,24 +153,5 @@ public class LiveQuizUseCase implements ILiveQuizUseCase {
         return updatedquiz;
     }
 
-
-    private LiveQuiz getLiveQuizWithQuestionAndOptions(Long quizId) {
-        LiveQuiz dbquiz = liveQuizRepository.findQuizWithAssignedQuestions(quizId);
-        for (Question question : dbquiz.getQuestions()) {
-            String[] options = question.getOptions().split("\\|");
-            List<OptionDTO> optionList = new ArrayList<>();
-            for (String option : options) {
-                OptionDTO opt = new OptionDTO();
-                opt.setName(option);
-                if (question.getAnswers().contains(option)) {
-                    opt.setAnswer(true);
-                }
-                optionList.add(opt);
-            }
-            question.setOptionList(optionList);
-        }
-
-        return dbquiz;
-    }
 
 }

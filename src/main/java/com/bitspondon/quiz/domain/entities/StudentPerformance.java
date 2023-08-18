@@ -3,6 +3,8 @@
 //import jakarta.persistence.*;
 //import lombok.*;
 //
+//import java.time.LocalDateTime;
+//
 //@Entity
 //@Setter
 //@Getter
@@ -21,10 +23,27 @@
 //
 //    @ManyToOne
 //    @JoinColumn(name = "quiz_id")
-//    private com.sigma.quiz.domain.entities.QuizSubmission quizSubmission;
+//    private QuizSubmission quizSubmission;
 //
 //    @Column(nullable = false)
 //    private int score;
+//
+//    @Column(name = "submission_time")
+//    private LocalDateTime submissionTimePercent;
+//
+//    /**
+//     * 1 - 20 - 10- 50
+//     *
+//     * 2 - 30 - 50
+//     *
+//     * 30 - 50%
+//     * 15
+//     *
+//     *
+//     *
+//     *
+//     *
+//     * */
 //
 //    // Constructors, getters, setters, and other methods
 //

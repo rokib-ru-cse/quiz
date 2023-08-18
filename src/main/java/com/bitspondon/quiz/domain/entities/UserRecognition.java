@@ -2,6 +2,9 @@
 //
 //
 //import jakarta.persistence.*;
+
+//import com.bitspondon.quiz.domain.entities.User;
+//import jakarta.persistence.*;
 //import lombok.*;
 //
 //import java.time.LocalDate;
@@ -48,7 +51,7 @@
 //                '}';
 //    }
 //}
-//
+
 
 /**
  * Explanation:

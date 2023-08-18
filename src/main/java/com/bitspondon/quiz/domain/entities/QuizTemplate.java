@@ -49,9 +49,9 @@
 //                '}';
 //    }
 //}
-//
-//
-//
+
+
+
 
 /**
  * A QuizTemplate table serves as a blueprint or a pre-defined structure for creating quizzes. It's used to store configurations and settings that define how a quiz should be composed. Here are some use cases for having a QuizTemplate table:
@@ -81,10 +81,6 @@
  * In educational institutions, quizzes might need to meet certain standards. Templates can help meet these standards by ensuring that quizzes are well-structured and aligned with educational objectives.
  *
  * Overall, the QuizTemplate table allows you to streamline the process of quiz creation, maintain consistency, and manage quizzes efficiently across different subjects, topics, and levels. It's a powerful tool for educators, curriculum designers, and administrators who want to provide standardized and high-quality quizzes to their students
- *
- *
- *
- *
  *
  *
  *

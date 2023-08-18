@@ -46,12 +46,12 @@
 
 /**
  * Explanation:
- * <p>
+ *
  * The LogEntry class represents log entries that capture user actions and events in the system.
  * It has a many-to-one relationship with the User entity, representing the user who performed the action (optional, depending on your use case).
  * The action field stores a description of the action or event that occurred.
  * The timestamp field is automatically populated with the creation timestamp of the log entry.
  * This class allows you to maintain a record of important user actions, system events, or other activities for auditing, troubleshooting, and monitoring purposes.
- * <p>
+ *
  * As always, customize the class according to your application's requirements, and consider adding appropriate methods for querying and managing log entries.
  */

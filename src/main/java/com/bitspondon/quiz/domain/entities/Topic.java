@@ -42,6 +42,15 @@
 
 
 /**
+ * level(class) -> subject -> chapter -> (topics)
+ *
+ *
+ * question
+ *
+ *
+ *
+ *
+ *
  * why we need topics table?
  *
  * The concept of a "topics" table can be quite useful in an educational quiz system, particularly when dealing with a large number of questions that cover different areas within a subject or chapter. Here's why you might consider having a separate "topics" table:
