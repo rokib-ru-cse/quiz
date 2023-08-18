@@ -5,7 +5,7 @@
         layout:decorate="~{layout/main}">
 <body>
 <div class="container-fluid" layout:fragment="content">
-    <a class="btn btn-primary" href="/quiz/create">Create</a>
+    <a class="btn btn-primary" th:href="${constants.ADMIN_URL.OLD_QUIZ_CREATE}">Create</a>
     <table class="table table-bordered table-hover">
         <thead class="thead-dark">
         <tr>
@@ -26,13 +26,13 @@
             <th style="text-align: center">Options</th>
         </tr>
         </thead>
-        <tbody th:if="${#lists.isEmpty(quizzes)}">
+        <tbody th:if="${#lists.isEmpty(constants.oldQuizList)}">
         <tr>
             <td colspan="3" style="color: red;">No Data found</td>
         </tr>
         </tbody>
         <tbody id="myTable">
-        <tr th:each="quiz : ${quizzes}">
+        <tr th:each="quiz : ${constants.oldQuizList}">
             <td th:text="${quiz.id}"></td>
             <td th:text="${quiz.title}"></td>
             <td th:text="${quiz.description}"></td>
@@ -48,10 +48,12 @@
             <td th:text="${quiz.endTime}"></td>
             <td th:text="${quiz.createdAt}"></td>
             <td class="d-flex">
-                <a th:href="@{/quiz/edit/{quizId}(quizId=${quiz.id})}" class="btn btn-danger btn-sm"> Edit</a>
-                <a th:href="@{/quiz/assignquestion/{quizId}(quizId=${quiz.id})}" class="btn btn-primary btn-sm"> Assign Question</a>
-                <a th:href="@{/quiz/details/{quizId}(quizId=${quiz.id})}" class="btn btn-success btn-sm"> Details</a>
-                <a th:href="@{/quiz/enroll/{quizId}(quizId=${quiz.id})}" class="btn btn-success btn-sm"> Enroll</a>
+                <a th:href="@{|${constants.ADMIN_URL.OLD_QUIZ_EDIT}/${quiz.id}|}" class="btn btn-danger btn-sm">
+                    Edit</a>
+                <a th:href="@{|${constants.ADMIN_URL.OLD_QUIZ_ASSIGN_QUESTION}/${quiz.id}|}"
+                   class="btn btn-primary btn-sm"> Assign Question</a>
+                <a th:href="@{|${constants.ADMIN_URL.OLD_QUIZ_DETAILS}/${quiz.id}|}" class="btn btn-primary btn-sm">
+                    Details</a>
             </td>
         </tr>
         </tbody>

@@ -2,7 +2,7 @@
 <html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" lang="en" layout:decorate="~{layout/main}">
 <body>
 <div class="container" layout:fragment="content">
-    <a class="btn btn-primary" th:href="${adminUrl.LEVEL_CREATE}">Create</a>
+    <a class="btn btn-primary" th:href="${constants.ADMIN_URL.LEVEL_CREATE}">Create</a>
     <table class="table table-bordered table-hover">
         <thead class="thead-dark">
         <tr>
@@ -13,18 +13,18 @@
             <th style="text-align: center">Options</th>
         </tr>
         </thead>
-        <tbody th:if="${#lists.isEmpty(constant.LEVEL_LIST)}">
+        <tbody th:if="${#lists.isEmpty(constants.levelList)}">
         <tr>
             <td colspan="3" style="color: red;">No Data found</td>
         </tr>
         </tbody>
         <tbody id="myTable">
-        <tr th:each="level : ${constant.LEVEL_LIST}">
+        <tr th:each="level : ${constants.levelList}">
             <td th:text="${level.id}"></td>
             <td th:text="${level.name}"></td>
             <td th:text="${level.active}"></td>
             <td th:text="${#dates.format(level.createdAt, 'yyyy-MM-dd HH:mm:ss')}"></td>
-            <td><a th:href="@{|${adminUrl.LEVEL_EDIT}/${level.id}|}" class="btn btn-danger"> Edit</a></td>
+            <td><a th:href="@{|${constants.ADMIN_URL.LEVEL_EDIT}/${level.id}|}" class="btn btn-danger"> Edit</a></td>
         </tr>
         </tbody>
     </table>

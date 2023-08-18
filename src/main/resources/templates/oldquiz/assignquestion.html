@@ -6,13 +6,13 @@
 <body>
 <div class="container" layout:fragment="content">
     <h1>Assign Questions to Quiz</h1>
-    <form th:action="${actionUrl}" th:object="${quiz}" method="post">
+    <form th:action="${constants.actionUrl}" th:object="${oldQuiz}" method="post">
         <h2>Quiz Details</h2>
-        <p>Quiz Title: <span th:text="${quiz.title}"></span></p>
+        <p>Quiz Title: <span th:text="${oldQuiz.title}"></span></p>
 
         <h2>Available Questions</h2>
         <ul>
-            <li th:each="question : ${questions}">
+            <li th:each="question : ${constants.questionList}">
                 <label>
                     <input type="checkbox" th:field="*{questions}" th:value="${question.id}" />
                     <span th:text="${question.description}"></span>

@@ -20,21 +20,12 @@ public class LevelAdminController {
     @Autowired
     private ILevelUseCase levelUseCase;
 
-//    @GetMapping(AdminUrl.LEVEL_INDEX)
-//    public ModelAndView index() {
-//        ModelAndView model = new ModelAndView(AdminUrl.LEVEL_INDEX);
-//        model.addObject("constants", new Constant()); // Add the constant class to the model
-////        model.addObject(Constant.LEVEL_LIST, levelUseCase.getLevels());
-//        return model;
-//    }
-
     @GetMapping(AdminUrl.LEVEL_INDEX)
     public ModelAndView index() {
         ModelAndView model = new ModelAndView(AdminUrl.LEVEL_INDEX);
         Constant constants = new Constant();
-        constants.LEVEL_LIST = levelUseCase.getLevels();
-        model.addObject(Constant.CONSTANT, constants);
-        model.addObject(Constant.ADMIN_URL, new AdminUrl());
+        constants.setLevelList(levelUseCase.getLevels());
+        model.addObject(Constant.CONSTANTS, constants);
         return model;
     }
 
@@ -42,8 +33,10 @@ public class LevelAdminController {
     @GetMapping(AdminUrl.LEVEL_CREATE)
     public ModelAndView create() {
         ModelAndView model = new ModelAndView(AdminUrl.LEVEL_CREATE);
+        Constant constants = new Constant();
+        constants.setActionUrl(AdminUrl.LEVEL_CREATE);
+        model.addObject(Constant.CONSTANTS, constants);
         model.addObject(Constant.LEVEL, new Level());
-        model.addObject(Constant.ACTION_URL, AdminUrl.LEVEL_CREATE);
         return model;
     }
 
@@ -56,16 +49,17 @@ public class LevelAdminController {
     @GetMapping(AdminUrl.LEVEL_EDIT + "/{" + Constant.LEVEL_ID + "}")
     public ModelAndView edit(@PathVariable(Constant.LEVEL_ID) Long levelId) {
         ModelAndView model = new ModelAndView(AdminUrl.LEVEL_CREATE);
-        Level level = levelUseCase.getLevel(levelId);
-        model.addObject(Constant.LEVEL, level);
-        model.addObject(Constant.ACTION_URL, AdminUrl.LEVEL_EDIT + "/" + levelId);
+        Constant constants = new Constant();
+        constants.setActionUrl(AdminUrl.LEVEL_EDIT + "/" + levelId);
+        model.addObject(Constant.CONSTANTS, constants);
+        model.addObject(Constant.LEVEL, levelUseCase.getLevel(levelId));
         return model;
     }
 
     @PostMapping(AdminUrl.LEVEL_EDIT + "/{" + Constant.LEVEL_ID + "}")
-    public String edit(@PathVariable(Constant.LEVEL_ID) Long levelId, @ModelAttribute(Constant.LEVEL) Level level) {
-        level.setId(levelId);
-        levelUseCase.updateLevel(level);
+    public String edit(@PathVariable(Constant.LEVEL_ID) Long levelId, @ModelAttribute(Constant.LEVEL) Level levelObject) {
+        levelObject.setId(levelId);
+        levelUseCase.updateLevel(levelObject);
         return AdminUrl.LEVEL_REDIRECT_TO_INDEX;
     }
 

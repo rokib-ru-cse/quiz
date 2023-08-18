@@ -5,7 +5,7 @@
         layout:decorate="~{layout/main}">
 <body>
 <div class="container" layout:fragment="content">
-    <form class="needs-validation" th:action="${actionUrl}"
+    <form class="needs-validation" th:action="${constants.actionUrl}"
           th:object="${level}" method="post">
         <div class="form-group">
             <label class="col-md-4 control-label">Name</label>

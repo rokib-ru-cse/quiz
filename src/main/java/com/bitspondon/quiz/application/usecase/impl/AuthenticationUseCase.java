@@ -2,7 +2,6 @@ package com.bitspondon.quiz.application.usecase.impl;
 
 import com.bitspondon.quiz.application.repository.IUserRepository;
 import com.bitspondon.quiz.application.usecase.IAuthenticationUseCase;
-import com.bitspondon.quiz.domain.AllEnums;
 import com.bitspondon.quiz.domain.constant.Constant;
 import com.bitspondon.quiz.domain.dto.auth.AuthenticationRequest;
 import com.bitspondon.quiz.domain.dto.auth.AuthenticationResponse;

@@ -5,7 +5,7 @@
         layout:decorate="~{layout/main}">
 <body>
 <div class="container" layout:fragment="content">
-    <a class="btn btn-primary" href="/chapter/create">Create</a>
+    <a class="btn btn-primary" th:href="${constants.ADMIN_URL.CHAPTER_CREATE}">Create</a>
     <table class="table table-bordered table-hover">
         <thead class="thead-dark">
         <tr>
@@ -17,13 +17,13 @@
             <th style="text-align: center">Options</th>
         </tr>
         </thead>
-        <tbody th:if="${#lists.isEmpty(chapters)}">
+        <tbody th:if="${#lists.isEmpty(constants.chapterList)}">
         <tr>
             <td colspan="3" style="color: red;">No Data found</td>
         </tr>
         </tbody>
         <tbody id="myTable">
-        <tr th:each="chapter : ${chapters}">
+        <tr th:each="chapter : ${constants.chapterList}">
             <td th:text="${chapter.id}"></td>
             <td th:text="${chapter.name}"></td>
             <td th:text="${chapter.active}"></td>

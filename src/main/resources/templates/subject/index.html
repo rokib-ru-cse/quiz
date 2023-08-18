@@ -5,7 +5,7 @@
         layout:decorate="~{layout/main}">
 <body>
 <div class="container" layout:fragment="content">
-    <a class="btn btn-primary" href="/subject/create">Create</a>
+    <a class="btn btn-primary" th:href="${constants.ADMIN_URL.SUBJECT_CREATE}">Create</a>
     <table class="table table-bordered table-hover">
         <thead class="thead-dark">
         <tr>
@@ -17,19 +17,21 @@
             <th style="text-align: center">Options</th>
         </tr>
         </thead>
-        <tbody th:if="${#lists.isEmpty(subjects)}">
+        <tbody th:if="${#lists.isEmpty(constants.subjectList)}">
         <tr>
             <td colspan="3" style="color: red;">No Data found</td>
         </tr>
         </tbody>
         <tbody id="myTable">
-        <tr th:each="subject : ${subjects}">
+        <tr th:each="subject : ${constants.subjectList}">
             <td th:text="${subject.id}"></td>
             <td th:text="${subject.name}"></td>
             <td th:text="${subject.active}"></td>
             <td th:text="${subject.level.name}"></td>
             <td th:text="${subject.createdAt}"></td>
-            <td><a th:href="@{/subject/edit/{subjectId}(subjectId=${subject.id})}" class="btn btn-danger"> Edit</a></td>
+<!--            <td><a th:href="@{/subject/edit/{subjectId}(subjectId=${subject.id})}" class="btn btn-danger"> Edit</a></td>-->
+            <td><a th:href="@{|${constants.ADMIN_URL.SUBJECT_EDIT}/${subject.id}|}" class="btn btn-danger"> Edit</a></td>
+
         </tr>
         </tbody>
     </table>

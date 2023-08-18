@@ -5,7 +5,7 @@
         layout:decorate="~{layout/main}">
 <body>
 <div class="container" layout:fragment="content">
-    <form class="needs-validation" th:action="${actionUrl}"
+    <form class="needs-validation" th:action="${constants.actionUrl}"
           th:object="${question}" method="post">
         <div class="row">
             <div class="col-6 col-md-6">
@@ -32,7 +32,7 @@
                     <label class="col-md-4 control-label">Level</label>
                     <select th:field="*{level}" class="form-control" required>
                         <option value="">Select Level</option>
-                        <option th:each="levelOption : ${levelOptions}" th:value="${levelOption.id}"
+                        <option th:each="levelOption : ${constants.levelList}" th:value="${levelOption.id}"
                                 th:text="${levelOption.name}"></option>
                     </select>
                 </div>
@@ -40,7 +40,7 @@
                     <label class="col-md-4 control-label">Subject</label>
                     <select th:field="*{subject}" class="form-control" required>
                         <option value="">Select Subject</option>
-                        <option th:each="subjectOption : ${subjectOptions}" th:value="${subjectOption.id}"
+                        <option th:each="subjectOption : ${constants.subjectList}" th:value="${subjectOption.id}"
                                 th:text="${subjectOption.name}"></option>
                     </select>
                 </div>
@@ -48,7 +48,7 @@
                     <label class="col-md-4 control-label">Chapter</label>
                     <select th:field="*{chapter}" class="form-control" required>
                         <option value="">Select Chapter</option>
-                        <option th:each="chapterOption : ${chapterOptions}" th:value="${chapterOption.id}"
+                        <option th:each="chapterOption : ${constants.chapterList}" th:value="${chapterOption.id}"
                                 th:text="${chapterOption.name}"></option>
                     </select>
                 </div>
@@ -103,13 +103,15 @@
 
 
     <script>
+        let optionCount = 0;
         $(document).ready(function () {
             // alert("hi from question");
+            optionCount = $("#optionTable").find("tr").length;
         });
-        let optionCount = 1;
+
 
         function addOption() {
-            console.log("from add option");
+            console.log("from add option" ,optionCount);
             let newRow = `<tr id="row_${optionCount}">
                     <td><input name="optionList[${optionCount}].name" type="text" placeholder="Enter Option" class="form-control" /></td>
                     <td>

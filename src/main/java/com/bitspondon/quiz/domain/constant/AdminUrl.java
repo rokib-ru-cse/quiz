@@ -23,21 +23,21 @@ public final class AdminUrl {
     public static final String QUESTION_EDIT = "/question/edit";
     public static final String QUESTION_REDIRECT_TO_INDEX = "redirect:" + QUESTION_INDEX;
 
-    public static final String LIVEQUIZ_INDEX = "/livequiz/index";
-    public static final String LIVEQUIZ_CREATE = "/livequiz/create";
-    public static final String LIVEQUIZ_EDIT = "/livequiz/edit";
-    public static final String LIVEQUIZ_ASSIGN_QUESTION = "/livequiz/assignquestion";
-    public static final String LIVEQUIZ_DETAILS = "/livequiz/details";
-    public static final String LIVEQUIZ_ENROLL = "/livequiz/enroll";
-    public static final String LIVEQUIZ_REDIRECT_TO_INDEX = "redirect:" + LIVEQUIZ_INDEX;
-    public static final String LIVEQUIZ_REDIRECT_TO_DETAILS = "redirect:" + LIVEQUIZ_DETAILS;
+    public static final String LIVE_QUIZ_INDEX = "/livequiz/index";
+    public static final String LIVE_QUIZ_CREATE = "/livequiz/create";
+    public static final String LIVE_QUIZ_EDIT = "/livequiz/edit";
+    public static final String LIVE_QUIZ_ASSIGN_QUESTION = "/livequiz/assignquestion";
+    public static final String LIVE_QUIZ_DETAILS = "/livequiz/details";
+    public static final String LIVE_QUIZ_ENROLL = "/livequiz/enroll";
+    public static final String LIVE_QUIZ_REDIRECT_TO_INDEX = "redirect:" + LIVE_QUIZ_INDEX;
+    public static final String LIVE_QUIZ_REDIRECT_TO_DETAILS = "redirect:" + LIVE_QUIZ_DETAILS;
 
-    public static final String OLDQUIZ_INDEX = "/oldquiz/index";
-    public static final String OLDQUIZ_CREATE = "/oldquiz/create";
-    public static final String OLDQUIZ_EDIT = "/oldquiz/edit";
-    public static final String OLDQUIZ_ASSIGN_QUESTION = "/oldquiz/assignquestion";
-    public static final String OLDQUIZ_DETAILS = "/oldquiz/details";
-    public static final String OLDQUIZ_REDIRECT_TO_INDEX = "redirect:" + OLDQUIZ_INDEX;
+    public static final String OLD_QUIZ_INDEX = "/oldquiz/index";
+    public static final String OLD_QUIZ_CREATE = "/oldquiz/create";
+    public static final String OLD_QUIZ_EDIT = "/oldquiz/edit";
+    public static final String OLD_QUIZ_ASSIGN_QUESTION = "/oldquiz/assignquestion";
+    public static final String OLD_QUIZ_DETAILS = "/oldquiz/details";
+    public static final String OLD_QUIZ_REDIRECT_TO_INDEX = "redirect:" + OLD_QUIZ_INDEX;
 
     public static final String USER_INDEX = "/user/index";
     public static final String USER_CREATE = "/user/create";
