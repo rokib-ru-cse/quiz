@@ -27,7 +27,7 @@ public class SubjectHelper {
                 levelMap.put(level.getLevelCode(), level);
             }
 
-            for (int levelIndex = 0; levelIndex <= workbook.getNumberOfSheets(); levelIndex++) {
+            for (int levelIndex = 0; levelIndex < workbook.getNumberOfSheets(); levelIndex++) {
                 XSSFSheet sheet = workbook.getSheetAt(levelIndex);
                 String sheetName = sheet.getSheetName();
 

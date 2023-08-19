@@ -12,6 +12,8 @@ public interface IQuestionUseCase {
 
     Question saveQuestion(Question question);
 
+//     void processQuestionExcelFile(MultipartFile file);
+
     List<Question> saveQuestions(MultipartFile file) throws Exception;
 
     Question updateQuestion(Question question);

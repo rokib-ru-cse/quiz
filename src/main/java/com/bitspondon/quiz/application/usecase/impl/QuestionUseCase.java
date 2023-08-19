@@ -10,6 +10,7 @@ import com.bitspondon.quiz.domain.constant.ValidationMessage;
 import com.bitspondon.quiz.domain.dto.question.OptionDTO;
 import com.bitspondon.quiz.domain.entities.Question;
 import com.bitspondon.quiz.domain.exception.CustomException;
+import com.bitspondon.quiz.domain.helper.QuestionHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -31,6 +32,12 @@ public class QuestionUseCase implements IQuestionUseCase {
 
     @Autowired
     private ILevelRepository levelRepository;
+
+//    @Autowired
+//    private JobLauncher jobLauncher;
+//
+//    @Autowired
+//    private Job importJob;
 
 
     @Override
@@ -78,14 +85,31 @@ public class QuestionUseCase implements IQuestionUseCase {
         return savedQuestion;
     }
 
+//    @Override
+//    public void processQuestionExcelFile(MultipartFile file) {
+//        try {
+//            // Save the uploaded file to a temporary location
+//            Path tempFile = Files.createTempFile("questions", ".xlsx");
+//            file.transferTo(tempFile.toFile());
+//
+//            // Start the Spring Batch job
+//            JobParameters jobParameters = new JobParametersBuilder()
+//                    .addString("input.file.name", tempFile.toString())
+//                    .toJobParameters();
+//            jobLauncher.run(importJob, jobParameters);
+//        } catch (Exception e) {
+//            // Handle exceptions
+//        }
+//    }
+
     @Override
     public List<Question> saveQuestions(MultipartFile file) throws Exception {
         if (!Util.checkExcelFormat(file)) {
             throw new CustomException(ValidationMessage.EXCEL_FILE_FORMAT_NOT_MATCHED);
         }
-
-
-        return null;
+        List<Question> questionList = QuestionHelper.convertExcelToListOfQuestions(file.getInputStream(),questionRepository,levelRepository,subjectRepository, chapterRepository);
+        questionList = questionRepository.saveAll(questionList);
+        return questionList;
     }
 
 

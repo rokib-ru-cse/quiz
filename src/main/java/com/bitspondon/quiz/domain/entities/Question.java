@@ -1,9 +1,11 @@
 package com.bitspondon.quiz.domain.entities;
 
+import com.bitspondon.quiz.domain.AllEnums;
 import com.bitspondon.quiz.domain.dto.question.OptionDTO;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
@@ -27,8 +29,10 @@ public class Question {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     @NotNull(message = "title is required")
-    @Min(3)
     private String title;
+    @Column(unique = true)
+    @Nullable
+    private String questionCode;
     private String image;
     private String icon;
     private boolean isActive;
@@ -59,7 +63,7 @@ public class Question {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = true)
-    private DifficultyLevelEnum difficultyLevel; // This field stores the difficulty level as an enum
+    private AllEnums.DifficultyLevelEnum difficultyLevel; // This field stores the difficulty level as an enum
 
     @Column(columnDefinition = "TEXT")
     @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -124,6 +128,4 @@ public class Question {
     }
 }
 
-enum DifficultyLevelEnum {
-    EASY, MEDIUM, HARD
-}
+
