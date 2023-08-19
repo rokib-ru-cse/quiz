@@ -1,7 +1,6 @@
 package com.bitspondon.quiz.domain.entities;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
@@ -19,8 +18,12 @@ public class Subject {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     @NotNull(message = "name is required")
-    @Min(3)
     private String name;
+
+    @Column(unique = true)
+    @NotNull(message = "subjectCode is required")
+    private String subjectCode;
+
     private String image;
     private String icon;
     private boolean isActive;
@@ -30,5 +33,5 @@ public class Subject {
     private Level level;
 
     @Transient
-    private int levelId;
+    private long levelId;
 }

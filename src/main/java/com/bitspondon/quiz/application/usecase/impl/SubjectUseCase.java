@@ -1,12 +1,16 @@
 package com.bitspondon.quiz.application.usecase.impl;
 
-import com.bitspondon.quiz.domain.entities.Subject;
 import com.bitspondon.quiz.application.repository.ILevelRepository;
 import com.bitspondon.quiz.application.repository.ISubjectRepository;
 import com.bitspondon.quiz.application.usecase.ISubjectUseCase;
 import com.bitspondon.quiz.domain.Util;
+import com.bitspondon.quiz.domain.constant.ValidationMessage;
+import com.bitspondon.quiz.domain.entities.Subject;
+import com.bitspondon.quiz.domain.exception.CustomException;
+import com.bitspondon.quiz.domain.helper.SubjectHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Date;
 import java.util.List;
@@ -40,6 +44,16 @@ public class SubjectUseCase implements ISubjectUseCase {
         Subject savedSubject = subjectRepository.save(subjectRequest);
         return savedSubject;
 //        return  ReturnReponse.<Subject>builder().message("Subject Saved Successfully").succeeded(true).value(savedSubject).build();
+    }
+
+    @Override
+    public List<Subject> saveSubjects(MultipartFile file) throws Exception {
+        if (!Util.checkExcelFormat(file)) {
+            throw new CustomException(ValidationMessage.EXCEL_FILE_FORMAT_NOT_MATCHED);
+        }
+        List<Subject> subjectList = SubjectHelper.convertExcelToListOfSubjects(file.getInputStream(),subjectRepository, levelRepository);
+        subjectList = subjectRepository.saveAll(subjectList);
+        return subjectList;
     }
 
     @Override

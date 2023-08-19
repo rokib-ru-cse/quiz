@@ -5,11 +5,14 @@ public final class AdminUrl {
 
     public static final String LEVEL_INDEX = "/level/index";
     public static final String LEVEL_CREATE = "/level/create";
+    public static final String LEVEL_UPLOAD = "/level/upload";
     public static final String LEVEL_EDIT = "/level/edit";
     public static final String LEVEL_REDIRECT_TO_INDEX = "redirect:" + LEVEL_INDEX;
 
     public static final String SUBJECT_INDEX = "/subject/index";
     public static final String SUBJECT_CREATE = "/subject/create";
+    public static final String SUBJECT_UPLOAD = "/subject/upload";
+
     public static final String SUBJECT_EDIT = "/subject/edit";
     public static final String SUBJECT_REDIRECT_TO_INDEX = "redirect:" + SUBJECT_INDEX;
 

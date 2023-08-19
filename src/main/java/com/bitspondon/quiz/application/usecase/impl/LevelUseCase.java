@@ -1,11 +1,15 @@
 package com.bitspondon.quiz.application.usecase.impl;
 
 import com.bitspondon.quiz.application.repository.ILevelRepository;
-import com.bitspondon.quiz.domain.Util;
-import com.bitspondon.quiz.domain.entities.Level;
 import com.bitspondon.quiz.application.usecase.ILevelUseCase;
+import com.bitspondon.quiz.domain.Util;
+import com.bitspondon.quiz.domain.constant.ValidationMessage;
+import com.bitspondon.quiz.domain.entities.Level;
+import com.bitspondon.quiz.domain.exception.CustomException;
+import com.bitspondon.quiz.domain.helper.LevelHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Date;
 import java.util.List;
@@ -27,10 +31,20 @@ public class LevelUseCase implements ILevelUseCase {
     }
 
     @Override
-    public Level saveLevels(Level levelRequest) {
+    public Level saveLevel(Level levelRequest) {
         levelRequest.setCreatedAt(new Date());
         levelRequest.setUpdatedAt(new Date());
         return levelRepository.save(levelRequest);
+    }
+
+    @Override
+    public List<Level> saveLevels(MultipartFile file) throws Exception {
+        if (!Util.checkExcelFormat(file)) {
+            throw new CustomException(ValidationMessage.EXCEL_FILE_FORMAT_NOT_MATCHED);
+        }
+        List<Level> levelList = LevelHelper.convertExcelToListOfLevel(file.getInputStream(),levelRepository);
+        levelRepository.saveAll(levelList);
+        return levelList;
     }
 
     @Override

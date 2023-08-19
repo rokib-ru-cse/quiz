@@ -12,6 +12,7 @@ import java.util.List;
 public class Constant {
     // all constant
     public static final AdminUrl ADMIN_URL = new AdminUrl();
+    // used for entity
     public static final String CONSTANTS = "constants";
     public static final String ROLE_ADMIN = "ROLE_ADMIN";
     public static final String ROLE_USER = "ROLE_USER";
@@ -32,6 +33,19 @@ public class Constant {
     public static final String LIVE_QUIZ_ID = "liveQuizId";
     public static final String LIVE_QUIZ = "liveQuiz";
     public static final String LIVE_QUIZ_LIST = "liveQuizList";
+
+
+    //excel section
+    public static final String XLS_FORMAT = "application/vnd.ms-excel";
+    public static final String XLSX_FORMAT = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+    public static final String LEVEL_EXCEL_FILE_NAME = "level";
+    public static final String EXCEL_FILE_TRUE = "true";
+
+
+    // used in different section
+    public static final String MULTIPART_FILE_REQUEST_PARAM_NAME = "file";
+
+
     // all objects and list
 
     private String actionUrl = "";
@@ -41,5 +55,5 @@ public class Constant {
     private List<Question> questionList = null;
     private List<OptionDTO> questionOptions = null;
     private List<OldQuiz> oldQuizList = null;
-    private List<LiveQuiz> liveQuizList= null;
+    private List<LiveQuiz> liveQuizList = null;
 }

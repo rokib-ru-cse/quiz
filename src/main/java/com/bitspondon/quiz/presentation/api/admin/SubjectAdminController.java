@@ -6,16 +6,16 @@ import com.bitspondon.quiz.domain.constant.AdminUrl;
 import com.bitspondon.quiz.domain.constant.Constant;
 import com.bitspondon.quiz.domain.entities.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-@PreAuthorize("hasRole('" + Constant.ROLE_ADMIN + "')")
+//@PreAuthorize("hasRole('" + Constant.ROLE_ADMIN + "')")
 public class SubjectAdminController {
 
     @Autowired
@@ -48,6 +48,12 @@ public class SubjectAdminController {
     @PostMapping(AdminUrl.SUBJECT_CREATE)
     public String saveSubject(@ModelAttribute(Constant.SUBJECT) Subject subject) {
         subjectUseCase.saveSubject(subject);
+        return AdminUrl.SUBJECT_REDIRECT_TO_INDEX;
+    }
+
+    @PostMapping(AdminUrl.SUBJECT_UPLOAD)
+    public String saveLevels(@ModelAttribute(Constant.MULTIPART_FILE_REQUEST_PARAM_NAME) MultipartFile file) throws Exception {
+        subjectUseCase.saveSubjects(file);
         return AdminUrl.SUBJECT_REDIRECT_TO_INDEX;
     }
 

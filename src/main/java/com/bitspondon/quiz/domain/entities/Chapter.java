@@ -21,6 +21,11 @@ public class Chapter {
     @NotNull(message = "name is required")
     @Min(3)
     private String name;
+
+    @Column(unique = true)
+    @NotNull(message = "chapterCode is required")
+    private String chapterCode;
+
     private String image;
     private String icon;
     private boolean isActive;

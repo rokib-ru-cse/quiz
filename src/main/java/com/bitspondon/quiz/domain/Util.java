@@ -5,6 +5,7 @@ import com.bitspondon.quiz.domain.dto.question.OptionDTO;
 import com.bitspondon.quiz.domain.entities.Question;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +27,7 @@ public class Util {
         return authentication != null && authentication.getAuthorities().stream().anyMatch(authority -> authority.getAuthority().equals(Constant.ROLE_ADMIN));
     }
 
-  public   static void getQuestionWithOptionsAndAnswer(Question question) {
+    public static void getQuestionWithOptionsAndAnswer(Question question) {
         List<String> optionsList = question.getOptions();
         List<OptionDTO> optionDTOList = new ArrayList<>();
         for (String option : optionsList) {
@@ -39,5 +40,13 @@ public class Util {
         }
         question.setOptionList(optionDTOList);
     }
+
+    public static boolean checkExcelFormat(MultipartFile file) {
+        String type = file.getContentType();
+        return type.equals(Constant.XLS_FORMAT) || type.equals(Constant.XLSX_FORMAT);
+    }
+
+
+
 
 }
