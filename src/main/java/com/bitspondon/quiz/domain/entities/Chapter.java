@@ -1,7 +1,6 @@
 package com.bitspondon.quiz.domain.entities;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
@@ -19,7 +18,6 @@ public class Chapter {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     @NotNull(message = "name is required")
-    @Min(3)
     private String name;
 
     @Column(unique = true)

@@ -29,7 +29,7 @@ public class SubjectHelper {
 
             for (int levelIndex = 0; levelIndex <= workbook.getNumberOfSheets(); levelIndex++) {
                 XSSFSheet sheet = workbook.getSheetAt(levelIndex);
-                String levelName = sheet.getSheetName();
+                String sheetName = sheet.getSheetName();
 
                 final int NAME_COLUMN = 0;
                 final int IMAGE_COLUMN = 1;
@@ -44,7 +44,6 @@ public class SubjectHelper {
                 Level level = levelMap.get(levelCode);
                 if (level == null) {
                     // Handle the case where the level is not found in the database
-                    // You might want to log a warning or take appropriate action
                     continue; // Skip processing this sheet
                 }
 

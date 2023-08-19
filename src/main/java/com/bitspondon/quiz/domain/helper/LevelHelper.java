@@ -47,8 +47,8 @@ public class LevelHelper {
                 level.setImage(imageCell.getStringCellValue());
                 level.setIcon(iconCell.getStringCellValue());
                 level.setActive(activeCell.getBooleanCellValue());
-                level.setLevelCode(levelCodeList.get(rowIndex - 1));
                 lastUsedLevelCode = levelCodeList.get(rowIndex - 1);
+                level.setLevelCode(lastUsedLevelCode);
                 level.setCreatedAt(new Date());
                 level.setUpdatedAt(new Date());
 

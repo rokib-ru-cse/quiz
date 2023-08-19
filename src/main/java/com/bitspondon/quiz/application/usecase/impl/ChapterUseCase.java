@@ -4,9 +4,13 @@ import com.bitspondon.quiz.application.repository.IChapterRepository;
 import com.bitspondon.quiz.application.repository.ISubjectRepository;
 import com.bitspondon.quiz.application.usecase.IChapterUseCase;
 import com.bitspondon.quiz.domain.Util;
+import com.bitspondon.quiz.domain.constant.ValidationMessage;
 import com.bitspondon.quiz.domain.entities.Chapter;
+import com.bitspondon.quiz.domain.exception.CustomException;
+import com.bitspondon.quiz.domain.helper.ChapterHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Date;
 import java.util.List;
@@ -43,6 +47,17 @@ public class ChapterUseCase implements IChapterUseCase {
 //        return ReturnReponse.<Chapter>builder().message("data saved successfully").succeeded(true)
 //                .value(savedChapter).build();
     }
+
+    @Override
+    public List<Chapter> saveChapters(MultipartFile file) throws Exception {
+        if (!Util.checkExcelFormat(file)) {
+            throw new CustomException(ValidationMessage.EXCEL_FILE_FORMAT_NOT_MATCHED);
+        }
+        List<Chapter> chapterList = ChapterHelper.convertExcelToListOfChapters(file.getInputStream(), chapterRepository, subjectRepository);
+        chapterList = chapterRepository.saveAll(chapterList);
+        return chapterList;
+    }
+
 
     @Override
     public Chapter updateChapter(Chapter chapter) {

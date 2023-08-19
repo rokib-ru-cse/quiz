@@ -8,16 +8,22 @@ import com.bitspondon.quiz.domain.constant.AdminUrl;
 import com.bitspondon.quiz.domain.constant.Constant;
 import com.bitspondon.quiz.domain.dto.question.OptionDTO;
 import com.bitspondon.quiz.domain.entities.Question;
+import org.springframework.batch.core.*;
+import org.springframework.batch.core.launch.JobLauncher;
+import org.springframework.batch.core.repository.JobExecutionAlreadyRunningException;
+import org.springframework.batch.core.repository.JobInstanceAlreadyCompleteException;
+import org.springframework.batch.core.repository.JobRestartException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.io.File;
 import java.util.ArrayList;
 
 @Controller
@@ -33,6 +39,12 @@ public class QuestionAdminController {
     private ISubjectUseCase subjectUseCase;
     @Autowired
     private ILevelUseCase levelUseCase;
+
+    @Autowired
+    private JobLauncher jobLauncher;
+
+    @Autowired
+    private Job job;
 
     @GetMapping(AdminUrl.QUESTION_INDEX)
     public ModelAndView getQuestions() {
@@ -60,6 +72,27 @@ public class QuestionAdminController {
     @PostMapping(AdminUrl.QUESTION_CREATE)
     public String saveQuestion(@ModelAttribute(Constant.QUESTION) Question question) {
         questionUseCase.saveQuestion(question);
+        return AdminUrl.QUESTION_REDIRECT_TO_INDEX;
+    }
+
+    @PostMapping(AdminUrl.QUESTION_UPLOAD)
+    public String saveQuestions(@ModelAttribute(Constant.MULTIPART_FILE_REQUEST_PARAM_NAME) MultipartFile file) throws Exception {
+
+        String originalFileName = file.getOriginalFilename();
+        File fileToImport = new File(originalFileName);
+        JobParameters jobParameters = new JobParametersBuilder()
+                .addString("fullPathFileName", fileToImport.getAbsolutePath())
+                .addLong("startAt", System.currentTimeMillis())
+                .toJobParameters();
+
+
+        try {
+            JobExecution jobExecution = jobLauncher.run(job, jobParameters);
+        } catch (JobExecutionAlreadyRunningException | JobRestartException | JobInstanceAlreadyCompleteException |
+                 JobParametersInvalidException e) {
+            e.printStackTrace();
+        }
+//        questionUseCase.saveQuestions(file);
         return AdminUrl.QUESTION_REDIRECT_TO_INDEX;
     }
 

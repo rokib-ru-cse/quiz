@@ -6,16 +6,16 @@ import com.bitspondon.quiz.domain.constant.AdminUrl;
 import com.bitspondon.quiz.domain.constant.Constant;
 import com.bitspondon.quiz.domain.entities.Chapter;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-@PreAuthorize("hasRole('" + Constant.ROLE_ADMIN + "')")
+//@PreAuthorize("hasRole('" + Constant.ROLE_ADMIN + "')")
 public class ChapterAdminController {
 
     @Autowired
@@ -48,6 +48,12 @@ public class ChapterAdminController {
     @PostMapping(AdminUrl.CHAPTER_CREATE)
     public String saveChapter(@ModelAttribute(Constant.CHAPTER) Chapter chapter) {
         chapterUseCase.saveChapter(chapter);
+        return AdminUrl.CHAPTER_REDIRECT_TO_INDEX;
+    }
+
+    @PostMapping(AdminUrl.CHAPTER_UPLOAD)
+    public String saveChapter(@ModelAttribute(Constant.MULTIPART_FILE_REQUEST_PARAM_NAME) MultipartFile file) throws Exception {
+        chapterUseCase.saveChapters(file);
         return AdminUrl.CHAPTER_REDIRECT_TO_INDEX;
     }
 

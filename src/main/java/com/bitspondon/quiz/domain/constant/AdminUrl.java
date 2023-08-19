@@ -18,11 +18,13 @@ public final class AdminUrl {
 
     public static final String CHAPTER_INDEX = "/chapter/index";
     public static final String CHAPTER_CREATE = "/chapter/create";
+    public static final String CHAPTER_UPLOAD = "/chapter/upload";
     public static final String CHAPTER_EDIT = "/chapter/edit";
     public static final String CHAPTER_REDIRECT_TO_INDEX = "redirect:" + CHAPTER_INDEX;
 
     public static final String QUESTION_INDEX = "/question/index";
     public static final String QUESTION_CREATE = "/question/create";
+    public static final String QUESTION_UPLOAD = "/question/upload";
     public static final String QUESTION_EDIT = "/question/edit";
     public static final String QUESTION_REDIRECT_TO_INDEX = "redirect:" + QUESTION_INDEX;
 

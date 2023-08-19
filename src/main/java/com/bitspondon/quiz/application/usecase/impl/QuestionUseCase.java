@@ -6,10 +6,13 @@ import com.bitspondon.quiz.application.repository.IQuestionRepository;
 import com.bitspondon.quiz.application.repository.ISubjectRepository;
 import com.bitspondon.quiz.application.usecase.IQuestionUseCase;
 import com.bitspondon.quiz.domain.Util;
+import com.bitspondon.quiz.domain.constant.ValidationMessage;
 import com.bitspondon.quiz.domain.dto.question.OptionDTO;
 import com.bitspondon.quiz.domain.entities.Question;
+import com.bitspondon.quiz.domain.exception.CustomException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -73,6 +76,16 @@ public class QuestionUseCase implements IQuestionUseCase {
 
         Question savedQuestion = questionRepository.save(questionRequest);
         return savedQuestion;
+    }
+
+    @Override
+    public List<Question> saveQuestions(MultipartFile file) throws Exception {
+        if (!Util.checkExcelFormat(file)) {
+            throw new CustomException(ValidationMessage.EXCEL_FILE_FORMAT_NOT_MATCHED);
+        }
+
+
+        return null;
     }
 
 
