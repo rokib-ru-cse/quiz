@@ -87,7 +87,7 @@ public class SubjectHelper {
         return subjectList;
     }
 
-    private static List<String> generateSubjectCode(ISubjectRepository subjectRepository, int totalNeededCode, String lastSubjectCode) {
+    public static List<String> generateSubjectCode(ISubjectRepository subjectRepository, int totalNeededCode, String lastSubjectCode) {
         List<String> subjectCodes = new ArrayList<>();
 
         if (lastSubjectCode != null) {

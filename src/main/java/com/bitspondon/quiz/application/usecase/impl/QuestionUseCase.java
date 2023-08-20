@@ -80,6 +80,7 @@ public class QuestionUseCase implements IQuestionUseCase {
         questionRequest.setAnswers(answersList);
         questionRequest.setUpdatedAt(new Date());
         questionRequest.setCreatedAt(new Date());
+        questionRequest.setQuestionCode(QuestionHelper.generateQuestionCode(questionRepository,1,null).get(0));
 
         Question savedQuestion = questionRepository.save(questionRequest);
         return savedQuestion;
@@ -148,7 +149,6 @@ public class QuestionUseCase implements IQuestionUseCase {
         dbQuestion.setLevel(questionRequest.getLevel());
         dbQuestion.setSubject(questionRequest.getSubject());
         dbQuestion.setChapter(questionRequest.getChapter());
-
         return questionRepository.save(dbQuestion);
     }
 

@@ -9,7 +9,7 @@
     <table class="table table-bordered table-hover">
         <thead class="thead-dark">
         <tr>
-            <th>ID</th>
+            <th>ChapterCode</th>
             <th>Chapter Name</th>
             <th>IsActive</th>
             <th>Subject</th>
@@ -24,7 +24,7 @@
         </tbody>
         <tbody id="myTable">
         <tr th:each="chapter : ${constants.chapterList}">
-            <td th:text="${chapter.id}"></td>
+            <td th:text="${chapter.chapterCode}"></td>
             <td th:text="${chapter.name}"></td>
             <td th:text="${chapter.active}"></td>
             <td th:text="${chapter.subject.name}"></td>

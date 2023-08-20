@@ -41,6 +41,7 @@ public class SubjectUseCase implements ISubjectUseCase {
         subjectRequest.setUpdatedAt(new Date());
         subjectRequest.setCreatedAt(new Date());
 //        subjectRequest.setLevel(level);
+        subjectRequest.setSubjectCode(SubjectHelper.generateSubjectCode(subjectRepository, 1, null).get(0));
         Subject savedSubject = subjectRepository.save(subjectRequest);
         return savedSubject;
 //        return  ReturnReponse.<Subject>builder().message("Subject Saved Successfully").succeeded(true).value(savedSubject).build();
@@ -51,7 +52,7 @@ public class SubjectUseCase implements ISubjectUseCase {
         if (!Util.checkExcelFormat(file)) {
             throw new CustomException(ValidationMessage.EXCEL_FILE_FORMAT_NOT_MATCHED);
         }
-        List<Subject> subjectList = SubjectHelper.convertExcelToListOfSubjects(file.getInputStream(),subjectRepository, levelRepository);
+        List<Subject> subjectList = SubjectHelper.convertExcelToListOfSubjects(file.getInputStream(), subjectRepository, levelRepository);
         subjectList = subjectRepository.saveAll(subjectList);
         return subjectList;
     }

@@ -6,7 +6,7 @@
     <table class="table table-bordered table-hover">
         <thead class="thead-dark">
         <tr>
-            <th>ID</th>
+            <th>LevelCode</th>
             <th>Name</th>
             <th>IsActive</th>
             <th>Created At</th>
@@ -20,7 +20,7 @@
         </tbody>
         <tbody id="myTable">
         <tr th:each="level : ${constants.levelList}">
-            <td th:text="${level.id}"></td>
+            <td th:text="${level.levelCode}"></td>
             <td th:text="${level.name}"></td>
             <td th:text="${level.active}"></td>
             <td th:text="${#dates.format(level.createdAt, 'yyyy-MM-dd HH:mm:ss')}"></td>

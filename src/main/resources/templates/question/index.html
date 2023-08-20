@@ -9,7 +9,7 @@
     <table class="table table-bordered table-hover">
         <thead class="thead-dark">
         <tr>
-            <th>ID</th>
+            <th>QuestionCode</th>
             <th>Title</th>
             <th>Description</th>
             <th>IsRadio</th>
@@ -28,7 +28,7 @@
         </tbody>
         <tbody id="myTable">
         <tr th:each="question : ${constants.questionList}">
-            <td th:text="${question.id}"></td>
+            <td th:text="${question.questionCode}"></td>
             <td th:text="${question.title}"></td>
             <td th:text="${question.description}"></td>
             <td th:text="${question.radio}"></td>

@@ -4,7 +4,6 @@ import com.bitspondon.quiz.application.repository.*;
 import com.bitspondon.quiz.application.usecase.ILiveQuizUseCase;
 import com.bitspondon.quiz.domain.Util;
 import com.bitspondon.quiz.domain.constant.ValidationMessage;
-import com.bitspondon.quiz.domain.dto.question.OptionDTO;
 import com.bitspondon.quiz.domain.entities.LiveQuiz;
 import com.bitspondon.quiz.domain.entities.Question;
 import com.bitspondon.quiz.domain.entities.User;
@@ -13,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -105,14 +103,11 @@ public class LiveQuizUseCase implements ILiveQuizUseCase {
         //        }
 
         for (Question question : liveQuiz.getQuestions()) {
-            synchronized (question) {
-                Util.getQuestionWithOptionsAndAnswer(question);
-            }
+            Util.getQuestionWithOptionsAndAnswer(question);
         }
         return liveQuiz;
 
     }
-
 
 
     @Override

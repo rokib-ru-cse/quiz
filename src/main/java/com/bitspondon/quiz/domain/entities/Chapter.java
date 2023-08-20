@@ -34,6 +34,6 @@ public class Chapter {
     private Subject subject;
 
     @Transient
-    private int subjectId;
+    private Long subjectId;
 }
 

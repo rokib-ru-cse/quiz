@@ -34,6 +34,7 @@ public class LevelUseCase implements ILevelUseCase {
     public Level saveLevel(Level levelRequest) {
         levelRequest.setCreatedAt(new Date());
         levelRequest.setUpdatedAt(new Date());
+        levelRequest.setLevelCode(LevelHelper.generateLevelCode(levelRepository, 1, null).get(0));
         return levelRepository.save(levelRequest);
     }
 
@@ -42,7 +43,7 @@ public class LevelUseCase implements ILevelUseCase {
         if (!Util.checkExcelFormat(file)) {
             throw new CustomException(ValidationMessage.EXCEL_FILE_FORMAT_NOT_MATCHED);
         }
-        List<Level> levelList = LevelHelper.convertExcelToListOfLevel(file.getInputStream(),levelRepository);
+        List<Level> levelList = LevelHelper.convertExcelToListOfLevel(file.getInputStream(), levelRepository);
         levelRepository.saveAll(levelList);
         return levelList;
     }

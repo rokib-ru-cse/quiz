@@ -60,7 +60,7 @@ public class LevelHelper {
         return levelList;
     }
 
-    private static List<String> generateLevelCode(ILevelRepository levelRepository, int totalNeededCode, String lastLevelCode) {
+    public static List<String> generateLevelCode(ILevelRepository levelRepository, int totalNeededCode, String lastLevelCode) {
         List<String> levelCodes = new ArrayList<>();
 
         if (lastLevelCode != null) {

@@ -81,7 +81,7 @@ public class ChapterHelper {
         return chapterList;
     }
 
-    private static List<String> generateChapterCode(IChapterRepository chapterRepository, int totalNeededCode, String lastChapterCode) {
+    public static List<String> generateChapterCode(IChapterRepository chapterRepository, int totalNeededCode, String lastChapterCode) {
         List<String> chapterCodes = new ArrayList<>();
 
         if (lastChapterCode != null) {

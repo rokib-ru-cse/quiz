@@ -1,0 +1,25 @@
+In the context of the clean architecture, there are guidelines for how different layers should interact to maintain separation of concerns and promote modularity. Let's go through each interaction scenario:
+
+1. Presentation Layer to Application Layer:
+
+The Presentation Layer (API/controllers) should call the Application Layer (use cases).
+This layer is responsible for translating incoming requests from clients into specific use case invocations. It should not directly interact with the Infrastructure Layer or the Domain Layer.
+2. Application Layer to Infrastructure Layer:
+
+The Application Layer can call the Infrastructure Layer (services for third-party API calls, databases, etc.) as needed.
+The Application Layer uses the Infrastructure Layer to interact with external systems, databases, or other infrastructure concerns.
+3. Infrastructure Layer to Application Layer:
+
+The Infrastructure Layer should not call the Application Layer directly.
+If the Infrastructure Layer needs to notify the Application Layer, it can do so by using callbacks, events, or some form of asynchronous communication.
+4. Application Layer to Domain Layer:
+
+The Application Layer can call the Domain Layer (entities, business logic, validation, etc.).
+Use cases in the Application Layer interact with domain entities and apply business rules.
+5. Infrastructure Layer to Domain Layer:
+
+The Infrastructure Layer should not call the Domain Layer directly.
+Any interaction with domain logic should go through the Application Layer to ensure separation and maintain business rules.
+Remember the primary goals of the clean architecture: clear separation of concerns, independence of layers, and maintainability. This separation allows you to replace components within each layer without affecting the others. The general flow of data should be from the Presentation Layer to the Application Layer, then to the Domain Layer (where business logic resides), and finally, to the Infrastructure Layer for external interactions.
+
+By following these principles, you ensure that each layer focuses on its designated responsibilities, promoting testability, flexibility, and ease of maintenance.

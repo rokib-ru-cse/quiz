@@ -22,7 +22,6 @@ public class OldQuiz {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     @NotNull(message = "title is required")
-    @Min(3)
     private String title;
     private String image;
     private String icon;

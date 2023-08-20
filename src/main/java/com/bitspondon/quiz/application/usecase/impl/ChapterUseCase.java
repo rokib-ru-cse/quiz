@@ -42,6 +42,7 @@ public class ChapterUseCase implements IChapterUseCase {
 //        chapter.setSubject(dbSubject);
         chapter.setCreatedAt(new Date());
         chapter.setUpdatedAt(new Date());
+        chapter.setChapterCode(ChapterHelper.generateChapterCode(chapterRepository, 1, null).get(0));
         Chapter savedChapter = chapterRepository.save(chapter);
         return savedChapter;
 //        return ReturnReponse.<Chapter>builder().message("data saved successfully").succeeded(true)
