@@ -27,8 +27,14 @@ jobs:
         java-version: '20'
         distribution: 'temurin'
         cache: maven
+    - name: Clear Maven cache
+      run: rm -rf ~/.m2
     - name: Build with Maven
       run: mvn clean install
+    - name: List contents of the directory
+      run: ls -al
+    - name: Print debugging message
+      run: echo "Debugging message"
     - name: Build & push Docker image
       uses: mr-smithers-excellent/docker-build-push@v5
       with:
