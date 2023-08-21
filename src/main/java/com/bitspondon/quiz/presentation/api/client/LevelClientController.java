@@ -2,39 +2,27 @@ package com.bitspondon.quiz.presentation.api.client;
 
 import com.bitspondon.quiz.application.usecase.ILevelUseCase;
 import com.bitspondon.quiz.domain.ReturnReponse;
+import com.bitspondon.quiz.domain.constant.ClientUrl;
 import com.bitspondon.quiz.domain.entities.Level;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/client/level")
+@RequestMapping(ClientUrl.LEVEL)
 public class LevelClientController {
 
-    @Autowired
-    private ILevelUseCase levelUseCase;
+    private final ILevelUseCase levelUseCase;
+
+    public LevelClientController(ILevelUseCase levelUseCase) {
+        this.levelUseCase = levelUseCase;
+    }
 
     @GetMapping
     public ReturnReponse<Level> getLevels() {
-        List<Level> levels =  levelUseCase.getLevels();
-        return ReturnReponse.<Level>builder().message("data found successfully").succeeded(true)
-                .values(levels).build();
+        List<Level> levels = levelUseCase.getLevels();
+        return ReturnReponse.<Level>builder().message("data found successfully").succeeded(true).values(levels).build();
     }
-
-    //    @PostMapping
-//    public ReturnReponse<Level> saveLevel(Level levelRequest) {
-//        Level savedLevel =  levelUseCase.saveLevels(levelRequest);
-//        return ReturnReponse.<Level>builder().message("level saved successfully").succeeded(true).value(savedLevel).build();
-//    }
-//
-//    @PutMapping
-//    public ReturnReponse<Level> updateLevel(Level levelRequest) {
-//        return levelUseCase.updateLevel(levelRequest);
-//    }
-//
-//    @DeleteMapping
-//    public ReturnReponse<Level> deleteLevel(@RequestParam int id) {
-//        return levelUseCase.deleteLevel(id);
-//    }
 }

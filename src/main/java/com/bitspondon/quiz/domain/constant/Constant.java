@@ -11,6 +11,10 @@ import java.util.List;
 @Getter
 public class Constant {
     // all constant
+    public static final String API_VERSION_V1 = "/api/v1/";
+    public static final String API_VERSION_V2 = "/api/v2/";
+    public static final String API_VERSION_V3 = "/api/v3/";
+    public static final String CURRENT_API_VERSION = API_VERSION_V1;
     public static final AdminUrl ADMIN_URL = new AdminUrl();
     // used for entity
     public static final String CONSTANTS = "constants";
