@@ -1,10 +1,9 @@
 package com.bitspondon.quiz.application.usecase.impl;
 
 import com.bitspondon.quiz.application.repository.*;
+import com.bitspondon.quiz.application.usecase.IOldQuizUseCase;
 import com.bitspondon.quiz.domain.Util;
 import com.bitspondon.quiz.domain.entities.OldQuiz;
-import com.bitspondon.quiz.application.usecase.IOldQuizUseCase;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -12,26 +11,29 @@ import java.util.List;
 
 @Service
 public class OldQuizUseCase implements IOldQuizUseCase {
-    @Autowired
-    private IOldQuizRepository oldQuizRepository;
+    private final IOldQuizRepository oldQuizRepository;
 
-    @Autowired
-    private ILiveQuizRepository liveQuizRepository;
+    private final ILiveQuizRepository liveQuizRepository;
 
-    @Autowired
-    private IChapterRepository chapterRepository;
+    private final IChapterRepository chapterRepository;
 
-    @Autowired
-    private ISubjectRepository subjectRepository;
+    private final ISubjectRepository subjectRepository;
 
-    @Autowired
-    private ILevelRepository levelRepository;
+    public OldQuizUseCase(IOldQuizRepository oldQuizRepository, ILiveQuizRepository liveQuizRepository, IChapterRepository chapterRepository, ISubjectRepository subjectRepository, ILevelRepository levelRepository, IUserRepository userRepository) {
+        this.oldQuizRepository = oldQuizRepository;
+        this.liveQuizRepository = liveQuizRepository;
+        this.chapterRepository = chapterRepository;
+        this.subjectRepository = subjectRepository;
+        this.levelRepository = levelRepository;
+        this.userRepository = userRepository;
+    }
 
-    @Autowired
-    private IUserRepository userRepository;
+    private final ILevelRepository levelRepository;
+
+    private final IUserRepository userRepository;
 
     @Override
-    public List<OldQuiz> getQuizs() {
+    public List<OldQuiz> getOldQuizzes() {
         List<OldQuiz> questionList = oldQuizRepository.findAll();
         return questionList;
 //        return ReturnReponse.<quiz>builder().message("data found successfully").succeeded(true)
@@ -39,15 +41,14 @@ public class OldQuizUseCase implements IOldQuizUseCase {
     }
 
     @Override
-    public OldQuiz getQuiz(Long quizId) {
+    public OldQuiz getOldQuiz(Long quizId) {
         return oldQuizRepository.findById(quizId).get();
     }
 
 
     @Override
-    public OldQuiz getQuizDetails(Long quizId) {
-//        return oldQuizRepository.findQuizWithAssignedQuestions(quizId);
-        return null;
+    public OldQuiz getOldQuizDetails(Long quizId) {
+        return oldQuizRepository.findQuizWithAssignedQuestions(quizId);
     }
 
     @Override
@@ -67,9 +68,8 @@ public class OldQuizUseCase implements IOldQuizUseCase {
     }
 
 
-
     @Override
-    public OldQuiz updateQuiz(OldQuiz quizRequest) {
+    public OldQuiz updateOldQuiz(OldQuiz quizRequest) {
         OldQuiz dbquiz = oldQuizRepository.findById(quizRequest.getId()).get();
         if (!Util.isNullOrWhiteSpace(quizRequest.getTitle())) {
             dbquiz.setTitle(quizRequest.getTitle());
@@ -90,7 +90,7 @@ public class OldQuizUseCase implements IOldQuizUseCase {
     }
 
     @Override
-    public OldQuiz saveAssignedQuestions(OldQuiz quiz) {
+    public OldQuiz saveAssignedQuestionsToOldQuiz(OldQuiz quiz) {
         OldQuiz dbquiz = oldQuizRepository.findById(quiz.getId()).get();
 
         dbquiz.setQuestions(quiz.getQuestions());
@@ -100,7 +100,7 @@ public class OldQuizUseCase implements IOldQuizUseCase {
     }
 
     @Override
-    public OldQuiz deleteQuiz(Long id) {
+    public OldQuiz deleteOldQuiz(Long id) {
         OldQuiz dbquiz = oldQuizRepository.findById(id).get();
         oldQuizRepository.delete(dbquiz);
         return dbquiz;

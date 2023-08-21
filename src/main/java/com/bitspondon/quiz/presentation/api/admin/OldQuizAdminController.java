@@ -34,7 +34,7 @@ public class OldQuizAdminController {
     public ModelAndView getQuizs() {
         ModelAndView model = new ModelAndView(AdminUrl.OLD_QUIZ_INDEX);
         Constant constants = new Constant();
-        constants.setOldQuizList(oldQuizUseCase.getQuizs());
+        constants.setOldQuizList(oldQuizUseCase.getOldQuizzes());
         model.addObject(Constant.CONSTANTS, constants);
         return model;
     }
@@ -43,7 +43,7 @@ public class OldQuizAdminController {
     public ModelAndView details(@PathVariable(Constant.OLD_QUIZ_ID) Long quizId) {
         ModelAndView model = new ModelAndView(AdminUrl.OLD_QUIZ_DETAILS);
         Constant constants = new Constant();
-        model.addObject(Constant.OLD_QUIZ, oldQuizUseCase.getQuiz(quizId));
+        model.addObject(Constant.OLD_QUIZ, oldQuizUseCase.getOldQuiz(quizId));
         model.addObject(Constant.CONSTANTS, constants);
         return model;
     }
@@ -75,7 +75,7 @@ public class OldQuizAdminController {
         constants.setSubjectList(subjectUseCase.getSubjects());
         constants.setChapterList(chapterUseCase.getChapters());
         constants.setActionUrl(AdminUrl.OLD_QUIZ_EDIT + "/" + quizId);
-        model.addObject(Constant.OLD_QUIZ, oldQuizUseCase.getQuiz(quizId));
+        model.addObject(Constant.OLD_QUIZ, oldQuizUseCase.getOldQuiz(quizId));
         model.addObject(Constant.CONSTANTS, constants);
         return model;
     }
@@ -84,7 +84,7 @@ public class OldQuizAdminController {
     @PostMapping(AdminUrl.OLD_QUIZ_EDIT + "/{" + Constant.OLD_QUIZ_ID + "}")
     public String editQuiz(@PathVariable(Constant.OLD_QUIZ_ID) Long quizId, @ModelAttribute(Constant.OLD_QUIZ) OldQuiz quiz) {
         quiz.setId(quizId);
-        oldQuizUseCase.updateQuiz(quiz);
+        oldQuizUseCase.updateOldQuiz(quiz);
         return AdminUrl.OLD_QUIZ_REDIRECT_TO_INDEX;
     }
 
@@ -94,7 +94,7 @@ public class OldQuizAdminController {
         Constant constants = new Constant();
         constants.setQuestionList(questionUseCase.getQuestions());
         constants.setActionUrl(AdminUrl.OLD_QUIZ_ASSIGN_QUESTION + "/" + quizId);
-        model.addObject(Constant.OLD_QUIZ, oldQuizUseCase.getQuiz(quizId));
+        model.addObject(Constant.OLD_QUIZ, oldQuizUseCase.getOldQuiz(quizId));
         model.addObject(Constant.CONSTANTS, constants);
         return model;
     }
@@ -102,7 +102,7 @@ public class OldQuizAdminController {
     @PostMapping(AdminUrl.OLD_QUIZ_ASSIGN_QUESTION + "/{" + Constant.OLD_QUIZ_ID + "}")
     public String saveAssignedQuestions(@PathVariable(Constant.OLD_QUIZ_ID) Long quizId, @ModelAttribute(Constant.OLD_QUIZ) OldQuiz quiz) {
         quiz.setId(quizId);
-        oldQuizUseCase.saveAssignedQuestions(quiz);
+        oldQuizUseCase.saveAssignedQuestionsToOldQuiz(quiz);
         return AdminUrl.OLD_QUIZ_REDIRECT_TO_INDEX;
     }
 

@@ -10,7 +10,7 @@ public interface ILiveQuizUseCase {
 
     LiveQuiz saveLiveQuiz(LiveQuiz quiz);
 
-    List<LiveQuiz> getLiveQuizs();
+    List<LiveQuiz> getLiveQuizzes();
 
     LiveQuiz getLiveQuiz(Long quizId);
 

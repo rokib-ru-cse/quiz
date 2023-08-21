@@ -72,7 +72,7 @@ public class LiveQuizUseCase implements ILiveQuizUseCase {
     }
 
     @Override
-    public List<LiveQuiz> getLiveQuizs() {
+    public List<LiveQuiz> getLiveQuizzes() {
         List<LiveQuiz> questionList = liveQuizRepository.findAll();
         return questionList;
 //        return ReturnReponse.<quiz>builder().message("data found successfully").succeeded(true)

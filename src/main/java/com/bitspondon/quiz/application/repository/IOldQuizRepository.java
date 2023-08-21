@@ -7,6 +7,6 @@ import org.springframework.data.repository.query.Param;
 
 public interface IOldQuizRepository extends JpaRepository<OldQuiz, Long> {
     @Query("SELECT q FROM OldQuiz q LEFT JOIN FETCH q.questions WHERE q.id = :quizId")
-    OldQuiz findQuizWithAssignedQuestions(@Param("quizId") int quizId);
+    OldQuiz findQuizWithAssignedQuestions(@Param("quizId") long quizId);
 
 }

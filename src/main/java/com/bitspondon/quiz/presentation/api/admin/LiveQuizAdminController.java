@@ -42,7 +42,7 @@ public class LiveQuizAdminController {
     public ModelAndView getQuizs() {
         ModelAndView model = new ModelAndView(AdminUrl.LIVE_QUIZ_INDEX);
         Constant constants = new Constant();
-        constants.setLiveQuizList(liveQuizUseCase.getLiveQuizs());
+        constants.setLiveQuizList(liveQuizUseCase.getLiveQuizzes());
         model.addObject(Constant.CONSTANTS, constants);
         return model;
     }

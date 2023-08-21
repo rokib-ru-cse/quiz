@@ -5,17 +5,17 @@ import com.bitspondon.quiz.domain.entities.OldQuiz;
 import java.util.List;
 
 public interface IOldQuizUseCase {
-    List<OldQuiz> getQuizs();
+    List<OldQuiz> getOldQuizzes();
 
-    OldQuiz getQuiz(Long quizId);
+    OldQuiz getOldQuiz(Long quizId);
 
-    OldQuiz getQuizDetails(Long quizId);
+    OldQuiz getOldQuizDetails(Long quizId);
 
     OldQuiz saveOldQuiz(OldQuiz quiz);
 
-    OldQuiz updateQuiz(OldQuiz question);
-    OldQuiz saveAssignedQuestions(OldQuiz question);
+    OldQuiz updateOldQuiz(OldQuiz question);
+    OldQuiz saveAssignedQuestionsToOldQuiz(OldQuiz question);
 
-    OldQuiz deleteQuiz(Long id);
+    OldQuiz deleteOldQuiz(Long id);
 
 }

@@ -6,8 +6,8 @@ import com.bitspondon.quiz.domain.dto.auth.RegisterRequest;
 import jakarta.servlet.http.HttpServletRequest;
 
 public interface IAuthenticationUseCase {
-    void createUser(RegisterRequest request);
-    AuthenticationResponse register(RegisterRequest request);
+    void createAdmin(RegisterRequest request);
+    AuthenticationResponse createUser(RegisterRequest request);
 
     AuthenticationResponse authenticate(AuthenticationRequest request, HttpServletRequest http);
 }

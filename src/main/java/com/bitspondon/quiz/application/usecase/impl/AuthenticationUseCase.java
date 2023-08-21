@@ -26,58 +26,31 @@ public class AuthenticationUseCase implements IAuthenticationUseCase {
     private final JwtUtils jwtUtils;
     private final AuthenticationManager authenticationManager;
 
-    public void createUser(RegisterRequest request) {
-        User user = User.builder()
-                .firstname(request.getFirstname())
-                .lastname(request.getLastname())
-                .email(request.getEmail())
-                .password(passwordEncoder.encode(request.getPassword()))
-                .role(Constant.ROLE_USER)
-                .build();
+    public void createAdmin(RegisterRequest request) {
+        User user = User.builder().firstname(request.getFirstname()).lastname(request.getLastname()).email(request.getEmail()).password(passwordEncoder.encode(request.getPassword())).role(Constant.ROLE_ADMIN).build();
         repository.save(user);
         Authentication authentication = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(authentication);
     }
 
-    public AuthenticationResponse register(RegisterRequest request) {
-        User user = User.builder()
-                .firstname(request.getFirstname())
-                .lastname(request.getLastname())
-                .email(request.getEmail())
-                .password(passwordEncoder.encode(request.getPassword()))
-                .role(Constant.ROLE_ADMIN)
-                .build();
+    public AuthenticationResponse createUser(RegisterRequest request) {
+        User user = User.builder().firstname(request.getFirstname()).lastname(request.getLastname()).email(request.getEmail()).password(passwordEncoder.encode(request.getPassword())).role(Constant.ROLE_USER).build();
         repository.save(user);
         var jwtToken = jwtUtils.generateToken(user);
-        return AuthenticationResponse.builder()
-                .token(jwtToken)
-                .build();
+        return AuthenticationResponse.builder().token(jwtToken).build();
+
     }
 
     public AuthenticationResponse authenticate(AuthenticationRequest request, HttpServletRequest http) {
-        authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        request.getEmail(),
-                        request.getPassword()
-                )
-        );
-        User user = (User) repository.findByEmail(request.getEmail())
-                .orElseThrow();
+        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
+        User user = (User) repository.findByEmail(request.getEmail()).orElseThrow();
         var jwtToken = jwtUtils.generateToken(user);
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//        if (authentication == null) {
-        UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
-                user,
-                null,
-                user.getAuthorities()
-        );
-        authToken.setDetails(
-                new WebAuthenticationDetailsSource().buildDetails(http)
-        );
-        SecurityContextHolder.getContext().setAuthentication(authToken);
-//        }
-        return AuthenticationResponse.builder()
-                .token(jwtToken)
-                .build();
+        if (authentication == null) {
+            UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
+            authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(http));
+            SecurityContextHolder.getContext().setAuthentication(authToken);
+        }
+        return AuthenticationResponse.builder().token(jwtToken).build();
     }
 }
