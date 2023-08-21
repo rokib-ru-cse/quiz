@@ -4,6 +4,7 @@ import com.bitspondon.quiz.application.usecase.IChapterUseCase;
 import com.bitspondon.quiz.application.usecase.ISubjectUseCase;
 import com.bitspondon.quiz.domain.constant.AdminUrl;
 import com.bitspondon.quiz.domain.constant.Constant;
+import com.bitspondon.quiz.domain.constant.TemplatesPath;
 import com.bitspondon.quiz.domain.entities.Chapter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -27,7 +28,7 @@ public class ChapterAdminController {
 
     @GetMapping(AdminUrl.CHAPTER_INDEX)
     public ModelAndView index() {
-        ModelAndView model = new ModelAndView(AdminUrl.CHAPTER_INDEX);
+        ModelAndView model = new ModelAndView(TemplatesPath.CHAPTER_INDEX_PAGE);
         Constant constants = new Constant();
         constants.setChapterList(chapterUseCase.getChapters());
         model.addObject(Constant.CONSTANTS, constants);
@@ -37,7 +38,7 @@ public class ChapterAdminController {
 
     @GetMapping(AdminUrl.CHAPTER_CREATE)
     public ModelAndView create() {
-        ModelAndView model = new ModelAndView(AdminUrl.CHAPTER_CREATE);
+        ModelAndView model = new ModelAndView(TemplatesPath.CHAPTER_CREATE_PAGE);
         Constant constants = new Constant();
         constants.setSubjectList(subjectUseCase.getSubjects());
         constants.setActionUrl(AdminUrl.CHAPTER_CREATE);
@@ -60,7 +61,7 @@ public class ChapterAdminController {
 
     @GetMapping(AdminUrl.CHAPTER_EDIT + "/{" + Constant.CHAPTER_ID + "}")
     public ModelAndView edit(@PathVariable(Constant.CHAPTER_ID) Long chapterId) {
-        ModelAndView model = new ModelAndView(AdminUrl.CHAPTER_CREATE);
+        ModelAndView model = new ModelAndView(TemplatesPath.CHAPTER_CREATE_PAGE);
         Constant constants = new Constant();
         constants.setSubjectList(subjectUseCase.getSubjects());
         constants.setActionUrl(AdminUrl.CHAPTER_EDIT + "/" + chapterId);

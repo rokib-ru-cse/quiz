@@ -6,6 +6,7 @@ import com.bitspondon.quiz.application.usecase.IQuestionUseCase;
 import com.bitspondon.quiz.application.usecase.ISubjectUseCase;
 import com.bitspondon.quiz.domain.constant.AdminUrl;
 import com.bitspondon.quiz.domain.constant.Constant;
+import com.bitspondon.quiz.domain.constant.TemplatesPath;
 import com.bitspondon.quiz.domain.dto.question.OptionDTO;
 import com.bitspondon.quiz.domain.entities.Question;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +38,7 @@ public class QuestionAdminController {
 
     @GetMapping(AdminUrl.QUESTION_INDEX)
     public ModelAndView getQuestions() {
-        ModelAndView model = new ModelAndView(AdminUrl.QUESTION_INDEX);
+        ModelAndView model = new ModelAndView(TemplatesPath.QUESTION_INDEX_PAGE);
         Constant constants = new Constant();
         constants.setQuestionList(questionUseCase.getQuestions());
         model.addObject(Constant.CONSTANTS, constants);
@@ -46,7 +47,7 @@ public class QuestionAdminController {
 
     @GetMapping(AdminUrl.QUESTION_CREATE)
     public ModelAndView create() {
-        ModelAndView model = new ModelAndView(AdminUrl.QUESTION_CREATE);
+        ModelAndView model = new ModelAndView(TemplatesPath.QUESTION_CREATE_PAGE);
         Constant constants = new Constant();
         constants.setLevelList(levelUseCase.getLevels());
         constants.setSubjectList(subjectUseCase.getSubjects());
@@ -136,7 +137,7 @@ public class QuestionAdminController {
 
     @GetMapping(AdminUrl.QUESTION_EDIT + "/{" + Constant.QUESTION_ID + "}")
     public ModelAndView edit(@PathVariable(Constant.QUESTION_ID) Long questionId) {
-        ModelAndView model = new ModelAndView(AdminUrl.QUESTION_CREATE);
+        ModelAndView model = new ModelAndView(TemplatesPath.QUESTION_CREATE_PAGE);
         Question question = questionUseCase.getQuestion(questionId);
         Constant constants = new Constant();
         constants.setLevelList(levelUseCase.getLevels());

@@ -1,12 +1,14 @@
 package com.bitspondon.quiz.domain.entities;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import java.util.*;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Setter
@@ -69,6 +71,7 @@ public class LiveQuiz {
             inverseJoinColumns = {@JoinColumn(name = "question_id", referencedColumnName = "id")})
     private Set<Question> questions = new HashSet<>();
 
+    @JsonManagedReference
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "livequiz_user",
             joinColumns = {@JoinColumn(name = "livequiz_id", referencedColumnName = "id")},

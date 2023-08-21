@@ -3,6 +3,7 @@ package com.bitspondon.quiz.presentation.api.admin;
 import com.bitspondon.quiz.application.usecase.*;
 import com.bitspondon.quiz.domain.constant.AdminUrl;
 import com.bitspondon.quiz.domain.constant.Constant;
+import com.bitspondon.quiz.domain.constant.TemplatesPath;
 import com.bitspondon.quiz.domain.entities.LiveQuiz;
 import com.bitspondon.quiz.domain.exception.CustomException;
 import org.slf4j.Logger;
@@ -40,7 +41,7 @@ public class LiveQuizAdminController {
 
     @GetMapping(AdminUrl.LIVE_QUIZ_INDEX)
     public ModelAndView getQuizs() {
-        ModelAndView model = new ModelAndView(AdminUrl.LIVE_QUIZ_INDEX);
+        ModelAndView model = new ModelAndView(TemplatesPath.LIVE_QUIZ_INDEX_PAGE);
         Constant constants = new Constant();
         constants.setLiveQuizList(liveQuizUseCase.getLiveQuizzes());
         model.addObject(Constant.CONSTANTS, constants);
@@ -49,7 +50,7 @@ public class LiveQuizAdminController {
 
     @GetMapping(AdminUrl.LIVE_QUIZ_DETAILS + "/{" + Constant.LIVE_QUIZ_ID + "}")
     public ModelAndView details(@PathVariable(Constant.LIVE_QUIZ_ID) Long quizId) throws CustomException {
-        ModelAndView model = new ModelAndView(AdminUrl.LIVE_QUIZ_DETAILS);
+        ModelAndView model = new ModelAndView(TemplatesPath.LIVE_QUIZ_DETAILS_PAGE);
         model.addObject(Constant.LIVE_QUIZ, liveQuizUseCase.getLiveQuiz(quizId));
         model.addObject(Constant.CONSTANTS, new Constant());
         return model;
@@ -57,7 +58,7 @@ public class LiveQuizAdminController {
 
     @GetMapping(AdminUrl.LIVE_QUIZ_CREATE)
     public ModelAndView create() {
-        ModelAndView model = new ModelAndView(AdminUrl.LIVE_QUIZ_CREATE);
+        ModelAndView model = new ModelAndView(TemplatesPath.LIVE_QUIZ_CREATE_PAGE);
         Constant constants = new Constant();
         constants.setLevelList(levelUseCase.getLevels());
         constants.setSubjectList(subjectUseCase.getSubjects());
@@ -83,7 +84,7 @@ public class LiveQuizAdminController {
 
     @GetMapping(AdminUrl.LIVE_QUIZ_EDIT + "/{" + Constant.LIVE_QUIZ_ID + "}")
     public ModelAndView edit(@PathVariable(Constant.LIVE_QUIZ_ID) Long quizId) throws Exception {
-        ModelAndView model = new ModelAndView(AdminUrl.LIVE_QUIZ_CREATE);
+        ModelAndView model = new ModelAndView(TemplatesPath.LIVE_QUIZ_CREATE_PAGE);
         Constant constants = new Constant();
         constants.setLevelList(levelUseCase.getLevels());
         constants.setSubjectList(subjectUseCase.getSubjects());
@@ -104,7 +105,7 @@ public class LiveQuizAdminController {
 
     @GetMapping(AdminUrl.LIVE_QUIZ_ASSIGN_QUESTION + "/{" + Constant.LIVE_QUIZ_ID + "}")
     public ModelAndView assignQuestion(@PathVariable(Constant.LIVE_QUIZ_ID) Long quizId) {
-        ModelAndView model = new ModelAndView(AdminUrl.LIVE_QUIZ_ASSIGN_QUESTION);
+        ModelAndView model = new ModelAndView(TemplatesPath.LIVE_QUIZ_ASSIGN_QUESTION_PAGE);
         Constant constants = new Constant();
         constants.setQuestionList(questionUseCase.getQuestions());
         constants.setActionUrl(AdminUrl.LIVE_QUIZ_ASSIGN_QUESTION + "/" + quizId);
@@ -122,7 +123,7 @@ public class LiveQuizAdminController {
 
     @GetMapping(AdminUrl.LIVE_QUIZ_START + "/{" + Constant.LIVE_QUIZ_ID + "}")
     public ModelAndView startLiveQuiz(@PathVariable(Constant.LIVE_QUIZ_ID) Long quizId) throws Exception {
-        ModelAndView model = new ModelAndView(AdminUrl.LIVE_QUIZ_START);
+        ModelAndView model = new ModelAndView(TemplatesPath.LIVE_QUIZ_START_PAGE);
         Constant constants = new Constant();
         LiveQuiz liveQuiz = liveQuizUseCase.startLiveQuiz(quizId);
         constants.setQuestionList(new ArrayList<>(liveQuiz.getQuestions()));

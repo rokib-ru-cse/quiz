@@ -47,7 +47,7 @@ public class AuthAdminController {
 
     @GetMapping("/login")
     public String loginForm() {
-        return "/auth/login";
+        return "auth/login";
     }
 
 
@@ -56,7 +56,7 @@ public class AuthAdminController {
         model.addAttribute("user", new RegisterRequest());
         model.addAttribute("actionUrl", "/register");
 
-        return "/auth/register";
+        return "auth/register";
     }
 
     @PostMapping("/register")

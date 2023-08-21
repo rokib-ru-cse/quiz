@@ -3,6 +3,7 @@ package com.bitspondon.quiz.presentation.api.admin;
 import com.bitspondon.quiz.application.usecase.ILevelUseCase;
 import com.bitspondon.quiz.domain.constant.AdminUrl;
 import com.bitspondon.quiz.domain.constant.Constant;
+import com.bitspondon.quiz.domain.constant.TemplatesPath;
 import com.bitspondon.quiz.domain.entities.Level;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -23,7 +24,7 @@ public class LevelAdminController {
 
     @GetMapping(AdminUrl.LEVEL_INDEX)
     public ModelAndView index() {
-        ModelAndView model = new ModelAndView(AdminUrl.LEVEL_INDEX);
+        ModelAndView model = new ModelAndView(TemplatesPath.LEVEL_INDEX_PAGE);
         Constant constants = new Constant();
         constants.setLevelList(levelUseCase.getLevels());
         model.addObject(Constant.CONSTANTS, constants);
@@ -33,7 +34,7 @@ public class LevelAdminController {
 
     @GetMapping(AdminUrl.LEVEL_CREATE)
     public ModelAndView create() {
-        ModelAndView model = new ModelAndView(AdminUrl.LEVEL_CREATE);
+        ModelAndView model = new ModelAndView(TemplatesPath.LEVEL_CREATE_PAGE);
         Constant constants = new Constant();
         constants.setActionUrl(AdminUrl.LEVEL_CREATE);
         model.addObject(Constant.CONSTANTS, constants);
@@ -55,7 +56,7 @@ public class LevelAdminController {
 
     @GetMapping(AdminUrl.LEVEL_EDIT + "/{" + Constant.LEVEL_ID + "}")
     public ModelAndView edit(@PathVariable(Constant.LEVEL_ID) Long levelId) {
-        ModelAndView model = new ModelAndView(AdminUrl.LEVEL_CREATE);
+        ModelAndView model = new ModelAndView(TemplatesPath.LEVEL_CREATE_PAGE);
         Constant constants = new Constant();
         constants.setActionUrl(AdminUrl.LEVEL_EDIT + "/" + levelId);
         model.addObject(Constant.CONSTANTS, constants);

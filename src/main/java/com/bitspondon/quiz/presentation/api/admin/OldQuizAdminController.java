@@ -3,6 +3,7 @@ package com.bitspondon.quiz.presentation.api.admin;
 import com.bitspondon.quiz.application.usecase.*;
 import com.bitspondon.quiz.domain.constant.AdminUrl;
 import com.bitspondon.quiz.domain.constant.Constant;
+import com.bitspondon.quiz.domain.constant.TemplatesPath;
 import com.bitspondon.quiz.domain.entities.OldQuiz;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -32,7 +33,7 @@ public class OldQuizAdminController {
 
     @GetMapping(AdminUrl.OLD_QUIZ_INDEX)
     public ModelAndView getQuizs() {
-        ModelAndView model = new ModelAndView(AdminUrl.OLD_QUIZ_INDEX);
+        ModelAndView model = new ModelAndView(TemplatesPath.OLD_QUIZ_INDEX_PAGE);
         Constant constants = new Constant();
         constants.setOldQuizList(oldQuizUseCase.getOldQuizzes());
         model.addObject(Constant.CONSTANTS, constants);
@@ -41,7 +42,7 @@ public class OldQuizAdminController {
 
     @GetMapping(AdminUrl.OLD_QUIZ_DETAILS + "/{" + Constant.OLD_QUIZ_ID + "}")
     public ModelAndView details(@PathVariable(Constant.OLD_QUIZ_ID) Long quizId) {
-        ModelAndView model = new ModelAndView(AdminUrl.OLD_QUIZ_DETAILS);
+        ModelAndView model = new ModelAndView(TemplatesPath.OLD_QUIZ_DETAILS_PAGE);
         Constant constants = new Constant();
         model.addObject(Constant.OLD_QUIZ, oldQuizUseCase.getOldQuiz(quizId));
         model.addObject(Constant.CONSTANTS, constants);
@@ -50,7 +51,7 @@ public class OldQuizAdminController {
 
     @GetMapping(AdminUrl.OLD_QUIZ_CREATE)
     public ModelAndView create() {
-        ModelAndView model = new ModelAndView(AdminUrl.OLD_QUIZ_CREATE);
+        ModelAndView model = new ModelAndView(TemplatesPath.OLD_QUIZ_CREATE_PAGE);
         Constant constants = new Constant();
         constants.setLevelList(levelUseCase.getLevels());
         constants.setSubjectList(subjectUseCase.getSubjects());
@@ -69,7 +70,7 @@ public class OldQuizAdminController {
 
     @GetMapping(AdminUrl.OLD_QUIZ_EDIT + "/{" + Constant.OLD_QUIZ_ID + "}")
     public ModelAndView edit(@PathVariable(Constant.OLD_QUIZ_ID) Long quizId) {
-        ModelAndView model = new ModelAndView(AdminUrl.OLD_QUIZ_CREATE);
+        ModelAndView model = new ModelAndView(TemplatesPath.OLD_QUIZ_CREATE_PAGE);
         Constant constants = new Constant();
         constants.setLevelList(levelUseCase.getLevels());
         constants.setSubjectList(subjectUseCase.getSubjects());
@@ -90,7 +91,7 @@ public class OldQuizAdminController {
 
     @GetMapping(AdminUrl.OLD_QUIZ_ASSIGN_QUESTION + "/{" + Constant.OLD_QUIZ_ID + "}")
     public ModelAndView assignQuestion(@PathVariable(Constant.OLD_QUIZ_ID) Long quizId) {
-        ModelAndView model = new ModelAndView(AdminUrl.OLD_QUIZ_ASSIGN_QUESTION);
+        ModelAndView model = new ModelAndView(TemplatesPath.OLD_QUIZ_ASSIGN_QUESTION_PAGE);
         Constant constants = new Constant();
         constants.setQuestionList(questionUseCase.getQuestions());
         constants.setActionUrl(AdminUrl.OLD_QUIZ_ASSIGN_QUESTION + "/" + quizId);

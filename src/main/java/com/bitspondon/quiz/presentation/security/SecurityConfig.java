@@ -20,18 +20,11 @@ public class SecurityConfig {
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
 
-
-
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
-        String[] publicUrls = new String[]{"/", "/*", "/**", "swagger-ui/**", "/swagger-ui.html", "/swagger-ui*/*swagger-initializer.js", "/swagger-ui*/**", "/webjars/**", "/register", "/css/**", "/js/**", "/images/**",};
-        http.authorizeHttpRequests(authorizeRequests -> authorizeRequests
-                .requestMatchers(publicUrls).permitAll().anyRequest().authenticated())
-                .csrf(AbstractHttpConfigurer::disable)
-                .formLogin(form -> form.loginPage("/login").defaultSuccessUrl("/").loginProcessingUrl("/login").failureUrl("/login?error=true").permitAll())
-                .logout(out -> out.logoutRequestMatcher(new AntPathRequestMatcher("/logout")).permitAll())
-                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+        String[] publicUrls = new String[]{"/register", "/login", "/api/v1/auth/signup", "/api/v1/auth/login", "swagger-ui/**", "/swagger-ui.html", "/swagger-ui*/*swagger-initializer.js", "/swagger-ui*/**", "/webjars/**", "/register", "/css/**", "/js/**", "/images/**",};
+        http.authorizeHttpRequests(authorizeRequests -> authorizeRequests.requestMatchers(publicUrls).permitAll().anyRequest().authenticated()).csrf(AbstractHttpConfigurer::disable).formLogin(form -> form.loginPage("/login").defaultSuccessUrl("/").loginProcessingUrl("/login").failureUrl("/login?error=true").permitAll()).logout(out -> out.logoutRequestMatcher(new AntPathRequestMatcher("/logout")).permitAll()).addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }

@@ -9,7 +9,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 public class CustomErrorController implements ErrorController {
@@ -23,7 +22,7 @@ public class CustomErrorController implements ErrorController {
         String msg = exception.getMessage();
         int statusCode = status instanceof Integer ? (Integer) status : HttpStatus.INTERNAL_SERVER_ERROR.value();
         String errorMsg = errorMessage instanceof String ? (String) errorMessage : "An error occurred.";
-        if (errorMessage.equals("Forbidden")) {
+        if (errorMessage != null && errorMessage.equals("Forbidden")) {
             errorMsg = "You donot have access to this route.";
         }
         if (errorMsg.length() == 0) {
@@ -33,7 +32,7 @@ public class CustomErrorController implements ErrorController {
         model.addAttribute("statusCode", statusCode);
         model.addAttribute("errorMessage", errorMsg);
 
-        return "/auth/error";
+        return "auth/error";
     }
 
 }

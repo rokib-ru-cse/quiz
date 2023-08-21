@@ -1,12 +1,14 @@
 package com.bitspondon.quiz.domain.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import java.util.*;
+import java.util.Date;
+import java.util.Set;
 
 @Entity
 @Setter
@@ -63,6 +65,7 @@ public class OldQuiz {
     @Transient
     private int chapterId;
 
+    @JsonManagedReference
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "oldquiz_question",

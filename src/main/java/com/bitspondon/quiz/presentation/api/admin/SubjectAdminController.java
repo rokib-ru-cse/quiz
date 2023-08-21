@@ -4,6 +4,7 @@ import com.bitspondon.quiz.application.usecase.ILevelUseCase;
 import com.bitspondon.quiz.application.usecase.ISubjectUseCase;
 import com.bitspondon.quiz.domain.constant.AdminUrl;
 import com.bitspondon.quiz.domain.constant.Constant;
+import com.bitspondon.quiz.domain.constant.TemplatesPath;
 import com.bitspondon.quiz.domain.entities.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -27,7 +28,7 @@ public class SubjectAdminController {
 
     @GetMapping(AdminUrl.SUBJECT_INDEX)
     public ModelAndView getSubjects() {
-        ModelAndView model = new ModelAndView(AdminUrl.SUBJECT_INDEX);
+        ModelAndView model = new ModelAndView(TemplatesPath.SUBJECT_INDEX_PAGE);
         Constant constants = new Constant();
         constants.setSubjectList(subjectUseCase.getSubjects());
         model.addObject(Constant.CONSTANTS, constants);
@@ -37,7 +38,7 @@ public class SubjectAdminController {
     @GetMapping(AdminUrl.SUBJECT_CREATE)
     public ModelAndView create() {
         Constant constants = new Constant();
-        ModelAndView model = new ModelAndView(AdminUrl.SUBJECT_CREATE);
+        ModelAndView model = new ModelAndView(TemplatesPath.SUBJECT_CREATE_PAGE);
         constants.setLevelList(levelUseCase.getLevels());
         constants.setActionUrl(AdminUrl.SUBJECT_CREATE);
         model.addObject(Constant.SUBJECT, new Subject());
@@ -61,7 +62,7 @@ public class SubjectAdminController {
     @GetMapping(AdminUrl.SUBJECT_EDIT + "/{" + Constant.SUBJECT_ID + "}")
     public ModelAndView edit(@PathVariable(Constant.SUBJECT_ID) Long subjectId) {
         Constant constants = new Constant();
-        ModelAndView model = new ModelAndView(AdminUrl.SUBJECT_CREATE);
+        ModelAndView model = new ModelAndView(TemplatesPath.SUBJECT_CREATE_PAGE);
         Subject subject = subjectUseCase.getSubject(subjectId);
         constants.setLevelList(levelUseCase.getLevels());
         constants.setActionUrl(AdminUrl.SUBJECT_EDIT + "/" + subjectId);

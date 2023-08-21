@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@PreAuthorize("hasAnyRole('" + Constant.ROLE_USER + "', '" + Constant.ROLE_ADMIN + "')")
 @RequestMapping(ClientUrl.OLD_QUIZ)
+@PreAuthorize("hasAnyRole('" + Constant.ROLE_USER + "', '" + Constant.ROLE_ADMIN + "')")
 public class OldQuizClientController {
 
 
@@ -28,6 +28,7 @@ public class OldQuizClientController {
     @GetMapping
     public ReturnReponse<OldQuiz> getOldQuizzes() {
         List<OldQuiz> oldQuizList = oldQuizUseCase.getOldQuizzes();
+//        return oldQuizList;
         return ReturnReponse.<OldQuiz>builder().message("data found successfully").succeeded(true).values(oldQuizList).build();
     }
 }
