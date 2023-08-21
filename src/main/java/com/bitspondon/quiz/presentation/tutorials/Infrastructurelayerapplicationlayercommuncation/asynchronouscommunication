@@ -1,0 +1,131 @@
+If the Infrastructure Layer needs to notify the Application Layer, it can do so by using callbacks, events, or some form of asynchronous communication.
+
+Using asynchronous communication to notify the Application Layer from the Infrastructure Layer typically involves using message queues or publish-subscribe mechanisms.
+In this example, we'll use Spring's integration with Apache Kafka to demonstrate asynchronous communication between layers.
+
+
+Scenario: Suppose your application involves order processing in the Infrastructure Layer, and you want to notify the Application Layer when an order is successfully processed.
+
+Here's a step-by-step example:
+
+1. Set Up Apache Kafka:
+
+Before proceeding, you need to set up Apache Kafka. You'll need to install Kafka and create a topic for communication.
+
+
+2. Define the Order Event:
+
+Create an event class to represent the order event.
+
+public class OrderProcessedEvent {
+
+    private String orderId;
+
+    public OrderProcessedEvent(String orderId) {
+        this.orderId = orderId;
+    }
+
+    public String getOrderId() {
+        return orderId;
+    }
+}
+
+3. Application Layer Consumer:
+
+In the Application Layer, create a consumer to listen for order processed events.
+
+import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.stereotype.Component;
+
+@Component
+public class OrderProcessedEventListener {
+
+    @KafkaListener(topics = "order-processed")
+    public void listen(OrderProcessedEvent event) {
+        // Application Layer logic to handle the order processed event
+        System.out.println("Order " + event.getOrderId() + " processed. Application Layer notified.");
+    }
+}
+
+4. Infrastructure Layer (Order Processing Service):
+
+In the Infrastructure Layer, you have a service for processing orders. After an order is successfully processed, send an event to the Kafka topic.
+
+
+import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.stereotype.Service;
+
+@Service
+public class OrderProcessingService {
+
+    private final KafkaTemplate<String, OrderProcessedEvent> kafkaTemplate;
+
+    public OrderProcessingService(KafkaTemplate<String, OrderProcessedEvent> kafkaTemplate) {
+        this.kafkaTemplate = kafkaTemplate;
+    }
+
+    public void processOrder(String orderId) {
+        // Logic to process the order
+
+        // After processing, send an order processed event to Kafka topic
+        OrderProcessedEvent event = new OrderProcessedEvent(orderId);
+        kafkaTemplate.send("order-processed", event);
+    }
+}
+
+5. Main Application:
+
+Finally, the main application class initializes the Spring Boot application.
+
+@SpringBootApplication
+@ComponentScan(basePackages = "com.example")
+public class MyAppApplication {
+
+    public static void main(String[] args) {
+        SpringApplication.run(MyAppApplication.class, args);
+    }
+}
+
+In this example:
+
+The OrderProcessingService in the Infrastructure Layer processes orders and sends an OrderProcessedEvent to the Kafka topic after successful processing.
+The OrderProcessedEventListener in the Application Layer listens for events on the Kafka topic and handles the order processed event.
+The @KafkaListener annotation enables the method to listen for events from the specified Kafka topic.
+The @ComponentScan annotation in the main application class ensures that Spring scans for components in the specified base package.
+When the processOrder method in the OrderProcessingService processes an order successfully, it sends an OrderProcessedEvent to the Kafka topic. The OrderProcessedEventListener in the Application Layer detects the event and executes its handling logic, notifying the Application Layer about the successful order processing.
+
+Using asynchronous communication with Kafka or other message queues allows for decoupling between layers and enables reliable and scalable communication between different parts of your application.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,103 @@
+If the Infrastructure Layer needs to notify the Application Layer, it can do so by using callbacks, events, or some form of asynchronous communication.
+
+To enable communication from the Infrastructure Layer to the Application Layer, you can utilize events or callbacks. In this example, let's use Spring's event-driven mechanism to demonstrate how the Infrastructure Layer can notify the Application Layer of specific events.
+
+Scenario: Suppose your application involves sending email notifications, and you want the Infrastructure Layer to notify the Application Layer when an email is successfully sent.
+
+Here's a step-by-step example:
+
+1. Define the Event:
+
+Create an event class that represents the event you want to notify the Application Layer about.
+
+
+import org.springframework.context.ApplicationEvent;
+
+public class EmailSentEvent extends ApplicationEvent {
+
+    public EmailSentEvent(Object source) {
+        super(source);
+    }
+}
+
+2. Application Layer Listener:
+
+In the Application Layer, create a listener that will handle the event when it's fired.
+
+import org.springframework.context.event.EventListener;
+import org.springframework.stereotype.Component;
+
+@Component
+public class EmailEventListener {
+
+    @EventListener
+    public void handleEmailSentEvent(EmailSentEvent event) {
+        // Application Layer logic to handle the email sent event
+        System.out.println("Email sent successfully. Application Layer notified.");
+    }
+}
+
+3. Infrastructure Layer (Notification Service):
+
+In the Infrastructure Layer, you have a service responsible for sending emails. After a successful email send, fire the event.
+
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.stereotype.Service;
+
+@Service
+public class EmailService {
+
+    private final ApplicationEventPublisher eventPublisher;
+
+    public EmailService(ApplicationEventPublisher eventPublisher) {
+        this.eventPublisher = eventPublisher;
+    }
+
+    public void sendEmail(String recipient, String subject, String body) {
+        // Logic to send email
+
+        // Fire the EmailSentEvent to notify the Application Layer
+        eventPublisher.publishEvent(new EmailSentEvent(this));
+    }
+}
+
+4. Main Application:
+
+Finally, the main application class initializes the Spring Boot application.
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.ComponentScan;
+
+@SpringBootApplication
+@ComponentScan(basePackages = "com.example")
+public class MyAppApplication {
+
+    public static void main(String[] args) {
+        SpringApplication.run(MyAppApplication.class, args);
+    }
+}
+
+
+In this example:
+
+The EmailService in the Infrastructure Layer sends emails and, after a successful send, fires the EmailSentEvent.
+The EmailEventListener in the Application Layer listens for the EmailSentEvent and executes the handling logic when the event occurs.
+The @ComponentScan annotation in the main application class ensures that Spring scans for components in the specified base package.
+When the sendEmail method in the EmailService is called and the email is successfully sent, the EmailSentEvent is fired. The EmailEventListener in the Application Layer catches the event and executes its handling logic, thus notifying the Application Layer about the successful email send.
+
+Remember, this example demonstrates the concept of notifying the Application Layer from the Infrastructure Layer using events. Depending on your application's complexity and requirements, you might need to adjust and expand this approach.
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,97 @@
+If the Infrastructure Layer needs to notify the Application Layer, it can do so by using callbacks, events, or some form of asynchronous communication.
+
+
+Using callbacks to enable communication from the Infrastructure Layer to the Application Layer involves defining callback interfaces in the Application Layer and passing instances of these interfaces to the Infrastructure Layer. The Infrastructure Layer can then invoke these callbacks to notify the Application Layer of specific events.
+
+Here's a step-by-step example:
+
+Scenario: Suppose your application involves a payment gateway in the Infrastructure Layer, and you want to notify the Application Layer when a payment is successfully processed.
+
+1. Define the Callback Interface:
+
+In the Application Layer, define a callback interface that the Infrastructure Layer will use to notify events.
+
+public interface PaymentCallback {
+    void onPaymentSuccess(String paymentId);
+}
+
+2. Infrastructure Layer (Payment Gateway Service):
+
+In the Infrastructure Layer, you have a payment gateway service that processes payments.
+Inject the callback interface and invoke the callback when a payment is successful.
+
+@Service
+public class PaymentGatewayService {
+
+    private final PaymentCallback paymentCallback;
+
+    @Autowired
+    public PaymentGatewayService(PaymentCallback paymentCallback) {
+        this.paymentCallback = paymentCallback;
+    }
+
+    public void processPayment(String paymentId, double amount) {
+        // Logic to process payment
+
+        // If payment is successful, invoke the callback
+        boolean isPaymentSuccessful = /* Some logic */;
+        if (isPaymentSuccessful) {
+            paymentCallback.onPaymentSuccess(paymentId);
+        }
+    }
+}
+
+
+3. Application Layer:
+
+In the Application Layer, implement the PaymentCallback interface to define the behavior when a payment is successfully processed.
+
+@Component
+public class PaymentCallbackImpl implements PaymentCallback {
+
+    @Override
+    public void onPaymentSuccess(String paymentId) {
+        // Application Layer logic to handle the payment success event
+        System.out.println("Payment " + paymentId + " was successful. Application Layer notified.");
+    }
+}
+
+
+4. Main Application:
+
+Finally, the main application class initializes the Spring Boot application.
+
+@SpringBootApplication
+@ComponentScan(basePackages = "com.example")
+public class MyAppApplication {
+
+    public static void main(String[] args) {
+        SpringApplication.run(MyAppApplication.class, args);
+    }
+}
+
+
+In this example:
+
+The PaymentGatewayService in the Infrastructure Layer processes payments and invokes the onPaymentSuccess callback method when a payment is successful.
+The PaymentCallbackImpl in the Application Layer implements the PaymentCallback interface and defines the logic to handle payment success events.
+The @ComponentScan annotation in the main application class ensures that Spring scans for components in the specified base package.
+When the processPayment method in the PaymentGatewayService successfully processes a payment, it invokes the onPaymentSuccess callback method defined in the PaymentCallbackImpl class. This callback notifies the Application Layer about the successful payment processing.
+
+Using callbacks in this manner allows the Infrastructure Layer to interact with the Application Layer while maintaining a clear separation of concerns and promoting modularity.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
