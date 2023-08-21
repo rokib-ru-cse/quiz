@@ -36,7 +36,7 @@ jobs:
     - name: Clear Maven cache
       run: rm -rf ~/.m2
     - name: Build with Maven
-      run: mvn clean install
+      run: mvn clean install -Dspring.profiles.active=test
     - name: List contents of the directory
       run: ls -al
     - name: Print debugging message
