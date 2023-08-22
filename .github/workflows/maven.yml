@@ -47,7 +47,7 @@ jobs:
         image: rokibrucse/quiz
         tags: latest
         registry: docker.io
-        dockerfile: Dockerfile
+        dockerfile: Dockerfilex
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
 
