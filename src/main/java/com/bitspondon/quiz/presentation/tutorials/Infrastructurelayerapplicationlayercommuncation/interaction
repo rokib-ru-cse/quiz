@@ -1,0 +1,68 @@
+When you need to interact with external services or third-party APIs in a clean architecture, it's best to follow a similar pattern to what we've discussed earlier: isolate the external interactions in the infrastructure layer, abstract them using interfaces defined in the application layer, and then inject and use those interfaces in the application layer.
+
+Here's how you can approach this situation:
+
+1. **Create an Interface in the Application Layer**:
+   - Define an interface in the application layer that represents the interactions with the third-party API. This interface should contain methods that capture the functionality you need from the API.
+
+```java
+// In the application layer
+package com.yourapp.application.services;
+
+public interface ThirdPartyApiService {
+    String fetchDataFromApi();
+    // Other methods as needed
+}
+```
+
+2. **Implement the Interface in the Infrastructure Layer**:
+   - In the infrastructure layer, implement the interface you defined in the application layer. This implementation should actually make the calls to the third-party API.
+
+```java
+// In the infrastructure layer
+package com.yourapp.infrastructure.services;
+
+import com.yourapp.application.services.ThirdPartyApiService;
+import org.springframework.stereotype.Service;
+
+@Service
+public class ThirdPartyApiServiceImpl implements ThirdPartyApiService {
+
+    @Override
+    public String fetchDataFromApi() {
+        // Make the actual API call and return the result
+    }
+
+    // Implement other methods as needed
+}
+```
+
+3. **Inject and Use the Interface in the Application Layer**:
+   - Inject the `ThirdPartyApiService` interface into your application layer components where you need to use the third-party API functionality.
+
+```java
+// In the application layer
+package com.yourapp.application.usecases;
+
+import com.yourapp.application.services.ThirdPartyApiService;
+import org.springframework.stereotype.Service;
+
+@Service
+public class YourUseCase {
+
+    private final ThirdPartyApiService thirdPartyApiService;
+
+    @Autowired
+    public YourUseCase(ThirdPartyApiService thirdPartyApiService) {
+        this.thirdPartyApiService = thirdPartyApiService;
+    }
+
+    public void yourUseCaseMethod() {
+        // Use thirdPartyApiService to interact with the third-party API
+        String apiData = thirdPartyApiService.fetchDataFromApi();
+        // Perform your use case logic
+    }
+}
+```
+
+By following this approach, you maintain the separation of concerns and dependencies between layers. The application layer can use the abstraction of the `ThirdPartyApiService` interface to interact with the third-party API without knowing the implementation details. This also makes your codebase more testable, modular, and adaptable to changes.

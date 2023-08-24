@@ -30,6 +30,13 @@ public class LiveQuizClientController {
         return ReturnReponse.<LiveQuiz>builder().message("data found successfully").succeeded(true).values(liveQuizList).build();
     }
 
+    @GetMapping(ClientUrl.LIVE_QUIZ_ENROLL + "/{" + Constant.LIVE_QUIZ_ID + "}")
+    public ReturnReponse<String> enroll(@PathVariable(Constant.LIVE_QUIZ_ID) Long quizId) throws Exception {
+        LiveQuiz quiz = liveQuizUseCase.enroll(quizId);
+        return ReturnReponse.<String>builder().message("quiz enrollment successfully done").succeeded(true).value(null).build();
+    }
+
+
     @GetMapping(ClientUrl.LIVE_QUIZ_START + "/{" + Constant.LIVE_QUIZ_ID + "}")
     public ReturnReponse<QuizSubmissionDTO> startLiveQuiz(@PathVariable(Constant.LIVE_QUIZ_ID) Long quizId) throws Exception {
 

@@ -9,6 +9,7 @@ public class ClientUrl {
     public static final String OLD_QUIZ_START = "/start";
     public static final String OLD_QUIZ_SUBMIT = "/submit";
     public static final String LIVE_QUIZ = Constant.CURRENT_API_VERSION + "livequiz";
+    public static final String LIVE_QUIZ_ENROLL = "/enroll";
     public static final String LIVE_QUIZ_START = "/start";
     public static final String LIVE_QUIZ_SUBMIT = "/submit";
 

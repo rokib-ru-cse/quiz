@@ -1,0 +1,25 @@
+I apologize for any confusion. Let me clarify the best practices regarding the clean architecture and how to interact between layers.
+
+In a clean architecture, the goal is to maintain a clear separation of concerns and dependencies between different layers of your application. The layers are designed to be independent and have a one-way flow of dependencies, with the outer layers depending on the inner layers.
+
+The common layers in clean architecture are:
+
+1. **Domain Layer**: This layer holds the core business logic and entities of your application. It should be independent of other layers and contain no references to external libraries, frameworks, or other layers.
+
+2. **Use Case/Interactor Layer**: This layer contains the application-specific business rules and use cases. It coordinates between the domain layer and the outer layers.
+
+3. **Adapter/Interface Layer**: This layer deals with external interactions, such as UI, databases, and frameworks. It adapts the data from the inner layers to be used by external components.
+
+When it comes to using components from different layers, the general principle is to maintain the one-way dependency rule. Outer layers can depend on inner layers, but inner layers should not depend on outer layers. Here's how this applies to your situation:
+
+- **Application Layer**: This layer can depend on the domain layer because it orchestrates the use cases and business logic. This means the application layer can use entities and interfaces defined in the domain layer.
+
+- **Infrastructure Layer**: This layer should depend on both the application and domain layers, but neither of these layers should depend on the infrastructure layer. The infrastructure layer deals with database access, external services, and other technical concerns.
+
+In your scenario:
+
+- If you're implementing a scheduled job (an infrastructure concern), and you need to interact with `LiveQuiz` entities (a domain concern) and use the repository interface, the recommended approach is to define interfaces in the application layer and implement them in the infrastructure layer.
+
+- The infrastructure layer would then adapt the domain-specific entities and repository interfaces into a format that can be used by the infrastructure concerns (like the scheduled job). This maintains the separation of concerns and ensures that domain logic is isolated from infrastructure logic.
+
+In summary, the principle is to keep domain logic and domain entities isolated from infrastructure concerns while allowing adapters to mediate interactions between layers. This way, your codebase remains modular, maintainable, and flexible to changes.
