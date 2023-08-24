@@ -11,13 +11,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.ArrayList;
+import java.util.Map;
 
 @Controller
 @PreAuthorize("hasRole('" + Constant.ROLE_ADMIN + "')")
@@ -121,27 +118,54 @@ public class LiveQuizAdminController {
         return AdminUrl.LIVE_QUIZ_REDIRECT_TO_INDEX;
     }
 
-    @GetMapping(AdminUrl.LIVE_QUIZ_START + "/{" + Constant.LIVE_QUIZ_ID + "}")
-    public ModelAndView startLiveQuiz(@PathVariable(Constant.LIVE_QUIZ_ID) Long quizId) throws Exception {
-        ModelAndView model = new ModelAndView(TemplatesPath.LIVE_QUIZ_START_PAGE);
-        Constant constants = new Constant();
-        LiveQuiz liveQuiz = liveQuizUseCase.startLiveQuiz(quizId);
-        constants.setQuestionList(new ArrayList<>(liveQuiz.getQuestions()));
-        constants.setActionUrl(AdminUrl.LIVE_QUIZ_START + "/" + quizId);
-        model.addObject(Constant.LIVE_QUIZ, liveQuiz);
-        model.addObject(Constant.CONSTANTS, constants);
-        return model;
-    }
+//    @GetMapping(AdminUrl.LIVE_QUIZ_START + "/{" + Constant.LIVE_QUIZ_ID + "}")
+//    public ModelAndView startLiveQuiz(@PathVariable(Constant.LIVE_QUIZ_ID) Long quizId) throws Exception {
+//        ModelAndView model = new ModelAndView(TemplatesPath.LIVE_QUIZ_START_PAGE);
+//        Constant constants = new Constant();
+//        QuizSubmission liveQuiz = liveQuizUseCase.startLiveQuiz(quizId);
+//        constants.setQuizQuestionList(new ArrayList<>(liveQuiz.getQuestions()));
+//        constants.setActionUrl(AdminUrl.LIVE_QUIZ_START + "/" + quizId);
+//        model.addObject(Constant.LIVE_QUIZ, liveQuiz);
+//        model.addObject(Constant.CONSTANTS, constants);
+//        return model;
+//    }
+
+//    @PostMapping(AdminUrl.LIVE_QUIZ_START + "/{" + Constant.LIVE_QUIZ_ID + "}")
+//    public String processLiveQuizSubmission(@PathVariable(Constant.LIVE_QUIZ_ID) int quizId, @ModelAttribute(Constant.LIVE_QUIZ) LiveQuiz quiz) throws Exception {
+////        LiveQuiz quiz = liveQuizUseCase.getLiveQuiz(quizId);
+////        model.addAttribute("quiz", quiz);
+////        List<Question> availableQuestions = questionUseCase.getQuestions(); // Fetch available questions
+////        model.addAttribute("questions", availableQuestions);
+////        model.addAttribute("actionUrl", "/livequiz/assignquestion/" + quizId);
+////        LiveQuiz quiz = liveQuizUseCase.enroll(quizId);
+//
+//        return "redirect:/livequiz/index";
+//    }
+
 
     @PostMapping(AdminUrl.LIVE_QUIZ_START + "/{" + Constant.LIVE_QUIZ_ID + "}")
-    public String processLiveQuizSubmission(@PathVariable(Constant.LIVE_QUIZ_ID) int quizId, @ModelAttribute(Constant.LIVE_QUIZ) LiveQuiz quiz) throws Exception {
-//        LiveQuiz quiz = liveQuizUseCase.getLiveQuiz(quizId);
-//        model.addAttribute("quiz", quiz);
-//        List<Question> availableQuestions = questionUseCase.getQuestions(); // Fetch available questions
-//        model.addAttribute("questions", availableQuestions);
-//        model.addAttribute("actionUrl", "/livequiz/assignquestion/" + quizId);
-//        LiveQuiz quiz = liveQuizUseCase.enroll(quizId);
+    public String processLiveQuizSubmission(@PathVariable(Constant.LIVE_QUIZ_ID) int quizId,
+//            @ModelAttribute(Constant.LIVE_QUIZ) LiveQuiz quiz,
+                                            @RequestParam Map<String, String[]> formData) throws Exception {
+        // Assuming the formData parameter contains the selected options for each question
+        for (Map.Entry<String, String[]> entry : formData.entrySet()) {
+            String questionName = entry.getKey();     // Name of the question
+            String[] selectedOptions = entry.getValue();  // Selected options for the question
 
+            // Process the selected options for each question
+            // Here you can iterate through selectedOptions array and perform necessary actions
+            for (String option : selectedOptions) {
+                System.out.println("Question: " + questionName + ", Selected Option: " + option);
+                // Perform additional processing if needed
+            }
+        }
+
+        // Perform any necessary logic using the selected options
+        // For example, you can update the quiz object with the selected options
+
+        // Redirect to a relevant page after processing
         return "redirect:/livequiz/index";
     }
+
+
 }

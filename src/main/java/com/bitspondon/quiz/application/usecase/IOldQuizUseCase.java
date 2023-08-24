@@ -1,5 +1,6 @@
 package com.bitspondon.quiz.application.usecase;
 
+import com.bitspondon.quiz.domain.dto.quizsubmission.QuizSubmissionDTO;
 import com.bitspondon.quiz.domain.entities.OldQuiz;
 
 import java.util.List;
@@ -17,5 +18,6 @@ public interface IOldQuizUseCase {
     OldQuiz saveAssignedQuestionsToOldQuiz(OldQuiz question);
 
     OldQuiz deleteOldQuiz(Long id);
-
+    QuizSubmissionDTO startOldQuiz(Long quizId) throws Exception;
+    QuizSubmissionDTO submitOldQuiz(Long quizId,QuizSubmissionDTO quizSubmission) throws Exception;
 }

@@ -1,5 +1,6 @@
 package com.bitspondon.quiz.application.usecase;
 
+import com.bitspondon.quiz.domain.dto.quizsubmission.QuizSubmissionDTO;
 import com.bitspondon.quiz.domain.entities.LiveQuiz;
 
 import java.util.List;
@@ -14,7 +15,8 @@ public interface ILiveQuizUseCase {
 
     LiveQuiz getLiveQuiz(Long quizId);
 
-    LiveQuiz startLiveQuiz(Long quizId) throws Exception;
+    QuizSubmissionDTO startLiveQuiz(Long quizId) throws Exception;
+    QuizSubmissionDTO submitLiveQuiz(Long quizId,QuizSubmissionDTO quizSubmission) throws Exception;
 
     LiveQuiz getLiveQuizDetails(Long quizId);
 

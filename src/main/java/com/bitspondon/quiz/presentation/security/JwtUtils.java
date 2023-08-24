@@ -20,7 +20,7 @@ public class JwtUtils implements Serializable {
 
     private static final long serialVersionUID = -2550185165626007488L;
     private static final String SECRET_KEY = "404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970";
-    private final long TOKEN_EXPIRATION = 1000 * 60 * 60; // 1 hour
+    private final long TOKEN_EXPIRATION = 1000 * 60 * 60 * 24; // 24 hour
 
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);

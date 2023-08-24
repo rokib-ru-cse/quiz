@@ -3,32 +3,24 @@ package com.bitspondon.quiz.application.usecase.impl;
 import com.bitspondon.quiz.application.repository.*;
 import com.bitspondon.quiz.application.usecase.IOldQuizUseCase;
 import com.bitspondon.quiz.domain.Util;
-import com.bitspondon.quiz.domain.entities.OldQuiz;
+import com.bitspondon.quiz.domain.dto.quizsubmission.QuizQuestionDTO;
+import com.bitspondon.quiz.domain.dto.quizsubmission.QuizSubmissionDTO;
+import com.bitspondon.quiz.domain.entities.*;
+import com.bitspondon.quiz.domain.exception.CustomException;
+import lombok.AllArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
-import java.util.List;
+import java.time.LocalDateTime;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
+@AllArgsConstructor
 public class OldQuizUseCase implements IOldQuizUseCase {
     private final IOldQuizRepository oldQuizRepository;
 
-    private final ILiveQuizRepository liveQuizRepository;
-
-    private final IChapterRepository chapterRepository;
-
-    private final ISubjectRepository subjectRepository;
-
-    public OldQuizUseCase(IOldQuizRepository oldQuizRepository, ILiveQuizRepository liveQuizRepository, IChapterRepository chapterRepository, ISubjectRepository subjectRepository, ILevelRepository levelRepository, IUserRepository userRepository) {
-        this.oldQuizRepository = oldQuizRepository;
-        this.liveQuizRepository = liveQuizRepository;
-        this.chapterRepository = chapterRepository;
-        this.subjectRepository = subjectRepository;
-        this.levelRepository = levelRepository;
-        this.userRepository = userRepository;
-    }
-
-    private final ILevelRepository levelRepository;
+    private final IQuizSubmissionRepository quizSubmissionRepository;
 
     private final IUserRepository userRepository;
 
@@ -106,5 +98,67 @@ public class OldQuizUseCase implements IOldQuizUseCase {
         return dbquiz;
 //        return ReturnReponse.<quiz>builder().message("question deleted successfully").succeeded(true).value(dbquiz).build();
     }
+
+    @Override
+    public QuizSubmissionDTO startOldQuiz(Long quizId) throws Exception {
+
+        OldQuiz oldQuiz = oldQuizRepository.findQuizWithAssignedQuestions(quizId);
+        //        if (liveQuiz.getQuizDate().compareTo(LocalDate.now()) > 0 && liveQuiz.getStartTime().compareTo(LocalTime.now()) > 0) {
+        //            throw new CustomException("Quiz Will Be Started At " + liveQuiz.getQuizDate() + " - " + liveQuiz.getStartTime());
+        //        } else if (liveQuiz.getQuizDate().isEqual(LocalDate.now()) && liveQuiz.getStartTime().compareTo(LocalTime.now()) < 0 && liveQuiz.getStartTime().plusMinutes(liveQuiz.getDuration()).compareTo(LocalTime.now()) > 0) {
+        //            return liveQuiz;
+        //        } else {
+        //            throw new CustomException("Quiz Have Ended At " + liveQuiz.getQuizDate() + " - " + liveQuiz.getStartTime());
+        //        }
+        QuizSubmissionDTO quizSubmission = new QuizSubmissionDTO();
+        quizSubmission.setQuizId(oldQuiz.getId());
+
+        List<QuizQuestionDTO> quizQuestionList = new ArrayList<>();
+        for (Question question : oldQuiz.getQuestions()) {
+            quizQuestionList.add(Util.getQuestionWithOptions(question));
+        }
+        quizSubmission.setQuestions(quizQuestionList);
+        return quizSubmission;
+
+    }
+
+    @Override
+    public QuizSubmissionDTO submitOldQuiz(Long quizId, QuizSubmissionDTO quizSubmission) throws Exception {
+        OldQuiz dbOldQuiz = oldQuizRepository.findById(quizId).orElse(null);
+        User user = userRepository.findByEmail(SecurityContextHolder.getContext().getAuthentication().getName()).orElse(null);
+        if (dbOldQuiz == null) {
+            throw new CustomException("No Live Quiz Found with id " + quizId);
+        }
+        if (user == null) {
+            throw new CustomException("user not found");
+        }
+
+        Map<Long, Set<String>> questionAnswers = dbOldQuiz.getQuestions().stream().collect(Collectors.toMap(Question::getId, question -> new HashSet<>(question.getAnswers())));
+
+        int marksPerQuestion = dbOldQuiz.getMarks() / questionAnswers.size();
+        int totalCorrectAnswers = 0;
+
+        for (QuizQuestionDTO questionDTO : quizSubmission.getQuestions()) {
+            Set<String> correctAnswers = questionAnswers.get(questionDTO.getQuestionId());
+            if (correctAnswers != null && correctAnswers.containsAll(questionDTO.getChoices())) {
+                totalCorrectAnswers++;
+            }
+        }
+
+        int totalMarks = totalCorrectAnswers * marksPerQuestion;
+
+        QuizSubmission newQuizSubmission = new QuizSubmission();
+        newQuizSubmission.setUser(user);
+        newQuizSubmission.setOldQuiz(dbOldQuiz);
+        newQuizSubmission.setSubmissionTime(LocalDateTime.now());
+        newQuizSubmission.setChosenAnswers(Util.chosenAnswers(quizSubmission.getQuestions()));
+        newQuizSubmission.setComments("quiz was awesome");
+        newQuizSubmission.setMarks(totalMarks);
+
+        quizSubmissionRepository.save(newQuizSubmission);
+
+        return new QuizSubmissionDTO();
+    }
+
 
 }

@@ -14,7 +14,7 @@
                 <ul class="list-unstyled">
                     <li class="form-check" th:each="option : ${question.optionList}">
                         <label class="form-check-label">
-                            <input class="form-check-input" type="checkbox" th:name="'question_' + ${questionStat.index}" th:value="${option.name}" />
+                            <input class="form-check-input" type="checkbox" th:name="'question_' + ${question.id}" th:value="${option.name}" />
                             <span th:text="${option.name}"></span>
                         </label>
                     </li>

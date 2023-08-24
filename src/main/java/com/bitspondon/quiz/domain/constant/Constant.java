@@ -1,6 +1,7 @@
 package com.bitspondon.quiz.domain.constant;
 
 import com.bitspondon.quiz.domain.dto.question.OptionDTO;
+import com.bitspondon.quiz.domain.dto.quizsubmission.QuizQuestionDTO;
 import com.bitspondon.quiz.domain.entities.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -57,6 +58,7 @@ public class Constant {
     private List<Subject> subjectList = null;
     private List<Chapter> chapterList = null;
     private List<Question> questionList = null;
+    private List<QuizQuestionDTO> quizQuestionList = null;
     private List<OptionDTO> questionOptions = null;
     private List<OldQuiz> oldQuizList = null;
     private List<LiveQuiz> liveQuizList = null;

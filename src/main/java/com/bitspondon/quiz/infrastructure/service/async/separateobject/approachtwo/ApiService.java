@@ -3,7 +3,6 @@ package com.bitspondon.quiz.infrastructure.service.async.separateobject.approach
 import com.bitspondon.quiz.infrastructure.service.async.sameobject.Comment;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.Arrays;
@@ -12,7 +11,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 
-@Service
+//@Service
 public class ApiService {
 
     //    private final AllBCRepository allBCRepository;

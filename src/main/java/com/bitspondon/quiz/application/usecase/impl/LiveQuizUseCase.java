@@ -1,40 +1,34 @@
 package com.bitspondon.quiz.application.usecase.impl;
 
-import com.bitspondon.quiz.application.repository.*;
+import com.bitspondon.quiz.application.repository.ILiveQuizRepository;
+import com.bitspondon.quiz.application.repository.IQuizSubmissionRepository;
+import com.bitspondon.quiz.application.repository.IUserRepository;
 import com.bitspondon.quiz.application.usecase.ILiveQuizUseCase;
 import com.bitspondon.quiz.domain.Util;
 import com.bitspondon.quiz.domain.constant.ValidationMessage;
+import com.bitspondon.quiz.domain.dto.quizsubmission.QuizQuestionDTO;
+import com.bitspondon.quiz.domain.dto.quizsubmission.QuizSubmissionDTO;
 import com.bitspondon.quiz.domain.entities.LiveQuiz;
 import com.bitspondon.quiz.domain.entities.Question;
+import com.bitspondon.quiz.domain.entities.QuizSubmission;
 import com.bitspondon.quiz.domain.entities.User;
 import com.bitspondon.quiz.domain.exception.CustomException;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.time.LocalDateTime;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
+@AllArgsConstructor
 public class LiveQuizUseCase implements ILiveQuizUseCase {
 
 
-    @Autowired
-    private ILiveQuizRepository liveQuizRepository;
-
-    @Autowired
-    private IChapterRepository chapterRepository;
-
-    @Autowired
-    private ISubjectRepository subjectRepository;
-
-    @Autowired
-    private ILevelRepository levelRepository;
-
-    @Autowired
-    private IUserRepository userRepository;
-
+    private final ILiveQuizRepository liveQuizRepository;
+    private final IUserRepository userRepository;
+    private final IQuizSubmissionRepository quizSubmissionRepository;
 
     //---------------------
     @Override
@@ -91,7 +85,7 @@ public class LiveQuizUseCase implements ILiveQuizUseCase {
     }
 
     @Override
-    public LiveQuiz startLiveQuiz(Long quizId) throws Exception {
+    public QuizSubmissionDTO startLiveQuiz(Long quizId) throws Exception {
 
         LiveQuiz liveQuiz = liveQuizRepository.findQuizWithAssignedQuestions(quizId);
         //        if (liveQuiz.getQuizDate().compareTo(LocalDate.now()) > 0 && liveQuiz.getStartTime().compareTo(LocalTime.now()) > 0) {
@@ -101,12 +95,54 @@ public class LiveQuizUseCase implements ILiveQuizUseCase {
         //        } else {
         //            throw new CustomException("Quiz Have Ended At " + liveQuiz.getQuizDate() + " - " + liveQuiz.getStartTime());
         //        }
+        QuizSubmissionDTO quizSubmission = new QuizSubmissionDTO();
+        quizSubmission.setQuizId(liveQuiz.getId());
 
+        List<QuizQuestionDTO> quizQuestionList = new ArrayList<>();
         for (Question question : liveQuiz.getQuestions()) {
-            Util.getQuestionWithOptionsAndAnswer(question);
+            quizQuestionList.add(Util.getQuestionWithOptions(question));
         }
-        return liveQuiz;
+        quizSubmission.setQuestions(quizQuestionList);
+        return quizSubmission;
 
+    }
+
+    @Override
+    public QuizSubmissionDTO submitLiveQuiz(Long quizId, QuizSubmissionDTO quizSubmission) throws Exception {
+        LiveQuiz dbLiveQuiz = liveQuizRepository.findById(quizId).orElse(null);
+        User user = userRepository.findByEmail(SecurityContextHolder.getContext().getAuthentication().getName()).orElse(null);
+        if (dbLiveQuiz == null) {
+            throw new CustomException("No Live Quiz Found with id " + quizId);
+        }
+        if (user == null) {
+            throw new CustomException("user not found");
+        }
+
+        Map<Long, Set<String>> questionAnswers = dbLiveQuiz.getQuestions().stream().collect(Collectors.toMap(Question::getId, question -> new HashSet<>(question.getAnswers())));
+
+        int marksPerQuestion = dbLiveQuiz.getMarks() / questionAnswers.size();
+        int totalCorrectAnswers = 0;
+
+        for (QuizQuestionDTO questionDTO : quizSubmission.getQuestions()) {
+            Set<String> correctAnswers = questionAnswers.get(questionDTO.getQuestionId());
+            if (correctAnswers != null && correctAnswers.containsAll(questionDTO.getChoices())) {
+                totalCorrectAnswers++;
+            }
+        }
+
+        int totalMarks = totalCorrectAnswers * marksPerQuestion;
+
+        QuizSubmission newQuizSubmission = new QuizSubmission();
+        newQuizSubmission.setUser(user);
+        newQuizSubmission.setLiveQuiz(dbLiveQuiz);
+        newQuizSubmission.setSubmissionTime(LocalDateTime.now());
+        newQuizSubmission.setChosenAnswers(Util.chosenAnswers(quizSubmission.getQuestions()));
+        newQuizSubmission.setComments("quiz was awesome");
+        newQuizSubmission.setMarks(totalMarks);
+
+        quizSubmissionRepository.save(newQuizSubmission);
+
+        return new QuizSubmissionDTO();
     }
 
 
