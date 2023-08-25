@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 
@@ -20,5 +21,5 @@ public interface ILiveQuizRepository extends JpaRepository<LiveQuiz, Long> {
             "WHERE q.quizDate <= :currentDate AND q.endTime <= :currentTime")
     List<LiveQuiz> findEndedQuizzes(@Param("currentDate") LocalDate currentDate,
                                     @Param("currentTime") LocalTime currentTime);
-
+    List<LiveQuiz> findByStartTimeBetween(LocalDateTime startTime, LocalDateTime endTime);
 }
