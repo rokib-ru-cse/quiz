@@ -26,10 +26,12 @@ public class LevelAdminController {
     public ModelAndView index() {
         ModelAndView model = new ModelAndView(TemplatesPath.LEVEL_INDEX_PAGE);
         Constant constants = new Constant();
+        constants.setActionUrl(AdminUrl.LEVEL_UPLOAD);
         constants.setLevelList(levelUseCase.getLevels());
         model.addObject(Constant.CONSTANTS, constants);
         return model;
     }
+
 
 
     @GetMapping(AdminUrl.LEVEL_CREATE)
@@ -72,5 +74,9 @@ public class LevelAdminController {
         levelUseCase.updateLevel(levelObject);
         return AdminUrl.LEVEL_REDIRECT_TO_INDEX;
     }
-
+    @GetMapping(AdminUrl.LEVEL_DELETE + "/{" + Constant.LEVEL_ID + "}")
+    public String delete(@PathVariable(Constant.LEVEL_ID) Long levelId) {
+        levelUseCase.deleteLevel(levelId);
+        return AdminUrl.LEVEL_REDIRECT_TO_INDEX;
+    }
 }

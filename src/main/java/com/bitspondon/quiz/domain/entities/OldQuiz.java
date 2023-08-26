@@ -1,6 +1,5 @@
 package com.bitspondon.quiz.domain.entities;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -66,7 +65,6 @@ public class OldQuiz {
     private int chapterId;
 
     @JsonManagedReference
-
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "oldquiz_question",
             joinColumns = {@JoinColumn(name = "quiz_id", referencedColumnName = "id")},

@@ -7,6 +7,7 @@ import java.util.List;
 
 public interface IChapterUseCase {
     List<Chapter> getChapters();
+    List<Chapter> getChaptersBySubject(long subjectId);
 
     Chapter getChapter(Long chapterId);
 

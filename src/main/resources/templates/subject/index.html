@@ -5,7 +5,27 @@
         layout:decorate="~{layout/main}">
 <body>
 <div class="container" layout:fragment="content">
-    <a class="btn btn-primary" th:href="${constants.ADMIN_URL.SUBJECT_CREATE}">Create</a>
+
+
+    <div class="row">
+        <div class="col-md-6">
+            <a class="btn btn-primary" th:href="${constants.ADMIN_URL.SUBJECT_CREATE}">Create</a>
+        </div>
+        <div class="col-md-6">
+            <form th:action="${constants.actionUrl}" method="post" enctype="multipart/form-data">
+                <div class="row align-items-center">
+                    <div class="col-md-6 mb-md-4">
+                        <label for="file" class="form-label">Select Subject Excel File</label>
+                        <input class="form-control form-control-sm" id="file" name="file" type="file">
+                    </div>
+                    <div class="col-md-6">
+                        <button type="submit" class="btn btn-success float-right">Upload</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <table class="table table-bordered table-hover">
         <thead class="thead-dark">
         <tr>

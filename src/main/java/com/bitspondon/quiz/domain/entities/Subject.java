@@ -1,10 +1,12 @@
 package com.bitspondon.quiz.domain.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.util.Date;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -29,8 +31,12 @@ public class Subject {
     private boolean isActive;
     private Date createdAt;
     private Date updatedAt;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.DETACH)
+    @JsonIgnore
     private Level level;
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true,mappedBy = "subject")
+    private Set<Chapter> chapterList;
 
     @Transient
     private long levelId;

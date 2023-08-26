@@ -31,6 +31,11 @@ public class SubjectUseCase implements ISubjectUseCase {
     }
 
     @Override
+    public List<Subject> getSubjectsByLevel(long levelId) {
+        return  subjectRepository.findByLevel_Id(levelId);
+    }
+
+    @Override
     public Subject getSubject(Long subjectId) {
         return subjectRepository.findById(subjectId).get();
     }

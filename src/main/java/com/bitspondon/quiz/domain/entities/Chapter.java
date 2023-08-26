@@ -1,5 +1,6 @@
 package com.bitspondon.quiz.domain.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
@@ -30,7 +31,8 @@ public class Chapter {
     private Date createdAt;
     private Date updatedAt;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.DETACH)
+    @JsonIgnore
     private Subject subject;
 
     @Transient

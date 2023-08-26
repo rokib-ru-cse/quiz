@@ -7,11 +7,17 @@ import java.util.List;
 
 public interface ISubjectUseCase {
     List<Subject> getSubjects();
+
+    List<Subject> getSubjectsByLevel(long levelId);
+
     Subject getSubject(Long subjectId);
 
+
     Subject saveSubject(Subject subjectRequest);
+
     List<Subject> saveSubjects(MultipartFile file) throws Exception;
 
     Subject updateSubject(Subject subjectRequest);
+
     Subject deleteSubject(Long id);
 }

@@ -24,10 +24,13 @@ public class ChapterAdminController {
     @Autowired
     private ISubjectUseCase subjectUseCase;
 
+
+
     @GetMapping(AdminUrl.CHAPTER_INDEX)
     public ModelAndView index() {
         ModelAndView model = new ModelAndView(TemplatesPath.CHAPTER_INDEX_PAGE);
         Constant constants = new Constant();
+        constants.setActionUrl(AdminUrl.CHAPTER_UPLOAD);
         constants.setChapterList(chapterUseCase.getChapters());
         model.addObject(Constant.CONSTANTS, constants);
         return model;

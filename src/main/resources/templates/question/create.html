@@ -30,26 +30,29 @@
             <div class="col-6 col-md-6">
                 <div class="form-group">
                     <label class="col-md-4 control-label">Level</label>
-                    <select th:field="*{level}" class="form-control" required>
+                    <select id="levelDropdown" th:field="*{level}" class="form-control" required
+                            th:data-api-subject-url="${constants.CLIENT_URL.SUBJECT_BY_LEVEL_ID}">
                         <option value="">Select Level</option>
                         <option th:each="levelOption : ${constants.levelList}" th:value="${levelOption.id}"
-                                th:text="${levelOption.name}"></option>
+                                th:text="${levelOption.levelCode} +' - '+${levelOption.name}"></option>
                     </select>
                 </div>
                 <div class="form-group">
                     <label class="col-md-4 control-label">Subject</label>
-                    <select th:field="*{subject}" class="form-control" required>
+                    <select th:field="*{subject}" class="form-control" required id="subjectDropdown"
+                            th:data-api-chapter-url="${constants.CLIENT_URL.CHAPTER_BY_SUBJECT_ID}">
                         <option value="">Select Subject</option>
                         <option th:each="subjectOption : ${constants.subjectList}" th:value="${subjectOption.id}"
-                                th:text="${subjectOption.name}"></option>
+                                th:text="${subjectOption.subjectCode} +' - '+ ${subjectOption.name}"></option>
                     </select>
+
                 </div>
                 <div class="form-group">
                     <label class="col-md-4 control-label">Chapter</label>
-                    <select th:field="*{chapter}" class="form-control" required>
+                    <select th:field="*{chapter}" class="form-control" required id="chapterDropdown">
                         <option value="">Select Chapter</option>
                         <option th:each="chapterOption : ${constants.chapterList}" th:value="${chapterOption.id}"
-                                th:text="${chapterOption.name}"></option>
+                                th:text="${chapterOption.chapterCode} +' - '+${chapterOption.name}"></option>
                     </select>
                 </div>
             </div>
@@ -107,6 +110,29 @@
         $(document).ready(function () {
             // alert("hi from question");
             optionCount = $("#optionTable").find("tr").length;
+
+            $('#levelDropdown').change(async function () {
+                const levelId = $(this).val();
+                if (levelId !== '') {
+                    const url = $(this).data('api-subject-url') + "/" + levelId;
+                    const response = await getAnyData(url);
+                    $('#subjectDropdown').empty().append(getSubjectDropdowns(response.value));
+                    $('#chapterDropdown').empty().append(getChapterDropdowns());
+                } else {
+                    $('#subjectDropdown').empty().append(getSubjectDropdowns());
+                    $('#chapterDropdown').empty().append(getChapterDropdowns());
+                }
+            });
+            $('#subjectDropdown').change(async function () {
+                const subjectId = $(this).val();
+                if (subjectId !== '') {
+                    const url = $(this).data('api-chapter-url') + "/" + subjectId;
+                    const response = await getAnyData(url);
+                    $('#chapterDropdown').empty().append(getChapterDropdowns(response.value));
+                } else {
+                    $('#chapterDropdown').empty().append(getChapterDropdowns());
+                }
+            });
         });
 
 

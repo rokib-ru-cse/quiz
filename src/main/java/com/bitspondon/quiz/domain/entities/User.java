@@ -1,6 +1,7 @@
 package com.bitspondon.quiz.domain.entities;
 
 import com.bitspondon.quiz.domain.encrypt.MaskData;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -51,6 +52,7 @@ public class User implements Serializable, UserDetails {
     @Column(name = "role")
     private String role;
 
+    @JsonBackReference
     @ManyToMany(mappedBy = "users", fetch = FetchType.LAZY)
     private Set<LiveQuiz> quizzes = new HashSet<>();
 

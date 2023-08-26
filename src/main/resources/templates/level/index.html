@@ -2,7 +2,26 @@
 <html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" lang="en" layout:decorate="~{layout/main}">
 <body>
 <div class="container" layout:fragment="content">
-    <a class="btn btn-primary" th:href="${constants.ADMIN_URL.LEVEL_CREATE}">Create</a>
+    <div class="row">
+        <div class="col-md-6">
+            <a class="btn btn-primary" th:href="${constants.ADMIN_URL.LEVEL_CREATE}">Create</a>
+        </div>
+        <div class="col-md-6">
+            <form th:action="${constants.actionUrl}" method="post" enctype="multipart/form-data">
+                <div class="row align-items-center">
+                    <div class="col-md-6 mb-md-4">
+                        <label for="file" class="form-label">Select Level Excel File</label>
+                        <input class="form-control form-control-sm" id="file" name="file" type="file">
+                    </div>
+                    <div class="col-md-6">
+                        <button type="submit" class="btn btn-success float-right">Upload</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
     <table class="table table-bordered table-hover">
         <thead class="thead-dark">
         <tr>
@@ -24,7 +43,10 @@
             <td th:text="${level.name}"></td>
             <td th:text="${level.active}"></td>
             <td th:text="${#dates.format(level.createdAt, 'yyyy-MM-dd HH:mm:ss')}"></td>
-            <td><a th:href="@{|${constants.ADMIN_URL.LEVEL_EDIT}/${level.id}|}" class="btn btn-danger"> Edit</a></td>
+            <td>
+                <a th:href="@{|${constants.ADMIN_URL.LEVEL_EDIT}/${level.id}|}" class="btn btn-danger"> Edit</a>
+                <a th:href="@{|${constants.ADMIN_URL.LEVEL_DELETE}/${level.id}|}" class="btn btn-success"> Delete</a>
+            </td>
         </tr>
         </tbody>
     </table>

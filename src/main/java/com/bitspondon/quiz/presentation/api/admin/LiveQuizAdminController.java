@@ -56,10 +56,10 @@ public class LiveQuizAdminController {
         ModelAndView model = new ModelAndView(TemplatesPath.LIVE_QUIZ_CREATE_PAGE);
         Constant constants = new Constant();
         constants.setLevelList(levelUseCase.getLevels());
-        constants.setSubjectList(subjectUseCase.getSubjects());
-        constants.setChapterList(chapterUseCase.getChapters());
+//        constants.setSubjectList(subjectUseCase.getSubjects());
+//        constants.setChapterList(chapterUseCase.getChapters());
         constants.setActionUrl(AdminUrl.LIVE_QUIZ_CREATE);
-        model.addObject(Constant.OLD_QUIZ, new LiveQuiz());
+        model.addObject(Constant.LIVE_QUIZ, new LiveQuiz());
         model.addObject(Constant.CONSTANTS, constants);
         return model;
     }

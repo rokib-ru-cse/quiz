@@ -32,6 +32,11 @@ public class ChapterUseCase implements IChapterUseCase {
     }
 
     @Override
+    public List<Chapter> getChaptersBySubject(long subjectId) {
+        return chapterRepository.findBySubject_Id(subjectId);
+    }
+
+    @Override
     public Chapter getChapter(Long chapterId) {
         return chapterRepository.findById(chapterId).get();
     }

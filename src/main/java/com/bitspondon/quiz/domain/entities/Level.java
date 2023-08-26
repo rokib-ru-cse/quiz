@@ -6,6 +6,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.util.Date;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -28,4 +29,8 @@ public class Level {
     private boolean isActive;
     private Date createdAt;
     private Date updatedAt;
+    @OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL, orphanRemoval = true,mappedBy = "level")
+    private Set<Subject> subjectList;
 }
+
+

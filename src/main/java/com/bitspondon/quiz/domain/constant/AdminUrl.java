@@ -10,6 +10,7 @@ public final class AdminUrl {
     public static final String LEVEL_CREATE = "/admin/level/create";
     public static final String LEVEL_UPLOAD = "/admin/level/upload";
     public static final String LEVEL_EDIT = "/admin/level/edit";
+    public static final String LEVEL_DELETE = "/admin/level/delete";
     public static final String LEVEL_REDIRECT_TO_INDEX = "redirect:" + LEVEL_INDEX;
 
     public static final String SUBJECT_INDEX = "/admin/subject/index";

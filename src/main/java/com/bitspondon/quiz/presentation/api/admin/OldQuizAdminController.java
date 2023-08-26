@@ -5,7 +5,7 @@ import com.bitspondon.quiz.domain.constant.AdminUrl;
 import com.bitspondon.quiz.domain.constant.Constant;
 import com.bitspondon.quiz.domain.constant.TemplatesPath;
 import com.bitspondon.quiz.domain.entities.OldQuiz;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -14,20 +14,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
+@AllArgsConstructor
 public class OldQuizAdminController {
 
-    @Autowired
-    private IOldQuizUseCase oldQuizUseCase;
-
-    @Autowired
-    private IQuestionUseCase questionUseCase;
-    @Autowired
-    private IChapterUseCase chapterUseCase;
-    @Autowired
-
-    private ISubjectUseCase subjectUseCase;
-    @Autowired
-    private ILevelUseCase levelUseCase;
+    private final IOldQuizUseCase oldQuizUseCase;
+    private final IQuestionUseCase questionUseCase;
+    private final IChapterUseCase chapterUseCase;
+    private final ISubjectUseCase subjectUseCase;
+    private final ILevelUseCase levelUseCase;
 
     @GetMapping(AdminUrl.OLD_QUIZ_INDEX)
     public ModelAndView getQuizs() {
@@ -52,8 +46,8 @@ public class OldQuizAdminController {
         ModelAndView model = new ModelAndView(TemplatesPath.OLD_QUIZ_CREATE_PAGE);
         Constant constants = new Constant();
         constants.setLevelList(levelUseCase.getLevels());
-        constants.setSubjectList(subjectUseCase.getSubjects());
-        constants.setChapterList(chapterUseCase.getChapters());
+//        constants.setSubjectList(subjectUseCase.getSubjects());
+//        constants.setChapterList(chapterUseCase.getChapters());
         constants.setActionUrl(AdminUrl.OLD_QUIZ_CREATE);
         model.addObject(Constant.OLD_QUIZ, new OldQuiz());
         model.addObject(Constant.CONSTANTS, constants);

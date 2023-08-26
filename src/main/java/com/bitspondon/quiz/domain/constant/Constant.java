@@ -17,6 +17,7 @@ public class Constant {
     public static final String API_VERSION_V3 = "/api/v3/";
     public static final String CURRENT_API_VERSION = API_VERSION_V1;
     public static final AdminUrl ADMIN_URL = new AdminUrl();
+    public static final ClientUrl CLIENT_URL = new ClientUrl();
     // used for entity
     public static final String CONSTANTS = "constants";
     public static final String ROLE_ADMIN = "ADMIN";
@@ -54,6 +55,7 @@ public class Constant {
     // all objects and list
 
     private String actionUrl = "";
+
     private List<Level> levelList = null;
     private List<Subject> subjectList = null;
     private List<Chapter> chapterList = null;

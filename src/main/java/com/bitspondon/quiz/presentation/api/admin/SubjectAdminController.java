@@ -24,10 +24,14 @@ public class SubjectAdminController {
     private ILevelUseCase levelUseCase;
 
 
+
+
+
     @GetMapping(AdminUrl.SUBJECT_INDEX)
     public ModelAndView getSubjects() {
         ModelAndView model = new ModelAndView(TemplatesPath.SUBJECT_INDEX_PAGE);
         Constant constants = new Constant();
+        constants.setActionUrl(AdminUrl.SUBJECT_UPLOAD);
         constants.setSubjectList(subjectUseCase.getSubjects());
         model.addObject(Constant.CONSTANTS, constants);
         return model;

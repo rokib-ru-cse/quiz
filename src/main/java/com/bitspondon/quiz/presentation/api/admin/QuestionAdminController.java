@@ -38,6 +38,7 @@ public class QuestionAdminController {
     public ModelAndView getQuestions() {
         ModelAndView model = new ModelAndView(TemplatesPath.QUESTION_INDEX_PAGE);
         Constant constants = new Constant();
+        constants.setActionUrl(AdminUrl.QUESTION_UPLOAD);
         constants.setQuestionList(questionUseCase.getQuestions());
         model.addObject(Constant.CONSTANTS, constants);
         return model;
@@ -48,8 +49,8 @@ public class QuestionAdminController {
         ModelAndView model = new ModelAndView(TemplatesPath.QUESTION_CREATE_PAGE);
         Constant constants = new Constant();
         constants.setLevelList(levelUseCase.getLevels());
-        constants.setSubjectList(subjectUseCase.getSubjects());
-        constants.setChapterList(chapterUseCase.getChapters());
+//        constants.setSubjectList(subjectUseCase.getSubjects());
+//        constants.setChapterList(chapterUseCase.getChapters());
         constants.setActionUrl(AdminUrl.QUESTION_CREATE);
         model.addObject(Constant.QUESTION, new Question());
         model.addObject(Constant.QUESTION_OPTIONS, new ArrayList<OptionDTO>());
