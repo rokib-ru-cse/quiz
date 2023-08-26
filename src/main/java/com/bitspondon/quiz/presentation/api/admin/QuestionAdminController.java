@@ -10,7 +10,6 @@ import com.bitspondon.quiz.domain.constant.TemplatesPath;
 import com.bitspondon.quiz.domain.dto.question.OptionDTO;
 import com.bitspondon.quiz.domain.entities.Question;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -22,7 +21,6 @@ import org.springframework.web.servlet.ModelAndView;
 import java.util.ArrayList;
 
 @Controller
-@PreAuthorize("hasRole('" + Constant.ROLE_ADMIN + "')")
 public class QuestionAdminController {
 
     @Autowired

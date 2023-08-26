@@ -14,44 +14,40 @@
                     <a class="nav-link active" aria-current="page" href="#">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="" th:href="@{/level/index}">Level</a>
+                    <a class="nav-link" href="" th:href="@{/admin/level/index}">Level</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="" th:href="@{/subject/index}">Subject</a>
+                    <a class="nav-link" href="" th:href="@{/admin/subject/index}">Subject</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="" th:href="@{/chapter/index}">Chapter</a>
+                    <a class="nav-link" href="" th:href="@{/admin/chapter/index}">Chapter</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="" th:href="@{/question/index}">Question</a>
+                    <a class="nav-link" href="" th:href="@{/admin/question/index}">Question</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="" th:href="@{/oldquiz/index}">OldQuiz</a>
+                    <a class="nav-link" href="" th:href="@{/admin/oldquiz/index}">OldQuiz</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="" th:href="@{/livequiz/index}">LiveQuiz</a>
+                    <a class="nav-link" href="" th:href="@{/admin/livequiz/index}">LiveQuiz</a>
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                        data-bs-toggle="dropdown" aria-expanded="false">
-                        Anything
+                        Admin Tools
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="#">Another action</a></li>
+                        <li><a class="dropdown-item" th:href="@{/actuator}">Actuator</a></li>
                         <li>
                             <hr class="dropdown-divider">
                         </li>
-                        <li><a class="dropdown-item" href="#">Something else here</a></li>
+                        <li><a class="dropdown-item" th:href="@{/togglz-console}">Togglz Console</a></li>
                     </ul>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+                    <a class="nav-link" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
                 </li>
             </ul>
-            <form class="d-flex">
-                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-success" type="submit">Search</button>
-            </form>
             <ul class="navbar-nav mb-2 mb-lg-0">
                 <li class="nav-item">
                     <a class="nav-link" href="" th:href="@{/login}">Login</a>
@@ -61,6 +57,9 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="" th:href="@{/userdetails}">Profile</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="" th:href="@{/logout}">Logout</a>
                 </li>
             </ul>
         </div>

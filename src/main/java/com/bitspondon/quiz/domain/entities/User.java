@@ -1,5 +1,6 @@
 package com.bitspondon.quiz.domain.entities;
 
+import com.bitspondon.quiz.domain.encrypt.MaskData;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -39,9 +40,11 @@ public class User implements Serializable, UserDetails {
 
 
     @Column(name = "email")
+    @MaskData
     private String email;
 
     @Column(name = "password")
+    @MaskData
     private String password;
     @Column(name = "status")
     private String status;

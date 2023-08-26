@@ -65,7 +65,7 @@ public class AuthAdminController {
             model.addAttribute("errormessage", "Password doesn't matched");
             return "redirect:/register?error=true";
         }
-        authenticationUseCase.createUser(request);
+        authenticationUseCase.createAdmin(request);
         return "redirect:/";
     }
 }

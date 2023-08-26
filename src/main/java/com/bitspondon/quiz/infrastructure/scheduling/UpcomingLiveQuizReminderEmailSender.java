@@ -22,9 +22,11 @@ public class UpcomingLiveQuizReminderEmailSender {
 
     @Scheduled(fixedRate = 1800000) // Run every 30 minutes
     public void sendReminderEmails() {
+
         LocalDateTime now = LocalDateTime.now();
         LocalDateTime thirtyMinutesLater = now.plusMinutes(30);
-        List<LiveQuiz> liveQuizzesWithInThirtyMinutes = liveQuizRepository.findByStartTimeBetween(now, thirtyMinutesLater);
+
+        List<LiveQuiz> liveQuizzesWithInThirtyMinutes = liveQuizRepository.findByQuizDateAndStartTimeBetween(now.toLocalDate(), now.toLocalTime(), thirtyMinutesLater.toLocalTime());
 
         for (LiveQuiz liveQuiz : liveQuizzesWithInThirtyMinutes) {
             Set<User> userSet = liveQuiz.getUsers();

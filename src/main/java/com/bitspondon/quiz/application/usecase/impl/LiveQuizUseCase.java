@@ -4,6 +4,7 @@ import com.bitspondon.quiz.application.repository.ILiveQuizRepository;
 import com.bitspondon.quiz.application.repository.IQuizSubmissionRepository;
 import com.bitspondon.quiz.application.repository.IUserRepository;
 import com.bitspondon.quiz.application.usecase.ILiveQuizUseCase;
+import com.bitspondon.quiz.domain.ReturnReponse;
 import com.bitspondon.quiz.domain.Util;
 import com.bitspondon.quiz.domain.constant.ValidationMessage;
 import com.bitspondon.quiz.domain.dto.quizsubmission.QuizQuestionDTO;
@@ -67,8 +68,8 @@ public class LiveQuizUseCase implements ILiveQuizUseCase {
 
     @Override
     public List<LiveQuiz> getLiveQuizzes() {
-        List<LiveQuiz> questionList = liveQuizRepository.findAll();
-        return questionList;
+        List<LiveQuiz> liveQuizList = liveQuizRepository.findAll();
+        return liveQuizList;
 //        return ReturnReponse.<quiz>builder().message("data found successfully").succeeded(true)
 //                .values(questionList).build();
     }

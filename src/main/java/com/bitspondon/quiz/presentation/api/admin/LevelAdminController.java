@@ -5,8 +5,8 @@ import com.bitspondon.quiz.domain.constant.AdminUrl;
 import com.bitspondon.quiz.domain.constant.Constant;
 import com.bitspondon.quiz.domain.constant.TemplatesPath;
 import com.bitspondon.quiz.domain.entities.Level;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
+import io.micrometer.observation.annotation.Observed;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -16,13 +16,13 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-@PreAuthorize("hasRole('" + Constant.ROLE_ADMIN + "')")
+@AllArgsConstructor
 public class LevelAdminController {
 
-    @Autowired
     private ILevelUseCase levelUseCase;
 
     @GetMapping(AdminUrl.LEVEL_INDEX)
+    @Observed(name = "get.levels")
     public ModelAndView index() {
         ModelAndView model = new ModelAndView(TemplatesPath.LEVEL_INDEX_PAGE);
         Constant constants = new Constant();
@@ -43,6 +43,7 @@ public class LevelAdminController {
     }
 
     @PostMapping(AdminUrl.LEVEL_CREATE)
+    @Observed(name = "add.level")
     public String save(@ModelAttribute(Constant.LEVEL) Level level) {
         levelUseCase.saveLevel(level);
         return AdminUrl.LEVEL_REDIRECT_TO_INDEX;
@@ -65,6 +66,7 @@ public class LevelAdminController {
     }
 
     @PostMapping(AdminUrl.LEVEL_EDIT + "/{" + Constant.LEVEL_ID + "}")
+    @Observed(name = "edit.level")
     public String edit(@PathVariable(Constant.LEVEL_ID) Long levelId, @ModelAttribute(Constant.LEVEL) Level levelObject) {
         levelObject.setId(levelId);
         levelUseCase.updateLevel(levelObject);

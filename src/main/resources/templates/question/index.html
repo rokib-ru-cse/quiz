@@ -5,7 +5,7 @@
         layout:decorate="~{layout/main}">
 <body>
 <div class="container" layout:fragment="content">
-    <a class="btn btn-primary" href="/question/create">Create</a>
+    <a class="btn btn-primary" th:href="${constants.ADMIN_URL.QUESTION_CREATE}">Create</a>
     <table class="table table-bordered table-hover">
         <thead class="thead-dark">
         <tr>

@@ -6,28 +6,23 @@ import com.bitspondon.quiz.domain.constant.ClientUrl;
 import com.bitspondon.quiz.domain.constant.Constant;
 import com.bitspondon.quiz.domain.dto.quizsubmission.QuizSubmissionDTO;
 import com.bitspondon.quiz.domain.entities.OldQuiz;
-import org.springframework.security.access.prepost.PreAuthorize;
+import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping(ClientUrl.OLD_QUIZ)
-@PreAuthorize("hasAnyRole('" + Constant.ROLE_USER + "', '" + Constant.ROLE_ADMIN + "')")
+@AllArgsConstructor
 public class OldQuizClientController {
 
 
     private final IOldQuizUseCase oldQuizUseCase;
 
-    public OldQuizClientController(IOldQuizUseCase oldQuizUseCase) {
-        this.oldQuizUseCase = oldQuizUseCase;
-    }
-
-
     @GetMapping
-    public ReturnReponse<OldQuiz> getOldQuizzes() {
+    public ReturnReponse<List<OldQuiz>> getOldQuizzes() {
         List<OldQuiz> oldQuizList = oldQuizUseCase.getOldQuizzes();
-        return ReturnReponse.<OldQuiz>builder().message("data found successfully").succeeded(true).values(oldQuizList).build();
+        return ReturnReponse.<List<OldQuiz>>builder().message("data found successfully").succeeded(true).value(oldQuizList).build();
     }
 
 

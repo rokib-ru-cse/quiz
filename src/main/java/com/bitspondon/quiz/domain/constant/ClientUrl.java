@@ -1,6 +1,9 @@
 package com.bitspondon.quiz.domain.constant;
 
 public class ClientUrl {
+    public static final String AUTH = Constant.CURRENT_API_VERSION + "auth";
+    public static final String SIGNUP = Constant.CURRENT_API_VERSION + AUTH + "/signup";
+    public static final String LOGIN = Constant.CURRENT_API_VERSION + AUTH + "/login";
     public static final String LEVEL = Constant.CURRENT_API_VERSION + "level";
     public static final String SUBJECT = Constant.CURRENT_API_VERSION + "subject";
     public static final String CHAPTER = Constant.CURRENT_API_VERSION + "chapter";

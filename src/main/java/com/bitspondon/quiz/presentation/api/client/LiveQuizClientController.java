@@ -6,28 +6,22 @@ import com.bitspondon.quiz.domain.constant.ClientUrl;
 import com.bitspondon.quiz.domain.constant.Constant;
 import com.bitspondon.quiz.domain.dto.quizsubmission.QuizSubmissionDTO;
 import com.bitspondon.quiz.domain.entities.LiveQuiz;
-import org.springframework.security.access.prepost.PreAuthorize;
+import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@PreAuthorize("hasAnyRole('" + Constant.ROLE_USER + "', '" + Constant.ROLE_ADMIN + "')")
-//@PreAuthorize("hasAnyRole('" + Constant.ROLE_USER + "')")
+@AllArgsConstructor
 @RequestMapping(ClientUrl.LIVE_QUIZ)
 public class LiveQuizClientController {
 
     private final ILiveQuizUseCase liveQuizUseCase;
 
-    public LiveQuizClientController(ILiveQuizUseCase liveQuizUseCase) {
-        this.liveQuizUseCase = liveQuizUseCase;
-    }
-
-
     @GetMapping
-    public ReturnReponse<LiveQuiz> getLiveQuizzes() {
+    public ReturnReponse<List<LiveQuiz>> getLiveQuizzes() {
         List<LiveQuiz> liveQuizList = liveQuizUseCase.getLiveQuizzes();
-        return ReturnReponse.<LiveQuiz>builder().message("data found successfully").succeeded(true).values(liveQuizList).build();
+        return ReturnReponse.<List<LiveQuiz>>builder().message("data found successfully").succeeded(true).value(liveQuizList).build();
     }
 
     @GetMapping(ClientUrl.LIVE_QUIZ_ENROLL + "/{" + Constant.LIVE_QUIZ_ID + "}")
