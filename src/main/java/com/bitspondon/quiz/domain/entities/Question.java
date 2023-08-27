@@ -63,7 +63,7 @@ public class Question {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = true)
-    private AllEnums.DifficultyLevelEnum difficultyLevel; // This field stores the difficulty level as an enum
+    private AllEnums.DifficultyLevelEnum difficultyLevel;
 
     @Column(columnDefinition = "TEXT")
     @JsonInclude(JsonInclude.Include.NON_NULL)

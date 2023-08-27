@@ -1,5 +1,6 @@
 package com.bitspondon.quiz.domain.entities;
 
+import com.bitspondon.quiz.domain.AllEnums;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -45,6 +46,9 @@ public class OldQuiz {
 
     private int totalParticipant;
 
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = true)
+    private AllEnums.DifficultyLevelEnum difficultyLevel;
 
     @ManyToOne
     private Level level;

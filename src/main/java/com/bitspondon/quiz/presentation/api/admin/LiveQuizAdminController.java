@@ -85,7 +85,7 @@ public class LiveQuizAdminController {
         constants.setSubjectList(subjectUseCase.getSubjects());
         constants.setChapterList(chapterUseCase.getChapters());
         constants.setActionUrl(AdminUrl.LIVE_QUIZ_EDIT + "/" + quizId);
-        model.addObject(Constant.OLD_QUIZ, liveQuizUseCase.getLiveQuiz(quizId));
+        model.addObject(Constant.LIVE_QUIZ, liveQuizUseCase.getLiveQuiz(quizId));
         model.addObject(Constant.CONSTANTS, constants);
         return model;
     }
