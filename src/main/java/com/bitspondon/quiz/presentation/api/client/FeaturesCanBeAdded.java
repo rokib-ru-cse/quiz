@@ -5,7 +5,7 @@ public class FeaturesCanBeAdded {
 
     /**
      *
-     *
+     * => searchable dropdown select2 library
      * => Support Request API
      * => Send Feedback API
      * => User Notification Preferences API (Manage how users receive notifications)
