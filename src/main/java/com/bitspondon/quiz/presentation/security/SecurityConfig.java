@@ -51,6 +51,7 @@ public class SecurityConfig {
         http.authorizeHttpRequests(auth -> {
                     auth.requestMatchers(mvc.pattern(css), mvc.pattern(js), mvc.pattern(images)).permitAll();
                     auth.requestMatchers(mvc.pattern(AdminUrl.ADMIN)).hasRole(Constant.ROLE_ADMIN);
+                    auth.requestMatchers(mvc.pattern("/register"));
                     auth.requestMatchers(mvc.pattern(actuator)).hasRole(Constant.ROLE_ADMIN);
                     auth.requestMatchers(mvc.pattern(togglz)).hasRole(Constant.ROLE_ADMIN);
                     auth.requestMatchers(mvc.pattern(togglzConsoleIndex)).hasRole(Constant.ROLE_ADMIN);
